@@ -2,6 +2,58 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<MudStack Spacing="12">
+    
+    <div style="width: 400px" class="mx-auto pt-6">
+        <MudStack>
+            <MudTextField T="string"
+                          @bind-Value="_input"
+                          AutoGrow="true"
+                          Lines="3"
+                          MaxLines="10"
+                          Variant="Variant.Outlined"
+                          Label="Suchen oder Erstellen"/>
+            <MudStack Row>
+                <MudButton Color="Color.Success"
+                           Variant="Variant.Outlined"
+                           StartIcon="@Icons.Material.Filled.Search"
+                           FullWidth>
+                    Suchen
+                </MudButton>
+                <MudButton Color="Color.Success"
+                           Variant="Variant.Filled"
+                           StartIcon="@Icons.Material.Filled.Add"
+                           FullWidth>
+                    Erstellen
+                </MudButton>
+            </MudStack>
+        </MudStack>
+    </div>
 
-Welcome to your new app.
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Suchergebnisse"
+                           Expanded="true">
+            <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="d-inline-block">Keine Notizen gefunden</MudAlert>
+        </MudExpansionPanel>
+        <MudExpansionPanel Text="Zuletzt erstellt"
+                           Expanded="true">
+            <MudStack Row Wrap="Wrap.Wrap" Spacing="6">
+                @for (int i = 0; i < 7; i++)
+                {
+                    <MudCard Elevation="3">
+                        <MudCardContent Style="min-width: 300px; min-height: 150px;">
+                            <MudSkeleton Style="height: 3em;" Animation="Animation.False"/>
+                            <MudSkeleton Style="height: 3em; width:  50%;" Animation="Animation.False"/>
+                        </MudCardContent>
+                    </MudCard>
+                }
+            </MudStack>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudStack>
+
+@code {
+
+    string _input = "meine erste Notiz\n#cool #yeah";
+
+}
