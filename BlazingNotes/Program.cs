@@ -1,4 +1,6 @@
+using System.Reflection;
 using BlazingNotes.Components;
+using Fluxor;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddMudServices();
+builder.Services.AddFluxor(x => x.ScanAssemblies(Assembly.GetExecutingAssembly(), typeof(AppState).Assembly));
 
 var app = builder.Build();
 
