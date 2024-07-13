@@ -14,7 +14,8 @@
                           Lines="3"
                           MaxLines="10"
                           Variant="Variant.Outlined"
-                          Label="Suchen oder Erstellen"/>
+                          Label="Suchen oder Erstellen"
+                          Class="app-outlined-border-success"/>
             <MudStack Row>
                 <MudButton Color="Color.Success"
                            Variant="Variant.Outlined"
@@ -35,16 +36,18 @@
 
     <MudExpansionPanels MultiExpansion="true">
         <MudExpansionPanel Text="Suchergebnisse"
+                           Style="background-color: var(--mud-palette-appbar-background)"
                            Expanded="true">
             <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="d-inline-block">Keine Notizen gefunden</MudAlert>
         </MudExpansionPanel>
         <MudExpansionPanel Text="Zuletzt erstellt"
+                           Style="background-color: var(--mud-palette-appbar-background)"
                            Expanded="true">
             <MudStack Row Wrap="Wrap.Wrap" Spacing="6">
                 @foreach (var item in AppState.Value.Notes)
                 {
                     <MudCard Elevation="3">
-                        <MudCardContent Style="min-width: 300px; min-height: 150px;">
+                        <MudCardContent Style="width: 300px; min-height: 150px;">
                             <p style="white-space: pre-line">
                                 @item.Text
                             </p>

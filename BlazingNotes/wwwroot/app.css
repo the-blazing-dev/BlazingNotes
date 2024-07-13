@@ -20,10 +20,16 @@ h1:focus {
     color: white;
 }
 
-    .blazor-error-boundary::after {
-        content: "An error has occurred."
-    }
+.blazor-error-boundary::after {
+    content: "An error has occurred."
+}
 
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
+}
+
+/* app-specific styles */
+.app-outlined-border-success .mud-input-outlined .mud-input-outlined-border {
+    /* use !important to win over :hover and :focus */
+    border-color: var(--mud-palette-success) !important;
 }
