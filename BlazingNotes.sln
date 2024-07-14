@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes", "BlazingNote
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes.Logic", "BlazingNotes.Logic\BlazingNotes.Logic.csproj", "{120DBCB6-E33E-420F-B6F8-95C73113204F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes.Infrastructure", "BlazingNotes.Infrastructure\BlazingNotes.Infrastructure.csproj", "{98CEE087-0EA6-4F77-8F0B-D5B7F995D11E}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes.Logic.Tests", "BlazingNotes.Logic.Tests\BlazingNotes.Logic.Tests.csproj", "{66444830-23D9-440E-A5E9-09A8CCDBABAD}"
 EndProject
 Global
@@ -20,6 +22,10 @@ Global
 		{120DBCB6-E33E-420F-B6F8-95C73113204F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{120DBCB6-E33E-420F-B6F8-95C73113204F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{120DBCB6-E33E-420F-B6F8-95C73113204F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98CEE087-0EA6-4F77-8F0B-D5B7F995D11E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98CEE087-0EA6-4F77-8F0B-D5B7F995D11E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98CEE087-0EA6-4F77-8F0B-D5B7F995D11E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98CEE087-0EA6-4F77-8F0B-D5B7F995D11E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{66444830-23D9-440E-A5E9-09A8CCDBABAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{66444830-23D9-440E-A5E9-09A8CCDBABAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66444830-23D9-440E-A5E9-09A8CCDBABAD}.Release|Any CPU.ActiveCfg = Release|Any CPU

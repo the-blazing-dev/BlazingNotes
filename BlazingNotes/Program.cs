@@ -1,5 +1,6 @@
 using System.Reflection;
 using BlazingNotes.Components;
+using BlazingNotes.Infrastructure.Data;
 using Fluxor;
 using MudBlazor.Services;
 
@@ -10,6 +11,8 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddMudServices();
 builder.Services.AddFluxor(x => x.ScanAssemblies(Assembly.GetExecutingAssembly(), typeof(AppState).Assembly));
+
+builder.Services.AddSqlite<AppDb>("Data Source=../appdb.sqlite");
 
 var app = builder.Build();
 
