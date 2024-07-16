@@ -71,7 +71,7 @@
 
     private void HandleCreate()
     {
-        Dispatch(new NoteActions.CreateNoteAction(_input));
+        Dispatch(new NoteActions.CreateNoteRequestAction(_input));
         _input = "";
     }
 

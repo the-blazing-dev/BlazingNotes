@@ -1,7 +1,9 @@
 using System.Reflection;
 using BlazingNotes.Components;
 using BlazingNotes.Infrastructure.Data;
+using BlazingNotes.Infrastructure.State;
 using Fluxor;
+using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,9 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddMudServices();
-builder.Services.AddFluxor(x => x.ScanAssemblies(Assembly.GetExecutingAssembly(), typeof(AppState).Assembly));
+builder.Services.AddFluxor(x => x.ScanAssemblies(Assembly.GetExecutingAssembly(),
+    typeof(AppState).Assembly, typeof(NoteEffects).Assembly));
 
-builder.Services.AddSqlite<AppDb>(builder.Configuration.GetConnectionString("AppDb"));
+var connectionString = builder.Configuration.GetConnectionString("AppDb");
+builder.Services.AddDbContextFactory<AppDb>(x => x.UseSqlite(connectionString));
 
 var app = builder.Build();
 
