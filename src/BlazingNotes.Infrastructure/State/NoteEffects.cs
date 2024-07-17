@@ -9,6 +9,14 @@ namespace BlazingNotes.Infrastructure.State;
 public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
 {
     [EffectMethod]
+    public async Task HandleStoreInitializedAction(StoreInitializedAction action, IDispatcher dispatcher)
+    {
+        await using var db = await dbFactory.CreateDbContextAsync();
+        var notes = await db.Notes.AsNoTracking().ToListAsync();
+        dispatcher.Dispatch(new NoteActions.NotesLoadedAction(notes));
+    }
+    
+    [EffectMethod]
     public async Task HandleCreateNoteRequestAction(NoteActions.CreateNoteRequestAction action, IDispatcher dispatcher)
     {
         if (!action.Text.HasContent()) return;
