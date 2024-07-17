@@ -4,8 +4,14 @@ namespace BlazingNotes.Logic.State;
 public static class NoteActions
 {
     public record NotesLoadedAction(List<Note> Notes);
-    
+
     public record CreateNoteRequestAction(string Text);
 
     public record NoteCreatedAction(Note Note);
+
+    public record StartNoteEditingAction(Note Note);
+
+    public record SaveNoteEditingAction(Note Note, string NewText);
+
+    public record SaveNoteEditingSuccessAction(Note Note);
 }

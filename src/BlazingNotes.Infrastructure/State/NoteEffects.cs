@@ -32,4 +32,20 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
 
         dispatcher.Dispatch(new NoteActions.NoteCreatedAction(note));
     }
+    
+    [EffectMethod]
+    public async Task HandleSaveNoteEditAction(NoteActions.SaveNoteEditingAction action, IDispatcher dispatcher)
+    {
+        if (action.Note.Text == action.NewText)
+        {
+            return;
+        }
+        
+        await using var db = await dbFactory.CreateDbContextAsync();
+        var noteFresh = await db.Notes.FindAsync(action.Note.Id); // todo FindRequiredAsync
+        noteFresh.Text = action.NewText;
+        await db.SaveChangesAsync();
+
+        dispatcher.Dispatch(new NoteActions.SaveNoteEditingSuccessAction(noteFresh));
+    }
 }

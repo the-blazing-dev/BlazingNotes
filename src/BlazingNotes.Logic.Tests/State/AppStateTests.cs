@@ -19,7 +19,7 @@ public class AppStateTests : TestBase
     public async Task PersistedNotesAreLoadedOnStoreInitialization()
     {
         Sut.Value.Notes.Should().BeEmpty();
-        
+
         var note1 = new Note { Text = "Note1" };
         var note2 = new Note { Text = "Note2" };
 
@@ -66,5 +66,32 @@ public class AppStateTests : TestBase
         Dispatch(action);
 
         Sut.Value.Notes.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void NoteEditingWithSaving()
+    {
+        var (note1, _, _) = CreateThreeNotes();
+        Dispatch(new NoteActions.StartNoteEditingAction(note1));
+
+        Sut.Value.CurrentlyEditingNote.Should().Be(note1);
+        
+        Dispatch(new NoteActions.SaveNoteEditingAction(note1, "Note1 #numberOne"));
+
+        Sut.Value.CurrentlyEditingNote.Should().BeNull();
+        var note1Fresh = Sut.Value.Notes.Single(x => x.Text.Contains("Note1"));
+        note1Fresh.Id.Should().Be(note1.Id);
+        note1Fresh.Text.Should().Be("Note1 #numberOne");
+    }
+
+    private (Note note1, Note note2, Note note3) CreateThreeNotes()
+    {
+        Dispatch(new NoteActions.CreateNoteRequestAction("Note1 #first"));
+        Dispatch(new NoteActions.CreateNoteRequestAction("Note2 #second"));
+        Dispatch(new NoteActions.CreateNoteRequestAction("Note3 #third #last"));
+
+        var notes = Sut.Value.Notes.OrderBy(x => x.Text).ToList();
+        notes.Should().HaveCount(3);
+        return (notes[0], notes[1], notes[2]);
     }
 }

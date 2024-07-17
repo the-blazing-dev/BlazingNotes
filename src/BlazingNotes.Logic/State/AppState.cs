@@ -4,4 +4,5 @@ namespace BlazingNotes.Logic.State;
 public record AppState
 {
     public required ImmutableList<Note> Notes { get; init; } = ImmutableList<Note>.Empty;
+    public Note? CurrentlyEditingNote { get; init; }
 }
