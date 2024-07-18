@@ -6,11 +6,14 @@
         Edit note
     </TitleContent>
     <DialogContent>
+        @* immediate is needed to also support the OnKeyUp submit *@
         <MudTextField @bind-Value="_newText"
                       Label="Text"
                       Lines="3"
                       AutoGrow="true"
-                      Variant="Variant.Outlined"/>
+                      Variant="Variant.Outlined"
+                      Immediate="true"
+                      OnKeyUp="HandleKeyUp"/>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="HandleCancel">
@@ -62,6 +65,14 @@
         if (!isVisible)
         {
             HandleCancel();
+        }
+    }
+
+    private void HandleKeyUp(KeyboardEventArgs args)
+    {
+        if (args.CtrlKey && args.Key == "Enter") // todo extension method
+        {
+            HandleSubmit(); // todo check if _newText is updated
         }
     }
 

@@ -13,7 +13,11 @@
                           AutoGrow="true"
                           Lines="3"
                           MaxLines="10"
+                          Immediate="true"
+                          OnKeyUp="HandleKeyUp"
+                          AutoFocus="true"
                           Variant="Variant.Outlined"
+                          TextUpdateSuppression="false"
                           Label="Suchen oder Erstellen"
                           Class="app-outlined-border-success"/>
             <MudStack Row>
@@ -64,12 +68,20 @@
 
 @code {
 
-    string _input = "meine erste Notiz\n#cool #yeah";
+    string _input = "";
 
     private void HandleCreate()
     {
         Dispatch(new NoteActions.CreateNoteRequestAction(_input));
         _input = "";
+    }
+
+    private void HandleKeyUp(KeyboardEventArgs args)
+    {
+        if (args.CtrlKey && args.Key == "Enter")
+        {
+            HandleCreate();
+        }
     }
 
 }
