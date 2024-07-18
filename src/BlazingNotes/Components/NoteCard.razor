@@ -1,4 +1,4 @@
-<MudCard Elevation="3">
+<MudCard Elevation="3" @ondblclick="HandleDblClick">
     <MudCardContent Style="width: 300px; min-height: 150px;">
         <p style="white-space: pre-line" class="pb-0">
             @Note.Text
@@ -33,6 +33,11 @@
     private void HandleArchive()
     {
         Dispatch(new NoteActions.ArchiveNoteAction(Note.Id));
+    }
+
+    private void HandleDblClick()
+    {
+        HandleClick();
     }
 
 }
