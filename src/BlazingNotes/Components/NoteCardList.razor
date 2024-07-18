@@ -1,0 +1,17 @@
+<MudStack Row Wrap="Wrap.Wrap" Spacing="6">
+    @foreach (var item in Notes)
+    {
+        <NoteCard Note="item"/>
+    }
+    @if (Notes.HasContent() == false)
+    {
+        <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="d-inline-block">
+            Noch keine Notizen gefunden
+        </MudAlert>
+    }
+</MudStack>
+
+@code {
+    [Parameter] [EditorRequired] public required IEnumerable<Note> Notes { get; set; }
+
+}

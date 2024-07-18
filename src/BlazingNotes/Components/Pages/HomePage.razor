@@ -6,7 +6,7 @@
 
 <MudStack Spacing="12">
 
-    <div style="width: 400px" class="mx-auto pt-6">
+    <div style="width: 400px" class="mx-auto">
         <MudStack>
             <MudTextField T="string"
                           @bind-Value="_input"
@@ -47,18 +47,9 @@
         <MudExpansionPanel Text="Zuletzt erstellt"
                            Style="background-color: var(--mud-palette-appbar-background)"
                            Expanded="true">
-            <MudStack Row Wrap="Wrap.Wrap" Spacing="6">
-                @foreach (var item in AppState.Value.Notes)
-                {
-                    <NoteCard Note="item"/>
-                }
-                @if (AppState.Value.Notes.HasContent() == false)
-                {
-                    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="d-inline-block">
-                        Noch keine Notizen angelegt
-                    </MudAlert>
-                }
-            </MudStack>
+
+            <NoteCardList Notes="AppState.Value.Notes" />
+            
         </MudExpansionPanel>
     </MudExpansionPanels>
 
