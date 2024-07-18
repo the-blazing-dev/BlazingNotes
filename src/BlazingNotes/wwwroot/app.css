@@ -29,7 +29,7 @@ h1:focus {
 }
 
 /* app-specific styles */
-.app-outlined-border-success .mud-input-outlined .mud-input-outlined-border {
+.app-outlined-border-primary .mud-input-outlined .mud-input-outlined-border {
     /* use !important to win over :hover and :focus */
-    border-color: var(--mud-palette-success) !important;
+    border-color: var(--mud-palette-primary) !important;
 }
