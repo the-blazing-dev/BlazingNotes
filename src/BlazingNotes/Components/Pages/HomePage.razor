@@ -46,13 +46,7 @@
             <MudStack Row Wrap="Wrap.Wrap" Spacing="6">
                 @foreach (var item in AppState.Value.Notes)
                 {
-                    <MudCard Elevation="3">
-                        <MudCardContent Style="width: 300px; min-height: 150px;">
-                            <p style="white-space: pre-line">
-                                @item.Text
-                            </p>
-                        </MudCardContent>
-                    </MudCard>
+                    <NoteCard Note="item"/>
                 }
                 @if (AppState.Value.Notes.HasContent() == false)
                 {
@@ -63,7 +57,10 @@
             </MudStack>
         </MudExpansionPanel>
     </MudExpansionPanels>
+
 </MudStack>
+
+<NoteEditingDialog Note="AppState.Value.CurrentlyEditingNote"/>
 
 @code {
 

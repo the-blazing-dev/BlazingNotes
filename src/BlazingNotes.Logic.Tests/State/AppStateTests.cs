@@ -75,13 +75,49 @@ public class AppStateTests : TestBase
         Dispatch(new NoteActions.StartNoteEditingAction(note1));
 
         Sut.Value.CurrentlyEditingNote.Should().Be(note1);
-        
+
         Dispatch(new NoteActions.SaveNoteEditingAction(note1, "Note1 #numberOne"));
 
         Sut.Value.CurrentlyEditingNote.Should().BeNull();
         var note1Fresh = Sut.Value.Notes.Single(x => x.Text.Contains("Note1"));
         note1Fresh.Id.Should().Be(note1.Id);
         note1Fresh.Text.Should().Be("Note1 #numberOne");
+    }
+
+    [Fact]
+    public void NoteEditingWithCancel()
+    {
+        var (note1, _, _) = CreateThreeNotes();
+        var originalText = note1.Text;
+        Dispatch(new NoteActions.StartNoteEditingAction(note1));
+
+        Sut.Value.CurrentlyEditingNote.Should().Be(note1);
+
+        Dispatch(new NoteActions.CancelNoteEditingAction(note1));
+
+        Sut.Value.CurrentlyEditingNote.Should().BeNull();
+        var note1Fresh = Sut.Value.Notes.Single(x => x.Text.Contains("Note1"));
+        note1Fresh.Id.Should().Be(note1.Id);
+        note1Fresh.Text.Should().Be(originalText);
+    }
+
+    [Theory]
+    [InlineData("Note1 #first", "Note1 #first")] // no real update
+    [InlineData("\nNote1 #updated  ", "Note1 #updated")] // trimming
+    [InlineData("\nNote1 #first  ", "Note1 #first")] // trimming
+    [InlineData("\n  ", "Note1 #first")] // is ignored for now
+    public void HandlesNoteEditingProperty(string textBoxInput, string expectedEntityText)
+    {
+        var (note1, _, _) = CreateThreeNotes();
+        Dispatch(new NoteActions.StartNoteEditingAction(note1));
+        Sut.Value.CurrentlyEditingNote.Should().Be(note1);
+
+        Dispatch(new NoteActions.SaveNoteEditingAction(note1, textBoxInput));
+
+        Sut.Value.CurrentlyEditingNote.Should().BeNull();
+        var note1Fresh = Sut.Value.Notes.Single(x => x.Text.Contains("Note1"));
+        note1Fresh.Id.Should().Be(note1.Id);
+        note1Fresh.Text.Should().Be(expectedEntityText);
     }
 
     private (Note note1, Note note2, Note note3) CreateThreeNotes()

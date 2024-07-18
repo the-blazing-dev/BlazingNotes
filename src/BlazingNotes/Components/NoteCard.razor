@@ -1,0 +1,22 @@
+<MudCard Elevation="3">
+    <MudCardContent Style="width: 300px; min-height: 150px;">
+        <p style="white-space: pre-line">
+            @Note.Text
+        </p>
+    </MudCardContent>
+    <MudCardActions>
+        <MudSpacer/>
+        <MudIconButton Icon="@Icons.Material.Outlined.Edit"
+                       OnClick="HandleClick"/>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter] [EditorRequired] public required Note Note { get; set; }
+
+    private void HandleClick()
+    {
+        Dispatch(new NoteActions.StartNoteEditingAction(Note));
+    }
+
+}

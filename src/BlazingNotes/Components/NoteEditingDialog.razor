@@ -1,0 +1,68 @@
+<MudDialog Visible="Note != null"
+           VisibleChanged="HandleVisibleChanged"
+           Options="_options"
+           DefaultFocus="DefaultFocus.FirstChild">
+    <TitleContent>
+        Edit note
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="_newText"
+                      Label="Text"
+                      Lines="3"
+                      AutoGrow="true"
+                      Variant="Variant.Outlined"/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="HandleCancel">
+            Cancel
+        </MudButton>
+        <MudButton Color="Color.Success"
+                   OnClick="HandleSubmit">
+            Save
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    string _newText = "";
+
+    DialogOptions _options = new()
+    {
+        FullWidth = true, // full width of the MaxWidth setting
+        BackdropClick = true,
+        CloseOnEscapeKey = true
+    };
+
+    [Parameter] public Note? Note { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (Note != null)
+        {
+            _newText = Note.Text;
+        }
+
+        base.OnParametersSet();
+    }
+
+    private void HandleCancel()
+    {
+        Dispatch(new NoteActions.CancelNoteEditingAction(Note!));
+    }
+
+    private void HandleSubmit()
+    {
+        Dispatch(new NoteActions.SaveNoteEditingAction(Note!, _newText));
+    }
+
+    private void HandleVisibleChanged(bool isVisible)
+    {
+        // happens on backdrop click and ESC key
+        if (!isVisible)
+        {
+            HandleCancel();
+        }
+    }
+
+}

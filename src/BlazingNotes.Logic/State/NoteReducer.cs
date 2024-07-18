@@ -40,4 +40,14 @@ public static class NoteReducer
             CurrentlyEditingNote = null
         };
     }
+
+    [ReducerMethod]
+    public static AppState Reduce(AppState state, NoteActions.CancelNoteEditingAction action)
+    {
+        // for now assume that the "correct" not is canceled
+        return state with
+        {
+            CurrentlyEditingNote = null
+        };
+    }
 }

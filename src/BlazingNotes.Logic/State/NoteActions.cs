@@ -9,9 +9,12 @@ public static class NoteActions
 
     public record NoteCreatedAction(Note Note);
 
+
     public record StartNoteEditingAction(Note Note);
 
     public record SaveNoteEditingAction(Note Note, string NewText);
 
     public record SaveNoteEditingSuccessAction(Note Note);
+
+    public record CancelNoteEditingAction(Note Note);
 }
