@@ -12,7 +12,9 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
     public async Task HandleStoreInitializedAction(StoreInitializedAction action, IDispatcher dispatcher)
     {
         await using var db = await dbFactory.CreateDbContextAsync();
-        var notes = await db.Notes.AsNoTracking().ToListAsync();
+        var notes = await db.Notes.AsNoTracking()
+            .Where(x => !x.IsArchived)
+            .ToListAsync();
         dispatcher.Dispatch(new NoteActions.NotesLoadedAction(notes));
     }
 
@@ -54,6 +56,17 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
         await db.SaveChangesAsync();
 
         dispatcher.Dispatch(new NoteActions.SaveNoteEditingSuccessAction(noteFresh));
+    }
+
+    [EffectMethod]
+    public async Task Handle(NoteActions.ArchiveNoteAction action, IDispatcher dispatcher)
+    {
+        await using var db = await dbFactory.CreateDbContextAsync();
+        var noteFresh = await db.Notes.FindAsync(action.NoteId); // todo FindRequiredAsync
+        noteFresh.IsArchived = true;
+        await db.SaveChangesAsync();
+
+        dispatcher.Dispatch(new NoteActions.ArchiveNoteSuccessAction(action.NoteId));
     }
 
     private void Clean(Note note)

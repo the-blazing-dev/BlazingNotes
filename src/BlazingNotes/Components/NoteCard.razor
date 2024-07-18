@@ -1,11 +1,22 @@
 <MudCard Elevation="3">
     <MudCardContent Style="width: 300px; min-height: 150px;">
-        <p style="white-space: pre-line">
+        <p style="white-space: pre-line" class="pb-0">
             @Note.Text
         </p>
     </MudCardContent>
     <MudCardActions>
         <MudSpacer/>
+        @if (Note.IsArchived)
+        {
+            <MudIconButton Icon="@Icons.Material.Filled.Archive"
+                           Color="Color.Primary"
+                           OnClick="HandleArchive"/>
+        }
+        else
+        {
+            <MudIconButton Icon="@Icons.Material.Outlined.Archive"
+                           OnClick="HandleArchive"/>
+        }
         <MudIconButton Icon="@Icons.Material.Outlined.Edit"
                        OnClick="HandleClick"/>
     </MudCardActions>
@@ -17,6 +28,11 @@
     private void HandleClick()
     {
         Dispatch(new NoteActions.StartNoteEditingAction(Note));
+    }
+
+    private void HandleArchive()
+    {
+        Dispatch(new NoteActions.ArchiveNoteAction(Note.Id));
     }
 
 }

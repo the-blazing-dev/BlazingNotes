@@ -50,4 +50,15 @@ public static class NoteReducer
             CurrentlyEditingNote = null
         };
     }
+
+    [ReducerMethod]
+    public static AppState Reduce(AppState state, NoteActions.ArchiveNoteSuccessAction action)
+    {
+        var note = state.Notes.First(x => x.Id == action.NoteId);
+
+        return state with
+        {
+            Notes = state.Notes.Remove(note)
+        };
+    }
 }

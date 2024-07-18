@@ -25,7 +25,7 @@ public class TestBase
         ));
 
         Services = services.BuildServiceProvider();
-        
+
         _store = Services.GetRequiredService<IStore>();
         _dispatcher = Services.GetRequiredService<IDispatcher>();
 
@@ -43,5 +43,23 @@ public class TestBase
     protected void Dispatch(object action)
     {
         _dispatcher.Dispatch(action);
+    }
+
+    protected async Task ExecuteOnDb(Func<AppDb, Task> action)
+    {
+        using (var scope = Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<AppDb>();
+            await action(db);
+        }
+    }
+
+    protected async Task<T> ExecuteOnDb<T>(Func<AppDb, Task<T>> action)
+    {
+        using (var scope = Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<AppDb>();
+            return await action(db);
+        }
     }
 }

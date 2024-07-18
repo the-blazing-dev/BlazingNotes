@@ -17,4 +17,9 @@ public static class NoteActions
     public record SaveNoteEditingSuccessAction(Note Note);
 
     public record CancelNoteEditingAction(Note Note);
+
+
+    public record ArchiveNoteAction(Guid NoteId);
+
+    public record ArchiveNoteSuccessAction(Guid NoteId);
 }
