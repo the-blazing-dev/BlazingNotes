@@ -1,0 +1,21 @@
+﻿@page "/archived"
+@using Fluxor
+@inject IState<AppState> AppState
+
+<PageTitle>Archived</PageTitle>
+
+<MudStack Spacing="6">
+    @* todo check why it is completely different to native <h1> *@
+    @* todo think about placing the title in the navbar *@
+    <MudText Typo="Typo.h4" Color="Color.Primary">Archived</MudText>
+
+    @* for now just misuse the expansion panel *@
+    <MudCard Style="background-color: var(--mud-palette-appbar-background)">
+        <MudCardContent Class="pa-6">
+
+            <NoteCardList Notes="AppState.Value.GetArchivedNotes()"/>
+
+        </MudCardContent>
+    </MudCard>
+
+</MudStack>

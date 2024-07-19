@@ -141,8 +141,10 @@ public class AppStateTests : TestBase
     }
 
     [Fact]
-    public async Task ArchivedNotes_AreNotLoadedOnAppStartup()
+    public async Task AllNotes_AreLoadedOnAppStartup()
     {
+        // good enough for now, see comment in NoteEffects.cs
+
         await ExecuteOnDb(async db =>
         {
             db.Notes.Add(new Note { Text = "I'm archived", IsArchived = true });
@@ -153,7 +155,9 @@ public class AppStateTests : TestBase
         var action = Activator.CreateInstance(typeof(StoreInitializedAction), true);
         Dispatch(action!);
 
-        Sut.Value.Notes.Should().HaveCount(1).And.OnlyContain(x => x.Text.Contains("not"));
+        Sut.Value.Notes.Should().HaveCount(2);
+        Sut.Value.GetHomePageNotes().Should().HaveCount(1).And.OnlyContain(x => !x.IsArchived);
+        Sut.Value.GetArchivedNotes().Should().HaveCount(1).And.OnlyContain(x => x.IsArchived);
     }
 
     private (Note note1, Note note2, Note note3) CreateThreeNotes()

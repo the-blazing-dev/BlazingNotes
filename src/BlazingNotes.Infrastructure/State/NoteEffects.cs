@@ -11,10 +11,13 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
     [EffectMethod]
     public async Task HandleStoreInitializedAction(StoreInitializedAction action, IDispatcher dispatcher)
     {
+        // this is a very pragmatic approach: as the intention is to only store very small notes
+        // and this app works with a local database, we can just load all notes into memory
+        // which gives us advantages like instant search and faster UI experience
+        // as soon as this will lead to too large memory consumption we have to rethink the approach
+
         await using var db = await dbFactory.CreateDbContextAsync();
-        var notes = await db.Notes.AsNoTracking()
-            .Where(x => !x.IsArchived)
-            .ToListAsync();
+        var notes = await db.Notes.AsNoTracking().ToListAsync();
         dispatcher.Dispatch(new NoteActions.NotesLoadedAction(notes));
     }
 
