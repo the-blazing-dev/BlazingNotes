@@ -137,7 +137,23 @@ public class AppStateTests : TestBase
         var (_, note2, _) = CreateThreeNotes();
         Dispatch(new NoteActions.ArchiveNoteAction(note2.Id));
 
-        Sut.Value.Notes.Should().Contain(x => x.Id == note2.Id);
+        Sut.Value.Notes.Should().Contain(x => x.Id == note2.Id && x.IsArchived == true);
+    }
+
+    [Fact]
+    public async Task ArchivedNotesCanBeRestored()
+    {
+        var (_, note2, _) = CreateThreeNotes();
+        Dispatch(new NoteActions.ArchiveNoteAction(note2.Id));
+        Dispatch(new NoteActions.RestoreNoteAction(note2.Id));
+
+        await ExecuteOnDb(async db =>
+        {
+            var entity = await db.Notes.FindAsync(note2.Id);
+            entity!.IsArchived.Should().BeFalse();
+        });
+
+        Sut.Value.Notes.Should().Contain(x => x.Id == note2.Id && x.IsArchived == false);
     }
 
     [Fact]

@@ -72,6 +72,17 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
         dispatcher.Dispatch(new NoteActions.ArchiveNoteSuccessAction(noteFresh));
     }
 
+    [EffectMethod]
+    public async Task Handle(NoteActions.RestoreNoteAction action, IDispatcher dispatcher)
+    {
+        await using var db = await dbFactory.CreateDbContextAsync();
+        var noteFresh = await db.Notes.FindAsync(action.NoteId); // todo FindRequiredAsync
+        noteFresh.IsArchived = false;
+        await db.SaveChangesAsync();
+
+        dispatcher.Dispatch(new NoteActions.RestoreNoteSuccessAction(noteFresh));
+    }
+
     private void Clean(Note note)
     {
         note.Text = note.Text.Trim();

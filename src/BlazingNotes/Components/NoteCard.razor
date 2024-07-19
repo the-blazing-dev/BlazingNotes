@@ -10,7 +10,7 @@
         {
             <MudIconButton Icon="@Icons.Material.Filled.Archive"
                            Color="Color.Primary"
-                           OnClick="HandleArchive"/>
+                           OnClick="HandleRestore"/>
         }
         else
         {
@@ -33,6 +33,11 @@
     private void HandleArchive()
     {
         Dispatch(new NoteActions.ArchiveNoteAction(Note.Id));
+    }
+
+    private void HandleRestore()
+    {
+        Dispatch(new NoteActions.RestoreNoteAction(Note.Id));
     }
 
     private void HandleDblClick()

@@ -22,4 +22,8 @@ public static class NoteActions
     public record ArchiveNoteAction(Guid NoteId);
 
     public record ArchiveNoteSuccessAction(Note Note);
+
+    public record RestoreNoteAction(Guid NoteId);
+
+    public record RestoreNoteSuccessAction(Note Note);
 }

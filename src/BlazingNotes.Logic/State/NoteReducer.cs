@@ -32,11 +32,9 @@ public static class NoteReducer
     [ReducerMethod]
     public static AppState Reduce(AppState state, NoteActions.SaveNoteEditingSuccessAction action)
     {
-        var oldNote = state.Notes.First(x => x.Id == action.Note.Id);
-
-        return state with
+        var newState = UpdateNote(state, action.Note);
+        return newState with
         {
-            Notes = state.Notes.Replace(oldNote, action.Note),
             CurrentlyEditingNote = null
         };
     }
@@ -54,11 +52,22 @@ public static class NoteReducer
     [ReducerMethod]
     public static AppState Reduce(AppState state, NoteActions.ArchiveNoteSuccessAction action)
     {
-        var oldNote = state.Notes.First(x => x.Id == action.Note.Id);
+        return UpdateNote(state, action.Note);
+    }
+
+    [ReducerMethod]
+    public static AppState Reduce(AppState state, NoteActions.RestoreNoteSuccessAction action)
+    {
+        return UpdateNote(state, action.Note);
+    }
+
+    private static AppState UpdateNote(AppState state, Note updatedNote)
+    {
+        var oldNote = state.Notes.First(x => x.Id == updatedNote.Id);
 
         return state with
         {
-            Notes = state.Notes.Replace(oldNote, action.Note)
+            Notes = state.Notes.Replace(oldNote, updatedNote)
         };
     }
 }
