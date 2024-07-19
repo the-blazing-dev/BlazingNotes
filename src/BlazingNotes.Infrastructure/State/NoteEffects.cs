@@ -69,7 +69,7 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
         noteFresh.IsArchived = true;
         await db.SaveChangesAsync();
 
-        dispatcher.Dispatch(new NoteActions.ArchiveNoteSuccessAction(action.NoteId));
+        dispatcher.Dispatch(new NoteActions.ArchiveNoteSuccessAction(noteFresh));
     }
 
     private void Clean(Note note)

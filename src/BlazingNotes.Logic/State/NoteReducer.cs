@@ -54,11 +54,11 @@ public static class NoteReducer
     [ReducerMethod]
     public static AppState Reduce(AppState state, NoteActions.ArchiveNoteSuccessAction action)
     {
-        var note = state.Notes.First(x => x.Id == action.NoteId);
+        var oldNote = state.Notes.First(x => x.Id == action.Note.Id);
 
         return state with
         {
-            Notes = state.Notes.Remove(note)
+            Notes = state.Notes.Replace(oldNote, action.Note)
         };
     }
 }

@@ -104,7 +104,7 @@ public class AppStateTests : TestBase
     [InlineData("\nNote1 #updated  ", "Note1 #updated")] // trimming
     [InlineData("\nNote1 #first  ", "Note1 #first")] // trimming
     [InlineData("\n  ", "Note1 #first")] // is ignored for now
-    public void HandlesNoteEditingProperty(string textBoxInput, string expectedEntityText)
+    public void HandlesNoteEditingProperly(string textBoxInput, string expectedEntityText)
     {
         var (note1, _, _) = CreateThreeNotes();
         Dispatch(new NoteActions.StartNoteEditingAction(note1));
@@ -132,12 +132,12 @@ public class AppStateTests : TestBase
     }
 
     [Fact]
-    public void ArchiveNote_RemovesTheNoteFromState()
+    public void ArchiveNote_KeepsTheNoteInTheState() // for now
     {
         var (_, note2, _) = CreateThreeNotes();
         Dispatch(new NoteActions.ArchiveNoteAction(note2.Id));
 
-        Sut.Value.Notes.Should().NotContain(x => x.Id == note2.Id);
+        Sut.Value.Notes.Should().Contain(x => x.Id == note2.Id);
     }
 
     [Fact]

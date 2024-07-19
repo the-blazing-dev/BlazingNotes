@@ -21,5 +21,5 @@ public static class NoteActions
 
     public record ArchiveNoteAction(Guid NoteId);
 
-    public record ArchiveNoteSuccessAction(Guid NoteId);
+    public record ArchiveNoteSuccessAction(Note Note);
 }
