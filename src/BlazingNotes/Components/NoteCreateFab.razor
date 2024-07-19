@@ -1,0 +1,14 @@
+<MudFab Color="Color.Primary"
+        StartIcon="@Icons.Material.Filled.Add"
+        OnClick="HandleAdd"
+        Class="mr-6 mb-6"
+        Style="position: fixed; right: 0; bottom: 0;"/>
+
+@code {
+
+    private void HandleAdd()
+    {
+        Dispatch(new NoteActions.ShowCreateNoteDialogAction());
+    }
+
+}

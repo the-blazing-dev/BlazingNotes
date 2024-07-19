@@ -16,7 +16,8 @@ public static class NoteReducer
     {
         return state with
         {
-            Notes = state.Notes.Add(action.Note)
+            Notes = state.Notes.Add(action.Note),
+            ShowCreateNoteDialog = false // for now just always close the possible dialog
         };
     }
 
@@ -46,6 +47,24 @@ public static class NoteReducer
         return state with
         {
             CurrentlyEditingNote = null
+        };
+    }
+
+    [ReducerMethod]
+    public static AppState Reduce(AppState state, NoteActions.ShowCreateNoteDialogAction action)
+    {
+        return state with
+        {
+            ShowCreateNoteDialog = true
+        };
+    }
+
+    [ReducerMethod]
+    public static AppState Reduce(AppState state, NoteActions.HideCreateNoteDialogAction action)
+    {
+        return state with
+        {
+            ShowCreateNoteDialog = false
         };
     }
 

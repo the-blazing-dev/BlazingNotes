@@ -38,6 +38,26 @@ public class AppStateTests : TestBase
     }
 
     [Fact]
+    public async Task AllNotes_AreLoadedOnAppStartup()
+    {
+        // good enough for now, see comment in NoteEffects.cs
+
+        await ExecuteOnDb(async db =>
+        {
+            db.Notes.Add(new Note { Text = "I'm archived", IsArchived = true });
+            db.Notes.Add(new Note { Text = "I'm not archived", IsArchived = false });
+            await db.SaveChangesAsync();
+        });
+
+        var action = Activator.CreateInstance(typeof(StoreInitializedAction), true);
+        Dispatch(action!);
+
+        Sut.Value.Notes.Should().HaveCount(2);
+        Sut.Value.GetHomePageNotes().Should().HaveCount(1).And.OnlyContain(x => !x.IsArchived);
+        Sut.Value.GetArchivedNotes().Should().HaveCount(1).And.OnlyContain(x => x.IsArchived);
+    }
+
+    [Fact]
     public void CreateNoteActionReducer_AddsNoteToCorrespondingStateProperty()
     {
         Sut.Value.Notes.Should().BeEmpty();
@@ -64,6 +84,28 @@ public class AppStateTests : TestBase
         Dispatch(action);
 
         Sut.Value.Notes.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void ShowCreateNoteDialog()
+    {
+        Dispatch(new NoteActions.ShowCreateNoteDialogAction());
+
+        Sut.Value.ShowCreateNoteDialog.Should().BeTrue();
+
+        Dispatch(new NoteActions.HideCreateNoteDialogAction());
+
+        Sut.Value.ShowCreateNoteDialog.Should().BeFalse();
+
+        // now open + save
+        Dispatch(new NoteActions.ShowCreateNoteDialogAction());
+
+        Sut.Value.ShowCreateNoteDialog.Should().BeTrue();
+
+        Dispatch(new NoteActions.CreateNoteRequestAction("hello"));
+
+        Sut.Value.ShowCreateNoteDialog.Should().BeFalse();
+        Sut.Value.Notes.Should().ContainSingle(x => x.Text == "hello");
     }
 
     [Fact]
@@ -154,26 +196,6 @@ public class AppStateTests : TestBase
         });
 
         Sut.Value.Notes.Should().Contain(x => x.Id == note2.Id && x.IsArchived == false);
-    }
-
-    [Fact]
-    public async Task AllNotes_AreLoadedOnAppStartup()
-    {
-        // good enough for now, see comment in NoteEffects.cs
-
-        await ExecuteOnDb(async db =>
-        {
-            db.Notes.Add(new Note { Text = "I'm archived", IsArchived = true });
-            db.Notes.Add(new Note { Text = "I'm not archived", IsArchived = false });
-            await db.SaveChangesAsync();
-        });
-
-        var action = Activator.CreateInstance(typeof(StoreInitializedAction), true);
-        Dispatch(action!);
-
-        Sut.Value.Notes.Should().HaveCount(2);
-        Sut.Value.GetHomePageNotes().Should().HaveCount(1).And.OnlyContain(x => !x.IsArchived);
-        Sut.Value.GetArchivedNotes().Should().HaveCount(1).And.OnlyContain(x => x.IsArchived);
     }
 
     private (Note note1, Note note2, Note note3) CreateThreeNotes()
