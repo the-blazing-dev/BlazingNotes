@@ -1,5 +1,4 @@
 ﻿@page "/"
-@using Fluxor
 @inject IState<AppState> AppState
 
 <PageTitle>Home</PageTitle>
@@ -54,8 +53,6 @@
     </MudExpansionPanels>
 
 </MudStack>
-
-<NoteEditingDialog Note="AppState.Value.CurrentlyEditingNote"/>
 
 @code {
 

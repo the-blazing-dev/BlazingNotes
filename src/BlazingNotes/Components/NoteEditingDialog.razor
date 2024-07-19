@@ -1,3 +1,5 @@
+@inject IStateSelection<AppState, Note?> AppStateSelector
+
 <MudDialog Visible="Note != null"
            VisibleChanged="HandleVisibleChanged"
            Options="_options"
@@ -37,16 +39,23 @@
         CloseOnEscapeKey = true
     };
 
-    [Parameter] public Note? Note { get; set; }
+    private Note? Note => AppStateSelector.Value;
 
-    protected override void OnParametersSet()
+    protected override void OnInitialized()
+    {
+// use an StateSelector so it does not rerender because of irrelevant changes
+        AppStateSelector.Select(x => x.CurrentlyEditingNote);
+        AppStateSelector.SelectedValueChanged += AppStateSelectorOnSelectedValueChanged;
+
+        base.OnInitialized();
+    }
+
+    private void AppStateSelectorOnSelectedValueChanged(object? sender, Note? e)
     {
         if (Note != null)
         {
             _newText = Note.Text;
         }
-
-        base.OnParametersSet();
     }
 
     private void HandleCancel()
