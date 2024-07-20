@@ -9,7 +9,7 @@ namespace BlazingNotes.Infrastructure.State;
 public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
 {
     [EffectMethod]
-    public async Task HandleStoreInitializedAction(StoreInitializedAction action, IDispatcher dispatcher)
+    public async Task Handle(StoreInitializedAction action, IDispatcher dispatcher)
     {
         // this is a very pragmatic approach: as the intention is to only store very small notes
         // and this app works with a local database, we can just load all notes into memory
@@ -22,7 +22,7 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
     }
 
     [EffectMethod]
-    public async Task HandleCreateNoteRequestAction(NoteActions.CreateNoteRequestAction action, IDispatcher dispatcher)
+    public async Task Handle(NoteActions.CreateNoteRequestAction action, IDispatcher dispatcher)
     {
         if (!action.Text.HasContent()) return;
 
@@ -41,7 +41,7 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
     }
 
     [EffectMethod]
-    public async Task HandleSaveNoteEditAction(NoteActions.SaveNoteEditingAction action, IDispatcher dispatcher)
+    public async Task Handle(NoteActions.SaveNoteEditingAction action, IDispatcher dispatcher)
     {
         if (!action.NewText.HasContent())
         {
