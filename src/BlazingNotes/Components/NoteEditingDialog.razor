@@ -16,14 +16,24 @@
         }
     </TitleContent>
     <DialogContent>
-        @* immediate is needed to also support the OnKeyUp submit *@
-        <MudTextField @bind-Value="_newText"
-                      Label="Text"
-                      Lines="3"
-                      AutoGrow="true"
-                      Variant="Variant.Outlined"
-                      Immediate="true"
-                      OnKeyUp="HandleKeyUp"/>
+        <MudStack>
+            @* immediate is needed to also support the OnKeyUp submit *@
+            <MudTextField @bind-Value="_newText"
+                          Label="Text"
+                          Lines="3"
+                          AutoGrow="true"
+                          Variant="Variant.Outlined"
+                          Immediate="true"
+                          OnKeyUp="HandleKeyUp"/>
+            @if (Note != null)
+            {
+                @* no spacing here *@
+                <MudStack Spacing="0">
+                    <TimestampRenderer Timestamp="Note.CreatedAt" Prefix="Created:"/>
+                    <TimestampRenderer Timestamp="Note.ModifiedAt" Prefix="Modified:"/>
+                </MudStack>
+            }
+        </MudStack>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="HandleCancel">

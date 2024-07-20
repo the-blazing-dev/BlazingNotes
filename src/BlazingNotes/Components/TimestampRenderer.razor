@@ -1,0 +1,18 @@
+@if (Timestamp.HasValue)
+{
+    var classes = $"timestamp-renderer {Class}";
+    <MudText Typo="Typo.body2" Class="@classes">
+        @if (Prefix.HasContent())
+        {
+            @:@Prefix&nbsp;
+        }
+
+        @Timestamp.Value.ToShortDateString() @Timestamp.Value.ToShortTimeString()
+    </MudText>
+}
+
+@code {
+    [Parameter] public DateTime? Timestamp { get; set; }
+    [Parameter] public string? Prefix { get; set; }
+    [Parameter] public string? Class { get; set; }
+}

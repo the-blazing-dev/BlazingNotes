@@ -33,3 +33,7 @@ h1:focus {
     /* use !important to win over :hover and :focus */
     border-color: var(--mud-palette-primary) !important;
 }
+
+.timestamp-renderer {
+    opacity: 0.33;
+}
