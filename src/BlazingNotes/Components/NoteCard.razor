@@ -5,6 +5,11 @@
         </p>
     </MudCardContent>
     <MudCardActions>
+        <MudText Typo="Typo.body2"
+                 Class="ml-2"
+                 Style="opacity: 0.33">
+            @Note.CreatedAt.ToShortDateString() @Note.CreatedAt.ToShortTimeString()
+        </MudText>
         <MudSpacer/>
         @if (Note.IsArchived)
         {
