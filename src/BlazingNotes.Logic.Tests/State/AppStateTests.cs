@@ -1,5 +1,6 @@
 using BlazingNotes.Logic.Entities;
 using BlazingNotes.Logic.State;
+using BlazingNotes.Logic.Tests.TestSupport;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit.Abstractions;
 
@@ -65,7 +66,9 @@ public class AppStateTests : TestBase
         var action = new NoteActions.CreateNoteRequestAction("first note");
         Dispatch(action);
 
-        Sut.Value.Notes.Should().ContainSingle(x => x.Text == "first note");
+        var note = Sut.Value.Notes.Single();
+        note.Text.Should().Be("first note");
+        note.CreatedAt.Should().BeCloseToNow();
     }
 
     [Fact]
@@ -161,6 +164,25 @@ public class AppStateTests : TestBase
     }
 
     [Fact]
+    public void ModifiedAt_IsSet_WhenNoteIsEdited()
+    {
+        var (note1, _, _) = CreateThreeNotes();
+        note1.ModifiedAt.Should().BeNull();
+        Thread.Sleep(1);
+        Dispatch(new NoteActions.SaveNoteEditingAction(note1, note1.Text + " #updated"));
+        var note1Fresh = Sut.Value.Notes.Single(x => x.Id == note1.Id);
+        note1Fresh.ModifiedAt.Should().BeCloseToNow();
+        note1Fresh.ModifiedAt.Should().BeAfter(note1Fresh.CreatedAt);
+
+        // check if it detects "real" changes
+        var modifiedAtBackup = note1Fresh.ModifiedAt;
+        Thread.Sleep(1);
+        Dispatch(new NoteActions.SaveNoteEditingAction(note1Fresh, note1Fresh.Text)); // no change
+        note1Fresh = Sut.Value.Notes.Single(x => x.Id == note1Fresh.Id);
+        note1Fresh.ModifiedAt.Should().Be(modifiedAtBackup);
+    }
+
+    [Fact]
     public async Task ArchiveNote_UpdatesDbAccordingly()
     {
         var (_, note2, _) = CreateThreeNotes();
@@ -170,6 +192,20 @@ public class AppStateTests : TestBase
         {
             var entity = await db.Notes.FindAsync(note2.Id);
             entity!.IsArchived.Should().BeTrue();
+        });
+    }
+
+    [Fact]
+    public async Task ArchiveNote_DoesNotSetModifiedAt()
+    {
+        var (_, note2, _) = CreateThreeNotes();
+        Dispatch(new NoteActions.ArchiveNoteAction(note2.Id));
+
+        await ExecuteOnDb(async db =>
+        {
+            var entity = await db.Notes.FindAsync(note2.Id);
+            entity!.IsArchived.Should().BeTrue();
+            entity.ModifiedAt.Should().BeNull(); // not wanted for now
         });
     }
 

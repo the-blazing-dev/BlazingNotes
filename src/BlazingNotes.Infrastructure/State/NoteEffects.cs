@@ -50,13 +50,17 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
             return;
         }
 
-        // possible improvement for somewhen: check if there is a "real" change
-
         await using var db = await dbFactory.CreateDbContextAsync();
         var noteFresh = await db.Notes.FindAsync(action.Note.Id); // todo FindRequiredAsync
         noteFresh.Text = action.NewText;
         Clean(noteFresh);
-        await db.SaveChangesAsync();
+
+        // only update entity + timestamp on "real" changes
+        if (db.Entry(noteFresh).State == EntityState.Modified)
+        {
+            noteFresh.ModifiedAt = DateTime.UtcNow;
+            await db.SaveChangesAsync();
+        }
 
         dispatcher.Dispatch(new NoteActions.SaveNoteEditingSuccessAction(noteFresh));
     }
