@@ -15,17 +15,19 @@
     @* for now just misuse the expansion panel *@
     <MudCard Style="background-color: var(--mud-palette-appbar-background)">
         <MudCardContent Class="pa-6">
-
-            @if (_search.Trim().Length >= 3)
-            {
-                var matches = AppState.Value.Notes.Where(x => x.Text.ContainsIgnoreCase(_search.Trim()));
-                <NoteCardList Notes="matches"/>
-            }
-            else
-            {
-                <MudAlert Severity="Severity.Info">
-                    Bitte einen Suchbegriff mit mindestens 3 Zeichen eingeben
-                </MudAlert>
+            @{
+                var searchCleared = _search.Trim();
+                if (searchCleared.Length >= 3)
+                {
+                    var matches = AppState.Value.Notes.Where(x => x.Text.ContainsIgnoreCase(searchCleared));
+                    <NoteCardList Notes="matches" SearchText="@searchCleared"/>
+                }
+                else
+                {
+                    <MudAlert Severity="Severity.Info">
+                        Bitte einen Suchbegriff mit mindestens 3 Zeichen eingeben
+                    </MudAlert>
+                }
             }
 
         </MudCardContent>

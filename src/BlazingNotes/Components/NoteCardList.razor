@@ -1,7 +1,7 @@
 <MudStack Row Wrap="Wrap.Wrap" Spacing="6">
     @foreach (var item in Notes)
     {
-        <NoteCard Note="item"/>
+        <NoteCard Note="item" SearchText="@SearchText"/>
     }
     @if (Notes.HasContent() == false)
     {
@@ -13,5 +13,6 @@
 
 @code {
     [Parameter] [EditorRequired] public required IEnumerable<Note> Notes { get; set; }
+    [Parameter] public string? SearchText { get; set; }
 
 }
