@@ -112,6 +112,39 @@ public class AppStateTests : TestBase
     }
 
     [Fact]
+    public void NewlyCreatedNotesAreListedFirstInHomePage()
+    {
+        Dispatch(new NoteActions.CreateNoteRequestAction("first note"));
+        Thread.Sleep(1);
+        Dispatch(new NoteActions.CreateNoteRequestAction("second note"));
+
+        var notes = Sut.Value.GetHomePageNotes().ToList();
+        notes[0].Text.Should().Be("second note"); // second note was created later and is therefore "fresher"
+        notes[1].Text.Should().Be("first note");
+    }
+
+    [Fact]
+    public void ArchivedNotesAreNoteListedInHomePage()
+    {
+        NewlyCreatedNotesAreListedFirstInHomePage();
+        var someNote = Sut.Value.Notes.First();
+        Dispatch(new NoteActions.ArchiveNoteAction(someNote.Id));
+
+        Sut.Value.GetHomePageNotes().Should().NotContain(x => x.Id == someNote.Id);
+    }
+
+    [Fact]
+    public void OnlyTenItemsAreShownInHomePage()
+    {
+        for (int i = 0; i < 15; i++)
+        {
+            Dispatch(new NoteActions.CreateNoteRequestAction("Note #" + i));
+        }
+
+        Sut.Value.GetHomePageNotes().Should().HaveCount(10);
+    }
+
+    [Fact]
     public void NoteEditingWithSaving()
     {
         var (note1, _, _) = CreateThreeNotes();

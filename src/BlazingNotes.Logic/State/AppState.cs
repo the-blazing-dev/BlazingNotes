@@ -9,7 +9,9 @@ public record AppState
 
     public IEnumerable<Note> GetHomePageNotes()
     {
-        return Notes.Where(x => !x.IsArchived);
+        return Notes.Where(x => !x.IsArchived)
+            .OrderByDescending(x => x.CreatedAt)
+            .Take(10);
     }
 
     public IEnumerable<Note> GetArchivedNotes()
