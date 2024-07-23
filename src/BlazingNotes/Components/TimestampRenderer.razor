@@ -1,13 +1,21 @@
 @if (Timestamp.HasValue)
 {
+    const string space = " ";
     var classes = $"timestamp-renderer {Class}";
     <MudText Typo="Typo.body2" Class="@classes" title="@HoverTitle">
         @if (Prefix.HasContent())
         {
             @:@Prefix&nbsp;
         }
-
-        @Timestamp.Value.ToShortDateString() @Timestamp.Value.ToShortTimeString()
+        @if (Timestamp.Value.Date != DateTime.Today)
+        {
+            // only show date if its not from today
+            @Timestamp.Value.ToString("ddd,")
+            @space
+            @Timestamp.Value.ToShortDateString()
+            @space
+        }
+        @Timestamp.Value.ToShortTimeString()
     </MudText>
 }
 
