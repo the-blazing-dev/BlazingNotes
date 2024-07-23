@@ -31,16 +31,39 @@
                 <MudStack Spacing="0">
                     <TimestampRenderer Timestamp="Note.CreatedAt" Prefix="Created:"/>
                     <TimestampRenderer Timestamp="Note.ModifiedAt" Prefix="Modified:"/>
+                    <TimestampRenderer Timestamp="Note.ArchivedAt" Prefix="Archived:"/>
                 </MudStack>
             }
         </MudStack>
     </DialogContent>
     <DialogActions>
+        @if (Note != null)
+        {
+            // use two spacers so the "second prio" actions are a little bit separated from Save+Cancel
+            // but also not too much at the left edge
+            <MudSpacer/>
+            @if (Note.IsArchived)
+            {
+                <MudButton Color="Color.Primary"
+                           OnClick="HandleRestore">
+                    Restore
+                </MudButton>
+            }
+            else
+            {
+                <MudButton Color="Color.Primary"
+                           OnClick="HandleArchive">
+                    Archive
+                </MudButton>
+            }
+
+            <MudSpacer/>
+        }
         <MudButton OnClick="HandleCancel">
             Cancel
         </MudButton>
         <MudButton Color="Color.Success"
-                   OnClick="HandleSubmit">
+                   OnClick="HandleSave">
             Save
         </MudButton>
     </DialogActions>
@@ -101,7 +124,7 @@
         }
     }
 
-    private void HandleSubmit()
+    private void HandleSave()
     {
         if (ShowCreateDialogSelector.Value)
         {
@@ -126,8 +149,20 @@
     {
         if (args.CtrlKey && args.Key == "Enter") // todo extension method
         {
-            HandleSubmit(); // todo check if _newText is updated
+            HandleSave(); // todo check if _newText is updated
         }
+    }
+
+    private void HandleArchive()
+    {
+        Dispatch(new NoteActions.ArchiveNoteAction(Note!.Id));
+        HandleSave(); // if the text was changed + to close the dialog
+    }
+
+    private void HandleRestore()
+    {
+        Dispatch(new NoteActions.RestoreNoteAction(Note!.Id));
+        HandleSave(); // if the text was changed + to close the dialog
     }
 
 }
