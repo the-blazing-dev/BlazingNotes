@@ -16,6 +16,7 @@ public record AppState
 
     public IEnumerable<Note> GetArchivedNotes()
     {
-        return Notes.Where(x => x.IsArchived);
+        return Notes.Where(x => x.IsArchived)
+            .OrderByDescending(x => x.ArchivedAt);
     }
 }

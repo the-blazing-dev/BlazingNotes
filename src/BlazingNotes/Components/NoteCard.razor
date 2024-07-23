@@ -5,7 +5,10 @@
         </p>
     </MudCardContent>
     <MudCardActions>
-        <TimestampRenderer Timestamp="Note.CreatedAt" Class="ml-2"/>
+        <MudStack Spacing="0">
+            <TimestampRenderer Timestamp="Note.CreatedAt" Class="ml-2" HoverTitle="Created"/>
+            <TimestampRenderer Timestamp="Note.ArchivedAt" Class="ml-2" HoverTitle="Archived"/>
+        </MudStack>
         <MudSpacer/>
         @if (Note.IsArchived)
         {

@@ -71,6 +71,7 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
         await using var db = await dbFactory.CreateDbContextAsync();
         var noteFresh = await db.Notes.FindAsync(action.NoteId); // todo FindRequiredAsync
         noteFresh.IsArchived = true;
+        noteFresh.ArchivedAt = DateTime.UtcNow;
         await db.SaveChangesAsync();
 
         dispatcher.Dispatch(new NoteActions.ArchiveNoteSuccessAction(noteFresh));
@@ -82,6 +83,7 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
         await using var db = await dbFactory.CreateDbContextAsync();
         var noteFresh = await db.Notes.FindAsync(action.NoteId); // todo FindRequiredAsync
         noteFresh.IsArchived = false;
+        noteFresh.ArchivedAt = null;
         await db.SaveChangesAsync();
 
         dispatcher.Dispatch(new NoteActions.RestoreNoteSuccessAction(noteFresh));

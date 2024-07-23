@@ -136,10 +136,7 @@ public class AppStateTests : TestBase
     [Fact]
     public void OnlyTenItemsAreShownInHomePage()
     {
-        for (int i = 0; i < 15; i++)
-        {
-            Dispatch(new NoteActions.CreateNoteRequestAction("Note #" + i));
-        }
+        for (var i = 0; i < 15; i++) Dispatch(new NoteActions.CreateNoteRequestAction("Note #" + i));
 
         Sut.Value.GetHomePageNotes().Should().HaveCount(10);
     }
@@ -225,6 +222,7 @@ public class AppStateTests : TestBase
         {
             var entity = await db.Notes.FindAsync(note2.Id);
             entity!.IsArchived.Should().BeTrue();
+            entity.ArchivedAt.Should().BeCloseToNow();
         });
     }
 
@@ -262,9 +260,24 @@ public class AppStateTests : TestBase
         {
             var entity = await db.Notes.FindAsync(note2.Id);
             entity!.IsArchived.Should().BeFalse();
+            entity.ArchivedAt.Should().BeNull();
         });
 
         Sut.Value.Notes.Should().Contain(x => x.Id == note2.Id && x.IsArchived == false);
+    }
+
+    [Fact]
+    public void ArchivedNotes_JustArchivedItemsAreListedFirst()
+    {
+        var (note1, note2, note3) = CreateThreeNotes();
+        Dispatch(new NoteActions.ArchiveNoteAction(note2.Id));
+        Thread.Sleep(1);
+        Dispatch(new NoteActions.ArchiveNoteAction(note3.Id));
+        Thread.Sleep(1);
+        Dispatch(new NoteActions.ArchiveNoteAction(note1.Id));
+
+        var archivedIds = Sut.Value.GetArchivedNotes().Select(x => x.Id).ToList();
+        archivedIds.Should().BeEquivalentTo([note1.Id, note3.Id, note2.Id], opt => opt.WithStrictOrdering());
     }
 
     private (Note note1, Note note2, Note note3) CreateThreeNotes()

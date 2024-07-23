@@ -1,7 +1,7 @@
 @if (Timestamp.HasValue)
 {
     var classes = $"timestamp-renderer {Class}";
-    <MudText Typo="Typo.body2" Class="@classes">
+    <MudText Typo="Typo.body2" Class="@classes" title="@HoverTitle">
         @if (Prefix.HasContent())
         {
             @:@Prefix&nbsp;
@@ -15,4 +15,5 @@
     [Parameter] public DateTime? Timestamp { get; set; }
     [Parameter] public string? Prefix { get; set; }
     [Parameter] public string? Class { get; set; }
+    [Parameter] public string? HoverTitle { get; set; }
 }
