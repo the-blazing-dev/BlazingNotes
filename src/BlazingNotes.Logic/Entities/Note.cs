@@ -11,4 +11,10 @@ public class Note
     public DateTime? RelevantAt { get; set; }
     public DateTime? ArchivedAt { get; set; }
     public DateTime? DeletedAt { get; set; }
+
+    public string GetTextWithTagsMarked()
+    {
+        var result = Constants.TagRegex.Replace(Text, x => $"<bz-tag>{x.Value}</bz-tag>");
+        return result;
+    }
 }
