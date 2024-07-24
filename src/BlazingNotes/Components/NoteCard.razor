@@ -1,7 +1,10 @@
 <MudCard Elevation="3" @ondblclick="HandleDblClick">
     <MudCardContent Style="width: 300px; min-height: 100px;">
         <p style="white-space: pre-line" class="pb-0">
-            <MudHighlighter Text="@Note.Text" HighlightedText="@SearchText"/>
+            <MudHighlighter Text="@Note.GetTextWithTagsMarked()"
+                            HighlightedText="@SearchText"
+                            Markup="true"
+                            Class="yellow"/>
         </p>
     </MudCardContent>
     <MudCardActions>

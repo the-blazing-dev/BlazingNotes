@@ -37,3 +37,8 @@ h1:focus {
 .timestamp-renderer {
     opacity: 0.33;
 }
+
+bz-tag {
+    display: inline-block; /* needed to keep #dashed-tags together as long as possible */
+    color: var(--mud-palette-primary);
+}
