@@ -1,13 +1,36 @@
 ﻿@page "/archived"
+@using BlazingNotes.Logic.Services
 @inject IState<AppState> AppState
 
 <PageTitle>Archived</PageTitle>
 
 <MudStack Spacing="6">
-    @* todo check why it is completely different to native <h1> *@
-    @* todo think about placing the title in the navbar *@
-    <MudText Typo="Typo.h4" Color="Color.Primary">Archived</MudText>
+    <MudStack Row AlignItems="AlignItems.Center">
+        @* todo check why it is completely different to native <h1> *@
+        @* todo think about placing the title in the navbar *@
+        <MudText Typo="Typo.h4" Color="Color.Primary">Archived</MudText>
 
-    <NoteCardList Notes="AppState.Value.GetArchivedNotes()"
-                  NoNotesText="Noch keine archivierten Notizen"/>
+        <MudTextField @bind-Value="_search"
+                      Variant="Variant.Outlined"
+                      AutoFocus
+                      Label="Search"
+                      Margin="Margin.Dense"
+                      Immediate
+                      Class="flex-grow-0"/>
+    </MudStack>
+
+    @{
+        var all = AppState.Value.GetArchivedNotes();
+        var (longEnough, highlightText, matches) = NoteSearcher.Search(all, _search);
+
+        <NoteCardList Notes="matches"
+                      SearchText="@highlightText"
+                      NoNotesText="Keine archivierten Notizen gefunden"/>
+    }
 </MudStack>
+
+@code {
+
+    string _search = "";
+
+}
