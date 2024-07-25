@@ -1,5 +1,6 @@
 @if (Timestamp.HasValue)
 {
+    var ts = Timestamp.Value.ToLocalTime();
     const string space = " ";
     var classes = $"timestamp-renderer {Class}";
     <MudText Typo="Typo.body2" Class="@classes" title="@HoverTitle">
@@ -7,15 +8,15 @@
         {
             @:@Prefix&nbsp;
         }
-        @if (Timestamp.Value.Date != DateTime.Today)
+        @if (ts.Date != DateTime.Today)
         {
             // only show date if its not from today
-            @Timestamp.Value.ToString("ddd,")
+            @ts.ToString("ddd,")
             @space
-            @Timestamp.Value.ToShortDateString()
+            @ts.ToShortDateString()
             @space
         }
-        @Timestamp.Value.ToShortTimeString()
+        @ts.ToShortTimeString()
     </MudText>
 }
 
