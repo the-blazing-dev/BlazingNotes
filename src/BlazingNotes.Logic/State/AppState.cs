@@ -7,16 +7,18 @@ public record AppState
     public Note? CurrentlyEditingNote { get; init; }
     public bool ShowCreateNoteDialog { get; set; }
 
-    public IEnumerable<Note> GetHomePageNotes()
+    public ICollection<Note> GetHomePageNotes()
     {
         return Notes.Where(x => !x.IsArchived)
             .OrderByDescending(x => x.CreatedAt)
-            .Take(10);
+            .Take(10)
+            .ToList();
     }
 
-    public IEnumerable<Note> GetArchivedNotes()
+    public ICollection<Note> GetArchivedNotes()
     {
         return Notes.Where(x => x.IsArchived)
-            .OrderByDescending(x => x.ArchivedAt);
+            .OrderByDescending(x => x.ArchivedAt)
+            .ToList();
     }
 }

@@ -14,10 +14,22 @@
         var searchCleared = _search.Trim();
         if (searchCleared.Length >= 3)
         {
-            var matches = AppState.Value.Notes.Where(x => x.Text.ContainsIgnoreCase(searchCleared));
-            <NoteCardList Notes="matches"
+            var matches = AppState.Value.Notes.Where(x => x.Text.ContainsIgnoreCase(searchCleared))
+                .ToList();
+            var nonArchiveMatches = matches.Where(x => x.ArchivedAt == null).ToList();
+            var archiveMatches = matches.Where(x => x.ArchivedAt.HasValue).ToList();
+
+            <NoteCardList Notes="nonArchiveMatches"
                           Headline="Suchergebnisse"
                           SearchText="@searchCleared"/>
+
+            @if (archiveMatches.HasContent())
+            {
+                <NoteCardList Notes="archiveMatches"
+                              Headline="Archiviert"
+                              SearchText="@searchCleared"
+                              InitiallyExpanded="false"/>
+            }
         }
         else
         {
