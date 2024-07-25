@@ -3,7 +3,7 @@
 
 <PageTitle>Home</PageTitle>
 
-<MudStack Spacing="12">
+<MudStack Spacing="6">
 
     <div style="width: 400px" class="mx-auto">
         <MudStack>
@@ -37,20 +37,8 @@
         </MudStack>
     </div>
 
-    <MudExpansionPanels MultiExpansion="true">
-        <MudExpansionPanel Text="Suchergebnisse"
-                           Style="background-color: var(--mud-palette-appbar-background)"
-                           Expanded="true">
-            <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="d-inline-block">Keine Notizen gefunden</MudAlert>
-        </MudExpansionPanel>
-        <MudExpansionPanel Text="Zuletzt erstellt"
-                           Style="background-color: var(--mud-palette-appbar-background)"
-                           Expanded="true">
-
-            <NoteCardList Notes="AppState.Value.GetHomePageNotes()"/>
-
-        </MudExpansionPanel>
-    </MudExpansionPanels>
+    <NoteCardList Headline="Suchergebnisse" Notes="[]" NoNotesText="noch nicht implementiert"/>
+    <NoteCardList Headline="Zuletzt erstellt" Notes="AppState.Value.GetHomePageNotes()"/>
 
 </MudStack>
 

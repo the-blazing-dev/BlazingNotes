@@ -1,18 +1,28 @@
-<MudStack Row Wrap="Wrap.Wrap" Spacing="6">
-    @foreach (var item in Notes)
-    {
-        <NoteCard Note="item" SearchText="@SearchText"/>
-    }
-    @if (Notes.HasContent() == false)
-    {
-        <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="d-inline-block">
-            Noch keine Notizen gefunden
-        </MudAlert>
-    }
-</MudStack>
+<MudExpansionPanel Text="@Headline"
+                   Style="background-color: var(--mud-palette-appbar-background)"
+                   Class="my-0"
+                   Expanded="true"
+                   HideIcon="true">
+
+    <MudStack Row Wrap="Wrap.Wrap" Spacing="6">
+        @foreach (var item in Notes)
+        {
+            <NoteCard Note="item" SearchText="@SearchText"/>
+        }
+        @if (Notes.HasContent() == false)
+        {
+            <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="d-inline-block">
+                @NoNotesText
+            </MudAlert>
+        }
+    </MudStack>
+
+</MudExpansionPanel>
 
 @code {
     [Parameter] [EditorRequired] public required IEnumerable<Note> Notes { get; set; }
     [Parameter] public string? SearchText { get; set; }
+    [Parameter] public string? NoNotesText { get; set; } = "Noch keine Notizen gefunden";
+    [Parameter] public string? Headline { get; set; }
 
 }

@@ -4,35 +4,28 @@
 <PageTitle>Search</PageTitle>
 
 <MudStack Spacing="6">
-    @* todo check why it is completely different to native <h1> *@
-    @* todo think about placing the title in the navbar *@
     <MudTextField @bind-Value="_search"
                   Variant="Variant.Outlined"
                   AutoFocus
                   Label="Search"
                   Immediate/>
 
-    @* for now just misuse the expansion panel *@
-    <MudCard Style="background-color: var(--mud-palette-appbar-background)">
-        <MudCardContent Class="pa-6">
-            @{
-                var searchCleared = _search.Trim();
-                if (searchCleared.Length >= 3)
-                {
-                    var matches = AppState.Value.Notes.Where(x => x.Text.ContainsIgnoreCase(searchCleared));
-                    <NoteCardList Notes="matches" SearchText="@searchCleared"/>
-                }
-                else
-                {
-                    <MudAlert Severity="Severity.Info">
-                        Bitte einen Suchbegriff mit mindestens 3 Zeichen eingeben
-                    </MudAlert>
-                }
-            }
-
-        </MudCardContent>
-    </MudCard>
-
+    @{
+        var searchCleared = _search.Trim();
+        if (searchCleared.Length >= 3)
+        {
+            var matches = AppState.Value.Notes.Where(x => x.Text.ContainsIgnoreCase(searchCleared));
+            <NoteCardList Notes="matches"
+                          Headline="Suchergebnisse"
+                          SearchText="@searchCleared"/>
+        }
+        else
+        {
+            <NoteCardList Notes="[]"
+                          Headline="Suchergebnisse"
+                          NoNotesText="Bitte einen Suchbegriff mit mindestens 3 Zeichen eingeben"/>
+        }
+    }
 </MudStack>
 
 @code {
