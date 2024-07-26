@@ -280,6 +280,25 @@ public class AppStateTests : TestBase
         archivedIds.Should().BeEquivalentTo([note1.Id, note3.Id, note2.Id], opt => opt.WithStrictOrdering());
     }
 
+    [Fact]
+    public void GetTags_ReturnsCollectionOfTags()
+    {
+        CreateThreeNotes();
+        var tags = Sut.Value.GetTags();
+        tags.Should().HaveCount(4);
+        tags.Should().Contain(["#first", "#second", "#third", "#last"]);
+    }
+
+    [Fact]
+    public void GetTags_ContainsUniqueItems_AndIsCaseInsensitive()
+    {
+        Dispatch(new NoteActions.CreateNoteRequestAction("#important note"));
+        Dispatch(new NoteActions.CreateNoteRequestAction("#IMPORTANT note 2"));
+
+        var tags = Sut.Value.GetTags();
+        tags.Should().ContainSingle("#importANT");
+    }
+
     private (Note note1, Note note2, Note note3) CreateThreeNotes()
     {
         Dispatch(new NoteActions.CreateNoteRequestAction("Note1 #first"));
