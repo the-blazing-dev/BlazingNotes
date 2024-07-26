@@ -37,8 +37,12 @@
         </MudStack>
     </div>
 
-    <NoteCardList Headline="Suchergebnisse" Notes="[]" NoNotesText="noch nicht implementiert"/>
-    <NoteCardList Headline="Zuletzt erstellt" Notes="AppState.Value.GetHomePageNotes()"/>
+    <NoteCardList Headline="Suchergebnisse"
+                  Notes="[]"
+                  NoNotesText="noch nicht implementiert"/>
+    <NoteCardList Headline="Zuletzt erstellt"
+                  Notes="AppState.Value.GetHomePageNotes()"
+                  ShowNoteCount="false"/>
 
 </MudStack>
 
