@@ -1,3 +1,4 @@
+@using System.Net
 @inject IState<AppState> AppState
 
 <MudNavMenu>
@@ -6,7 +7,8 @@
     <MudNavGroup Title="Tags" Expanded="true">
         @foreach (var tag in AppState.Value.GetTags().Order())
         {
-            var href = $"/tags?tag={tag}";
+            // url encoding is needed because #sometag would be the fragment part of a URI
+            var href = $"/search?q={WebUtility.UrlEncode(tag)}";
             <MudNavLink Href="@href" Match="NavLinkMatch.Prefix" Class="bz-mud-nav-link-dense">@tag</MudNavLink>
         }
     </MudNavGroup>

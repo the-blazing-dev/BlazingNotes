@@ -5,16 +5,16 @@
 <PageTitle>Search</PageTitle>
 
 <MudStack Spacing="6">
-    <MudTextField @bind-Value="_search"
+    <MudTextField @bind-Value="Query"
                   Variant="Variant.Outlined"
                   AutoFocus
                   Label="Search"
                   Immediate/>
 
     @{
-    var all = AppState.Value.Notes;
-    var (longEnough, highlightText, matches) = NoteSearcher.Search(all, _search);
-    if (longEnough)
+        var all = AppState.Value.Notes;
+        var (longEnough, highlightText, matches) = NoteSearcher.Search(all, Query ?? "");
+        if (longEnough)
         {
             var nonArchiveMatches = matches.Where(x => x.ArchivedAt == null).ToList();
             var archiveMatches = matches.Where(x => x.ArchivedAt.HasValue).ToList();
@@ -42,6 +42,8 @@
 
 @code {
 
-    string _search = "";
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "q")]
+    public string? Query { get; set; }
 
 }
