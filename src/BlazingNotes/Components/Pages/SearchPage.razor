@@ -13,23 +13,9 @@
 
     @{
         var all = AppState.Value.Notes;
-        var (longEnough, highlightText, matches) = NoteSearcher.Search(all, Query ?? "");
-        if (longEnough)
+        if (NoteSearcher.IsSearchTermLongEnough(Query ?? ""))
         {
-            var nonArchiveMatches = matches.Where(x => x.ArchivedAt == null).ToList();
-            var archiveMatches = matches.Where(x => x.ArchivedAt.HasValue).ToList();
-
-            <NoteCardList Notes="nonArchiveMatches"
-                          Headline="Suchergebnisse"
-                          SearchText="@highlightText"/>
-
-            @if (archiveMatches.HasContent())
-            {
-                <NoteCardList Notes="archiveMatches"
-                              Headline="Archiviert"
-                              SearchText="@highlightText"
-                              InitiallyExpanded="false"/>
-            }
+            <NoteCardListSeparated Notes="all" SearchText="@Query"/>
         }
         else
         {

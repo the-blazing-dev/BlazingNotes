@@ -1,8 +1,7 @@
 ﻿@page "/untagged"
-@using BlazingNotes.Logic.Services
 @inject IState<AppState> AppState
 
-<PageTitle>Archived</PageTitle>
+<PageTitle>Untagged</PageTitle>
 
 <MudStack Spacing="6">
     <MudStack Row AlignItems="AlignItems.Center">
@@ -21,11 +20,10 @@
 
     @{
         var all = AppState.Value.GetUntaggedNotes();
-        var (longEnough, highlightText, matches) = NoteSearcher.Search(all, _search);
-
-        <NoteCardList Notes="matches"
-                      SearchText="@highlightText"
-                      NoNotesText="Perfect! All notes are tagged!"/>
+        // todo define sorting
+        <NoteCardListSeparated Notes="all"
+                               SearchText="@_search"
+                               NoNotesText="Perfect! All notes are tagged!"/>
     }
 </MudStack>
 
