@@ -1,8 +1,14 @@
-<MudFab Color="Color.Primary"
-        StartIcon="@Icons.Material.Filled.Add"
-        OnClick="HandleAdd"
-        Class="mr-6 mb-6"
-        Style="position: fixed; right: 0; bottom: 0;"/>
+<div style="position: fixed; right: 0; bottom: 0;" class="mr-6 mb-6">
+    <MudTooltip Text="Create new [accesskey + N]"
+                Placement="Placement.Left"
+                Arrow="true"
+                Delay="500">
+        <MudFab Color="Color.Primary"
+                StartIcon="@Icons.Material.Filled.Add"
+                OnClick="HandleAdd"
+                accesskey="N"/>
+    </MudTooltip>
+</div>
 
 @code {
 
