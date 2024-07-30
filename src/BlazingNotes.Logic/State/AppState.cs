@@ -1,5 +1,3 @@
-using System.Text.RegularExpressions;
-
 namespace BlazingNotes.Logic.State;
 
 [FeatureState]
@@ -17,6 +15,11 @@ public record AppState
             .ToList();
     }
 
+    public ICollection<Note> GetUntaggedNotes()
+    {
+        return Notes.Where(x => x.GetTags().Count == 0).ToList();
+    }
+
     public ICollection<Note> GetArchivedNotes()
     {
         return Notes.Where(x => x.IsArchived)
@@ -32,8 +35,8 @@ public record AppState
 
         foreach (var note in Notes)
         {
-            var foundTags = Constants.TagRegex.Matches(note.Text);
-            foreach (Match foundTag in foundTags) result.Add(foundTag.Value);
+            var foundTags = note.GetTags();
+            foundTags.ForEach(x => result.Add(x));
         }
 
         return result;

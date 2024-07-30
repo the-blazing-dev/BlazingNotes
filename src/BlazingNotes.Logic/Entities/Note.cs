@@ -17,4 +17,9 @@ public class Note
         var result = Constants.TagRegex.Replace(Text, x => $"<bz-tag>{x.Value}</bz-tag>");
         return result;
     }
+
+    public ICollection<string> GetTags()
+    {
+        return Constants.TagRegex.Matches(Text).Select(x => x.Value).ToList();
+    }
 }

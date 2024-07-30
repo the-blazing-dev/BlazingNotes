@@ -4,6 +4,7 @@
 <MudNavMenu>
     <MudNavLink Href="/" Match="NavLinkMatch.All">Home</MudNavLink>
     <MudNavLink Href="/search" Match="NavLinkMatch.Prefix">Search</MudNavLink>
+    <MudNavLink Href="/untagged" Match="NavLinkMatch.Prefix">Untagged</MudNavLink>
     <MudNavGroup Title="Tags" Expanded="true">
         @foreach (var tag in AppState.Value.GetTags().Order())
         {

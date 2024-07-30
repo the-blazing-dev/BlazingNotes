@@ -299,6 +299,17 @@ public class AppStateTests : TestBase
         tags.Should().ContainSingle("#importANT");
     }
 
+    [Fact]
+    public void GetUntaggedNotes_ContainsNotesWithoutTags()
+    {
+        CreateThreeNotes();
+        Dispatch(new NoteActions.CreateNoteRequestAction("my note without tags"));
+        Dispatch(new NoteActions.CreateNoteRequestAction("another #tagged note"));
+
+        var notes = Sut.Value.GetUntaggedNotes();
+        notes.Should().ContainSingle(x => x.Text == "my note without tags");
+    }
+
     private (Note note1, Note note2, Note note3) CreateThreeNotes()
     {
         Dispatch(new NoteActions.CreateNoteRequestAction("Note1 #first"));

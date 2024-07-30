@@ -1,9 +1,9 @@
 @using BlazingNotes.Logic
 @{
     var headline = Headline;
-if (headline.HasContent() && ShowNoteCount && Notes.Count > 0)
+    if (headline.HasContent() && ShowNoteCount && Notes.Count > 0)
     {
-    headline += $" — {Notes.Count}";
+        headline += $" — {Notes.Count}";
     }
 }
 <MudExpansionPanel Text="@headline"
@@ -21,7 +21,14 @@ if (headline.HasContent() && ShowNoteCount && Notes.Count > 0)
         @if (Notes.HasContent() == false)
         {
             <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="d-inline-block">
-                @NoNotesText
+                @if (SearchText.HasContent())
+                {
+                    @:No notes found
+                }
+                else
+                {
+                    @NoNotesText
+                }
             </MudAlert>
         }
     </MudStack>
@@ -34,6 +41,6 @@ if (headline.HasContent() && ShowNoteCount && Notes.Count > 0)
     [Parameter] public string? NoNotesText { get; set; } = "Keine Notizen gefunden";
     [Parameter] public string? Headline { get; set; }
     [Parameter] public bool InitiallyExpanded { get; set; } = true;
-[Parameter] public bool ShowNoteCount { get; set; } = true;
+    [Parameter] public bool ShowNoteCount { get; set; } = true;
 
 }
