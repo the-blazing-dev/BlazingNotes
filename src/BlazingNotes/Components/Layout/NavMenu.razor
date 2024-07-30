@@ -13,7 +13,12 @@
             <MudNavLink Href="@href" Match="NavLinkMatch.Prefix" Class="bz-mud-nav-link-dense">@tag</MudNavLink>
         }
     </MudNavGroup>
-    <MudNavLink Href="/archived" Match="NavLinkMatch.Prefix">Archived</MudNavLink>
+    @* explicit bg color needed because of overlaying other items *@
+    <MudNavLink Href="/archived" Match="NavLinkMatch.Prefix"
+                Class="sticky bg-appbar"
+                Style="bottom: 0">
+        Archived
+    </MudNavLink>
 </MudNavMenu>
 
 @code {

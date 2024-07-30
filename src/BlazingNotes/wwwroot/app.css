@@ -29,6 +29,10 @@ h1:focus {
 }
 
 /* app-specific styles */
+.bg-appbar {
+    background-color: var(--mud-palette-appbar-background) !important;
+}
+
 .app-outlined-border-primary .mud-input-outlined .mud-input-outlined-border {
     /* use !important to win over :hover and :focus */
     border-color: var(--mud-palette-primary) !important;
