@@ -3,4 +3,8 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+.idea/
+*.user
+
+# gives yourself the possibility to create files that are not included, e.g. appdb.gitignored.sqlite
 *gitignore*
