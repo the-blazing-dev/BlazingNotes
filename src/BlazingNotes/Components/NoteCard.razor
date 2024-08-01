@@ -20,11 +20,18 @@
             }
         </MudStack>
         <MudSpacer/>
-        @if (Note.ArchivedAt.HasValue)
+        @if (Note.DeletedAt.HasValue)
         {
-            <MudIconButton Icon="@Icons.Material.Filled.Archive"
+            <MudIconButton Icon="@Icons.Material.Filled.RestoreFromTrash"
                            Color="Color.Primary"
-                           OnClick="HandleRestore"/>
+                           OnClick="HandleRestoreFromTrash"
+                           title="Restore from trash"/>
+        }
+        else if (Note.ArchivedAt.HasValue)
+        {
+            <MudIconButton Icon="@Icons.Material.Filled.Unarchive"
+                           Color="Color.Primary"
+                           OnClick="HandleRestoreFromArchive"/>
         }
         else
         {
@@ -50,9 +57,14 @@
         Dispatch(new NoteActions.ArchiveNoteAction(Note.Id));
     }
 
-    private void HandleRestore()
+    private void HandleRestoreFromArchive()
     {
         Dispatch(new NoteActions.RestoreNoteFromArchiveAction(Note.Id));
+    }
+
+    private void HandleRestoreFromTrash()
+    {
+        Dispatch(new NoteActions.RestoreNoteFromTrashAction(Note.Id));
     }
 
     private void HandleDblClick()

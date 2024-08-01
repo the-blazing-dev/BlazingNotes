@@ -44,21 +44,6 @@
             // but also not too much at the left edge
             <MudSpacer/>
 
-            @if (Note.ArchivedAt.HasValue)
-            {
-                <MudButton Color="Color.Primary"
-                           OnClick="HandleRestoreFromArchive">
-                    Restore from archive
-                </MudButton>
-            }
-            else
-            {
-                <MudButton Color="Color.Primary"
-                           OnClick="HandleArchive">
-                    Archive
-                </MudButton>
-            }
-
             @if (Note.DeletedAt.HasValue)
             {
                 <MudButton Color="Color.Primary"
@@ -72,6 +57,24 @@
                            OnClick="HandleDelete">
                     Delete
                 </MudButton>
+            }
+
+            @if (Note.DeletedAt == null)
+            {
+                if (Note.ArchivedAt.HasValue)
+                {
+                    <MudButton Color="Color.Primary"
+                               OnClick="HandleRestoreFromArchive">
+                        Restore from archive
+                    </MudButton>
+                }
+                else
+                {
+                    <MudButton Color="Color.Primary"
+                               OnClick="HandleArchive">
+                        Archive
+                    </MudButton>
+                }
             }
 
             <MudSpacer/>
