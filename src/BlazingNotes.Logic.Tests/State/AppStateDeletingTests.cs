@@ -15,12 +15,6 @@ public class AppStateDeletingTests : TestBase
 
     private IState<AppState> Sut { get; set; }
 
-    private List<Note> GetDeletedNotes()
-    {
-        return Sut.Value.Notes.Where(x => x.DeletedAt.HasValue).ToList();
-    }
-
-
     [Fact]
     public async Task NotesCanBeDeleted()
     {
@@ -42,7 +36,7 @@ public class AppStateDeletingTests : TestBase
     {
         await NotesCanBeDeleted();
 
-        var deletedNote = GetDeletedNotes().Single();
+        var deletedNote = Sut.Value.GetDeletedNotes().Single();
         Sut.Value.GetHomePageNotes().Should().HaveCount(2);
         Sut.Value.GetHomePageNotes().Should().NotContain(x => x.Id == deletedNote.Id);
     }
@@ -86,10 +80,24 @@ public class AppStateDeletingTests : TestBase
     public async Task NotesCanBeRestoredFromTrash()
     {
         await NotesCanBeDeleted();
-        var deletedNote = GetDeletedNotes().Single();
+        var deletedNote = Sut.Value.GetDeletedNotes().Single();
 
         Dispatch(new NoteActions.RestoreNoteFromTrashAction(deletedNote.Id));
 
-        GetDeletedNotes().Should().BeEmpty();
+        Sut.Value.GetDeletedNotes().Should().BeEmpty();
+    }
+
+    [Fact]
+    public void JustDeletedItemsAreListedFirst()
+    {
+        var (note1, note2, note3) = CreateThreeNotes();
+        Dispatch(new NoteActions.DeleteNoteAction(note2.Id));
+        Thread.Sleep(1);
+        Dispatch(new NoteActions.DeleteNoteAction(note3.Id));
+        Thread.Sleep(1);
+        Dispatch(new NoteActions.DeleteNoteAction(note1.Id));
+
+        var ids = Sut.Value.GetDeletedNotes().Select(x => x.Id).ToList();
+        ids.Should().BeEquivalentTo([note1.Id, note3.Id, note2.Id], opt => opt.WithStrictOrdering());
     }
 }

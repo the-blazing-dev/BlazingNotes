@@ -20,7 +20,7 @@
     </MudStack>
 
     @{
-        var all = AppState.Value.Notes.Where(x => x.DeletedAt.HasValue).ToList();
+        var all = AppState.Value.GetDeletedNotes();
         var (longEnough, highlightText, matches) = NoteSearcher.Search(all, _search);
 
         <NoteCardList Notes="matches"

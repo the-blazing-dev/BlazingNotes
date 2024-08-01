@@ -31,6 +31,14 @@ public record AppState
             .ToList();
     }
 
+    public ICollection<Note> GetDeletedNotes()
+    {
+        return Notes
+            .Where(x => x.DeletedAt.HasValue)
+            .OrderByDescending(x => x.DeletedAt)
+            .ToList();
+    }
+
     public HashSet<string> GetTags()
     {
         // a short test in LinqPad resulted in 10ms for 10_000 notes which is fast enough for now
