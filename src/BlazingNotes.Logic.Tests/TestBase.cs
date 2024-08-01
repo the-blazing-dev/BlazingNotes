@@ -1,10 +1,5 @@
 using BlazingNotes.Infrastructure.Data;
 using BlazingNotes.Infrastructure.State;
-using BlazingNotes.Logic.Entities;
-using BlazingNotes.Logic.State;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Xunit.Abstractions;
 using UnhandledExceptionEventArgs = Fluxor.Exceptions.UnhandledExceptionEventArgs;
 
 namespace BlazingNotes.Logic.Tests;

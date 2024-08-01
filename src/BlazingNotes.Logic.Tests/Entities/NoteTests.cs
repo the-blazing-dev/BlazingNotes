@@ -1,5 +1,3 @@
-using BlazingNotes.Logic.Entities;
-
 namespace BlazingNotes.Logic.Tests.Entities;
 
 public class NoteTests

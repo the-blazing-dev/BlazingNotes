@@ -1,7 +1,3 @@
-using BlazingNotes.Logic.State;
-using Microsoft.Extensions.DependencyInjection;
-using Xunit.Abstractions;
-
 namespace BlazingNotes.Logic.Tests.State;
 
 public class AppStateUntaggedTests : TestBase

@@ -1,10 +1,3 @@
-using BlazingNotes.Logic.Entities;
-using BlazingNotes.Logic.State;
-using BlazingNotes.Logic.Tests.TestSupport;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Xunit.Abstractions;
-
 namespace BlazingNotes.Logic.Tests.State;
 
 public class AppStateDeletingTests : TestBase
