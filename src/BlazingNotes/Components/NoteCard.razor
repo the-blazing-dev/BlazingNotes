@@ -13,7 +13,7 @@
             <TimestampRenderer Timestamp="Note.ArchivedAt" Class="ml-2" HoverTitle="Archived" Prefix="A:"/>
         </MudStack>
         <MudSpacer/>
-        @if (Note.IsArchived)
+        @if (Note.ArchivedAt.HasValue)
         {
             <MudIconButton Icon="@Icons.Material.Filled.Archive"
                            Color="Color.Primary"

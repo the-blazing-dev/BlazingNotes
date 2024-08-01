@@ -9,7 +9,7 @@ public record AppState
 
     public ICollection<Note> GetHomePageNotes()
     {
-        return Notes.Where(x => !x.IsArchived)
+        return Notes.Where(x => x.ArchivedAt == null)
             .OrderByDescending(x => x.CreatedAt)
             .Take(10)
             .ToList();
@@ -22,7 +22,7 @@ public record AppState
 
     public ICollection<Note> GetArchivedNotes()
     {
-        return Notes.Where(x => x.IsArchived)
+        return Notes.Where(x => x.ArchivedAt != null)
             .OrderByDescending(x => x.ArchivedAt)
             .ToList();
     }

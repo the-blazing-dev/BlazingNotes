@@ -45,8 +45,8 @@ public class AppStateTests : TestBase
 
         await ExecuteOnDb(async db =>
         {
-            db.Notes.Add(new Note { Text = "I'm archived", IsArchived = true });
-            db.Notes.Add(new Note { Text = "I'm not archived", IsArchived = false });
+            db.Notes.Add(new Note { Text = "I'm archived", ArchivedAt = DateTime.UtcNow });
+            db.Notes.Add(new Note { Text = "I'm not archived", ArchivedAt = null });
             await db.SaveChangesAsync();
         });
 
@@ -54,8 +54,8 @@ public class AppStateTests : TestBase
         Dispatch(action!);
 
         Sut.Value.Notes.Should().HaveCount(2);
-        Sut.Value.GetHomePageNotes().Should().HaveCount(1).And.OnlyContain(x => !x.IsArchived);
-        Sut.Value.GetArchivedNotes().Should().HaveCount(1).And.OnlyContain(x => x.IsArchived);
+        Sut.Value.GetHomePageNotes().Should().HaveCount(1).And.OnlyContain(x => x.ArchivedAt == null);
+        Sut.Value.GetArchivedNotes().Should().HaveCount(1).And.OnlyContain(x => x.ArchivedAt != null);
     }
 
     [Fact]
@@ -221,7 +221,6 @@ public class AppStateTests : TestBase
         await ExecuteOnDb(async db =>
         {
             var entity = await db.Notes.FindAsync(note2.Id);
-            entity!.IsArchived.Should().BeTrue();
             entity.ArchivedAt.Should().BeCloseToNow();
         });
     }
@@ -235,7 +234,7 @@ public class AppStateTests : TestBase
         await ExecuteOnDb(async db =>
         {
             var entity = await db.Notes.FindAsync(note2.Id);
-            entity!.IsArchived.Should().BeTrue();
+            entity.ArchivedAt.Should().BeCloseToNow();
             entity.ModifiedAt.Should().BeNull(); // not wanted for now
         });
     }
@@ -246,7 +245,7 @@ public class AppStateTests : TestBase
         var (_, note2, _) = CreateThreeNotes();
         Dispatch(new NoteActions.ArchiveNoteAction(note2.Id));
 
-        Sut.Value.Notes.Should().Contain(x => x.Id == note2.Id && x.IsArchived == true);
+        Sut.Value.Notes.Should().Contain(x => x.Id == note2.Id && x.ArchivedAt.HasValue);
     }
 
     [Fact]
@@ -259,11 +258,10 @@ public class AppStateTests : TestBase
         await ExecuteOnDb(async db =>
         {
             var entity = await db.Notes.FindAsync(note2.Id);
-            entity!.IsArchived.Should().BeFalse();
             entity.ArchivedAt.Should().BeNull();
         });
 
-        Sut.Value.Notes.Should().Contain(x => x.Id == note2.Id && x.IsArchived == false);
+        Sut.Value.Notes.Should().Contain(x => x.Id == note2.Id && x.ArchivedAt == null);
     }
 
     [Fact]

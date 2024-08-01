@@ -42,7 +42,7 @@
             // use two spacers so the "second prio" actions are a little bit separated from Save+Cancel
             // but also not too much at the left edge
             <MudSpacer/>
-            @if (Note.IsArchived)
+            @if (Note.ArchivedAt.HasValue)
             {
                 <MudButton Color="Color.Primary"
                            OnClick="HandleRestore">
