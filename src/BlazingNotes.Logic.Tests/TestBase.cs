@@ -1,5 +1,6 @@
 using BlazingNotes.Infrastructure.Data;
 using BlazingNotes.Infrastructure.State;
+using BlazingNotes.Logic.Entities;
 using BlazingNotes.Logic.State;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -61,5 +62,17 @@ public class TestBase
             var db = scope.ServiceProvider.GetRequiredService<AppDb>();
             return await action(db);
         }
+    }
+
+    protected (Note note1, Note note2, Note note3) CreateThreeNotes()
+    {
+        Dispatch(new NoteActions.CreateNoteRequestAction("Note1 #first"));
+        Dispatch(new NoteActions.CreateNoteRequestAction("Note2 #second"));
+        Dispatch(new NoteActions.CreateNoteRequestAction("Note3 #third #last"));
+
+        var state = Services.GetRequiredService<IState<AppState>>();
+        var notes = state.Value.Notes.OrderBy(x => x.Text).ToList();
+        notes.Should().HaveCount(3);
+        return (notes[0], notes[1], notes[2]);
     }
 }
