@@ -13,7 +13,7 @@
 
     @{
         // .ToList() could be a performance/memory issue somewhen
-        var all = AppState.Value.Notes.Where(x => x.DeletedAt == null).ToList();
+        var all = AppState.Value.GetSearchableNotes();
         if (NoteSearcher.IsSearchTermLongEnough(Query ?? ""))
         {
             <NoteCardListSeparated Notes="all" SearchText="@Query"/>

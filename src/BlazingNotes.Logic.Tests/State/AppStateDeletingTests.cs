@@ -61,13 +61,26 @@ public class AppStateDeletingTests : TestBase
     }
 
     [Fact]
-    public async Task TrashedNotes_AreNotShownInArchivedPage()
+    public async Task TrashedNotes_AreNotVisibleInArchivedPage()
     {
         (_, _, var note) = CreateThreeNotes();
         Dispatch(new NoteActions.ArchiveNoteAction(note.Id));
         Dispatch(new NoteActions.TrashNoteAction(note.Id));
 
         Sut.Value.GetArchivedNotes().Should().NotContain(x => x.Id == note.Id);
+    }
+
+    [Fact]
+    public void TrashedNotes_AreNotVisibleInSearchableNotes()
+    {
+        var (note1, note2, note3) = CreateThreeNotes();
+        Dispatch(new NoteActions.TrashNoteAction(note3.Id));
+
+        var result = Sut.Value.GetSearchableNotes();
+        result.Should().HaveCount(2);
+        result.Should().Contain(x => x.Id == note1.Id);
+        result.Should().Contain(x => x.Id == note2.Id); // archive is ok
+        result.Should().NotContain(x => x.Id == note3.Id); // trashing not
     }
 
     [Fact]

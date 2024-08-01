@@ -7,11 +7,17 @@ public record AppState
     public Note? CurrentlyEditingNote { get; init; }
     public bool ShowCreateNoteDialog { get; set; }
 
-    public ICollection<Note> GetHomePageNotes()
+    public ICollection<Note> GetSearchableNotes()
     {
         return Notes
-            .Where(x => x.ArchivedAt == null)
             .Where(x => x.DeletedAt == null)
+            .ToList();
+    }
+
+    public ICollection<Note> GetHomePageNotes()
+    {
+        return GetSearchableNotes()
+            .Where(x => x.ArchivedAt == null)
             .OrderByDescending(x => x.CreatedAt)
             .Take(10)
             .ToList();
@@ -19,8 +25,7 @@ public record AppState
 
     public ICollection<Note> GetUntaggedNotes()
     {
-        return Notes
-            .Where(x => x.DeletedAt == null)
+        return GetSearchableNotes()
             .Where(x => x.GetTags().Count == 0)
             .OrderByDescending(x => x.CreatedAt)
             .ToList();
@@ -28,9 +33,8 @@ public record AppState
 
     public ICollection<Note> GetArchivedNotes()
     {
-        return Notes
+        return GetSearchableNotes()
             .Where(x => x.ArchivedAt != null)
-            .Where(x => x.DeletedAt == null) // deleted wins
             .OrderByDescending(x => x.ArchivedAt)
             .ToList();
     }

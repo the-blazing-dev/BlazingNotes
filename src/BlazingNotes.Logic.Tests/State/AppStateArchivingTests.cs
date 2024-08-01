@@ -104,4 +104,14 @@ public class AppStateArchivingTests : TestBase
         var archivedIds = Sut.Value.GetArchivedNotes().Select(x => x.Id).ToList();
         archivedIds.Should().BeEquivalentTo([note1.Id, note3.Id, note2.Id], opt => opt.WithStrictOrdering());
     }
+
+    [Fact]
+    public void ArchivedNotes_AreVisibleInSearchableNotes()
+    {
+        var (_, _, note3) = CreateThreeNotes();
+        Dispatch(new NoteActions.ArchiveNoteAction(note3.Id));
+
+        var result = Sut.Value.GetSearchableNotes();
+        result.Should().HaveCount(3);
+    }
 }
