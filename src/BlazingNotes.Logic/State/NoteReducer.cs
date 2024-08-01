@@ -75,7 +75,7 @@ public static class NoteReducer
     }
 
     [ReducerMethod]
-    public static AppState Reduce(AppState state, NoteActions.RestoreNoteSuccessAction action)
+    public static AppState Reduce(AppState state, NoteActions.RestoreNoteFromArchiveSuccessAction action)
     {
         return UpdateNote(state, action.Note);
     }

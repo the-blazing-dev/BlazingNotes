@@ -86,7 +86,7 @@ public class AppStateArchivingTests : TestBase
     {
         var (_, note2, _) = CreateThreeNotes();
         Dispatch(new NoteActions.ArchiveNoteAction(note2.Id));
-        Dispatch(new NoteActions.RestoreNoteAction(note2.Id));
+        Dispatch(new NoteActions.RestoreNoteFromArchiveAction(note2.Id));
 
         await ExecuteOnDb(async db =>
         {

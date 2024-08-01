@@ -77,14 +77,14 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
     }
 
     [EffectMethod]
-    public async Task Handle(NoteActions.RestoreNoteAction action, IDispatcher dispatcher)
+    public async Task Handle(NoteActions.RestoreNoteFromArchiveAction action, IDispatcher dispatcher)
     {
         await using var db = await dbFactory.CreateDbContextAsync();
         var noteFresh = await db.Notes.FindAsync(action.NoteId); // todo FindRequiredAsync
         noteFresh.ArchivedAt = null;
         await db.SaveChangesAsync();
 
-        dispatcher.Dispatch(new NoteActions.RestoreNoteSuccessAction(noteFresh));
+        dispatcher.Dispatch(new NoteActions.RestoreNoteFromArchiveSuccessAction(noteFresh));
     }
 
     [EffectMethod]

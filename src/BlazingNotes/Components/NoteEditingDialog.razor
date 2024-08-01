@@ -161,7 +161,7 @@
 
     private void HandleRestore()
     {
-        Dispatch(new NoteActions.RestoreNoteAction(Note!.Id));
+        Dispatch(new NoteActions.RestoreNoteFromArchiveAction(Note!.Id));
         HandleSave(); // if the text was changed + to close the dialog
     }
 

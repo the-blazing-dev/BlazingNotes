@@ -45,7 +45,7 @@
 
     private void HandleRestore()
     {
-        Dispatch(new NoteActions.RestoreNoteAction(Note.Id));
+        Dispatch(new NoteActions.RestoreNoteFromArchiveAction(Note.Id));
     }
 
     private void HandleDblClick()
