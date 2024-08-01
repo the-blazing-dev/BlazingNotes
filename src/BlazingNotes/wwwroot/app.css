@@ -47,7 +47,7 @@ bz-tag {
     color: var(--mud-palette-primary);
 }
 
-.bz-mud-nav-link-dense > a {
-    padding-top: 0;
-    padding-bottom: 0;
+/* use default color for the icons of active menu items */
+.mud-nav-link.active > svg {
+    color: var(--mud-palette-primary) !important;
 }

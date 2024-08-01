@@ -1,12 +1,12 @@
 @inject IState<AppState> AppState
 
 <MudNavMenu>
-    <MudNavLink Href="/" Match="NavLinkMatch.All">Home</MudNavLink>
-    <MudNavLink Href="/search" Match="NavLinkMatch.Prefix">Search</MudNavLink>
-    <MudNavLink Href="/tags" Match="NavLinkMatch.Prefix">Tags</MudNavLink>
-    <MudNavLink Href="/untagged" Match="NavLinkMatch.Prefix">Untagged</MudNavLink>
-    <MudNavLink Href="/archived" Match="NavLinkMatch.Prefix">Archived</MudNavLink>
-    <MudNavLink Href="/trash" Match="NavLinkMatch.Prefix">Trash</MudNavLink>
+    <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Outlined.Home">Home</MudNavLink>
+    <MudNavLink Href="/search" Icon="@Icons.Material.Outlined.Search">Search</MudNavLink>
+    <MudNavLink Href="/tags" Icon="@Icons.Material.Outlined.Tag">Tags</MudNavLink>
+    <MudNavLink Href="/untagged" Icon="@Icons.Material.Outlined.QuestionMark">Untagged</MudNavLink>
+    <MudNavLink Href="/archived" Icon="@Icons.Material.Outlined.Archive">Archived</MudNavLink>
+    <MudNavLink Href="/trash" Icon="@Icons.Material.Outlined.Delete">Trash</MudNavLink>
 </MudNavMenu>
 
 @code {
