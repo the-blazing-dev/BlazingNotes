@@ -55,14 +55,18 @@
                         @if (Note.DeletedAt.HasValue)
                         {
                             <MudButton Color="Color.Primary"
-                                       OnClick="HandleRestoreFromTrash">
+                                       OnClick="HandleRestoreFromTrash"
+                                       accesskey="T"
+                                       title="[accesskey + T]">
                                 Restore from trash
                             </MudButton>
                         }
                         else
                         {
                             <MudButton Color="Color.Warning"
-                                       OnClick="HandleTrash">
+                                       OnClick="HandleTrash"
+                                       accesskey="T"
+                                       title="[accesskey + T]">
                                 Trash
                             </MudButton>
                         }
@@ -86,14 +90,18 @@
                 if (Note.ArchivedAt.HasValue)
                 {
                     <MudButton Color="Color.Primary"
-                               OnClick="HandleRestoreFromArchive">
+                               OnClick="HandleRestoreFromArchive"
+                               accesskey="A"
+                               title="[accesskey + A]">
                         Restore from archive
                     </MudButton>
                 }
                 else
                 {
                     <MudButton Color="Color.Primary"
-                               OnClick="HandleArchive">
+                               OnClick="HandleArchive"
+                               accesskey="A"
+                               title="[accesskey + A]">
                         Archive
                     </MudButton>
                 }
@@ -101,11 +109,14 @@
 
             <MudSpacer/>
         }
-        <MudButton OnClick="HandleCancel">
+        <MudButton OnClick="HandleCancel"
+                   title="[Esc]">
             Cancel
         </MudButton>
         <MudButton Color="Color.Success"
-                   OnClick="HandleSave">
+                   OnClick="HandleSave"
+                   accesskey="S"
+                   title="[accesskey + S]">
             Save
         </MudButton>
     </DialogActions>
