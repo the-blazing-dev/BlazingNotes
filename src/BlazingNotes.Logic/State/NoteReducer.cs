@@ -95,9 +95,11 @@ public static class NoteReducer
     [ReducerMethod]
     public static AppState Reduce(AppState state, NoteActions.DeleteNotePermanentlySuccessAction action)
     {
+        var needsToClearEditingNote = state.CurrentlyEditingNote?.Id == action.NoteId;
         return state with
         {
-            Notes = state.Notes.RemoveAll(x => x.Id == action.NoteId)
+            Notes = state.Notes.RemoveAll(x => x.Id == action.NoteId),
+            CurrentlyEditingNote = needsToClearEditingNote ? null : state.CurrentlyEditingNote
         };
     }
 

@@ -120,4 +120,17 @@ public class AppStateDeletingTests : TestBase
             count.Should().Be(1);
         });
     }
+
+    [Fact]
+    public void WhenANoteIsDeletedPermanently_ItIsRemovedFromEditingState()
+    {
+        var (note1, _, _) = CreateThreeNotes();
+        Dispatch(new NoteActions.StartNoteEditingAction(note1));
+
+        Dispatch(new NoteActions.DeleteNotePermanentlyAction(note1.Id));
+
+        Sut.Value.CurrentlyEditingNote.Should().BeNull();
+        Sut.Value.Notes.Should().HaveCount(2);
+        Sut.Value.GetDeletedNotes().Should().HaveCount(0);
+    }
 }

@@ -44,20 +44,42 @@
             // but also not too much at the left edge
             <MudSpacer/>
 
-            @if (Note.DeletedAt.HasValue)
-            {
-                <MudButton Color="Color.Primary"
-                           OnClick="HandleRestoreFromTrash">
-                    Restore from trash
-                </MudButton>
-            }
-            else
-            {
-                <MudButton Color="Color.Warning"
-                           OnClick="HandleTrash">
-                    Trash
-                </MudButton>
-            }
+            @* MudMenu is used as context menu *@
+            <MudMenu ActivationEvent="MouseEvent.RightClick"
+                     AnchorOrigin="Origin.TopCenter"
+                     TransformOrigin="Origin.BottomCenter">
+                <ActivatorContent>
+                    @* we need to additionally check for null to prevent exception when dispatching the final delete *@
+                    @if (Note != null)
+                    {
+                        @if (Note.DeletedAt.HasValue)
+                        {
+                            <MudButton Color="Color.Primary"
+                                       OnClick="HandleRestoreFromTrash">
+                                Restore from trash
+                            </MudButton>
+                        }
+                        else
+                        {
+                            <MudButton Color="Color.Warning"
+                                       OnClick="HandleTrash">
+                                Trash
+                            </MudButton>
+                        }
+                    }
+                </ActivatorContent>
+                <ChildContent>
+                    @* here we define the secondary action *@
+                    @* we pass the NoteId because the state will change in the meantime... *@
+                    <MudMenuItem OnClick="() => HandleDeletePermanently(Note.Id)"
+                                 Icon="@Icons.Material.Filled.DeleteForever"
+                                 IconColor="Color.Error">
+                        <MudText Color="Color.Error">
+                            Delete permanently!
+                        </MudText>
+                    </MudMenuItem>
+                </ChildContent>
+            </MudMenu>
 
             @if (Note.DeletedAt == null)
             {
@@ -195,6 +217,12 @@
     {
         Dispatch(new NoteActions.RestoreNoteFromTrashAction(Note!.Id));
         HandleSave(); // if the text was changed + to close the dialog
+    }
+
+    private void HandleDeletePermanently(Guid noteId)
+    {
+        Dispatch(new NoteActions.DeleteNotePermanentlyAction(noteId));
+// no other method call needed because CurrentlyEditingNote is cleared automatically by reducers
     }
 
 }
