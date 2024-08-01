@@ -20,24 +20,56 @@
             }
         </MudStack>
         <MudSpacer/>
-        @if (Note.DeletedAt.HasValue)
-        {
-            <MudIconButton Icon="@Icons.Material.Filled.RestoreFromTrash"
-                           Color="Color.Primary"
-                           OnClick="HandleRestoreFromTrash"
-                           title="Restore from trash"/>
-        }
-        else if (Note.ArchivedAt.HasValue)
-        {
-            <MudIconButton Icon="@Icons.Material.Filled.Unarchive"
-                           Color="Color.Primary"
-                           OnClick="HandleRestoreFromArchive"/>
-        }
-        else
-        {
-            <MudIconButton Icon="@Icons.Material.Outlined.Archive"
-                           OnClick="HandleArchive"/>
-        }
+
+        @* MudMenu is used as context menu *@
+        <MudMenu ActivationEvent="MouseEvent.RightClick"
+                 AnchorOrigin="Origin.TopRight"
+                 TransformOrigin="Origin.BottomRight">
+            <ActivatorContent>
+                @* the activator content represents the primary action *@
+                @if (Note.DeletedAt.HasValue)
+                {
+                    <MudIconButton Icon="@Icons.Material.Filled.RestoreFromTrash"
+                                   Color="Color.Primary"
+                                   OnClick="HandleRestoreFromTrash"
+                                   title="Restore from trash"/>
+                }
+                else if (Note.ArchivedAt.HasValue)
+                {
+                    <MudIconButton Icon="@Icons.Material.Filled.Unarchive"
+                                   Color="Color.Primary"
+                                   OnClick="HandleRestoreFromArchive"/>
+                }
+                else
+                {
+                    <MudIconButton Icon="@Icons.Material.Outlined.Archive"
+                                   OnClick="HandleArchive"/>
+                }
+            </ActivatorContent>
+            <ChildContent>
+                @* here we define the secondary action *@
+                @if (Note.DeletedAt.HasValue)
+                {
+                    <MudMenuItem OnClick="HandleDeletePermanently"
+                                 Icon="@Icons.Material.Filled.DeleteForever"
+                                 IconColor="Color.Error">
+                        <MudText Color="Color.Error">
+                            Delete permanently!
+                        </MudText>
+                    </MudMenuItem>
+                }
+                else
+                {
+                    <MudMenuItem OnClick="HandleTrash"
+                                 Icon="@Icons.Material.Filled.DeleteOutline"
+                                 IconColor="Color.Warning">
+                        <MudText Color="Color.Warning">
+                            Trash
+                        </MudText>
+                    </MudMenuItem>
+                }
+            </ChildContent>
+        </MudMenu>
         <MudIconButton Icon="@Icons.Material.Outlined.Edit"
                        OnClick="HandleClick"/>
     </MudCardActions>
@@ -62,9 +94,19 @@
         Dispatch(new NoteActions.RestoreNoteFromArchiveAction(Note.Id));
     }
 
+    private void HandleTrash()
+    {
+        Dispatch(new NoteActions.TrashNoteAction(Note.Id));
+    }
+
     private void HandleRestoreFromTrash()
     {
         Dispatch(new NoteActions.RestoreNoteFromTrashAction(Note.Id));
+    }
+
+    private void HandleDeletePermanently()
+    {
+        Dispatch(new NoteActions.DeleteNotePermanentlyAction(Note.Id));
     }
 
     private void HandleDblClick()
