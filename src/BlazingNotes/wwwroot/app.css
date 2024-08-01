@@ -29,6 +29,10 @@ h1:focus {
 }
 
 /* app-specific styles */
+.note-card-width {
+    width: 300px;
+}
+
 .bg-appbar {
     background-color: var(--mud-palette-appbar-background) !important;
 }

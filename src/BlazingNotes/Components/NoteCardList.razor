@@ -13,11 +13,16 @@
     @* no headline - the card is probably the only one - hide icon and disable toggling *@
 
     <MudStack Row Wrap="Wrap.Wrap" Spacing="6">
-        @foreach (var item in Notes)
+        @if (Notes.HasContent())
         {
-            <NoteCard Note="item" SearchText="@SearchText"/>
+            foreach (var item in Notes)
+            {
+                <NoteCard Note="item" SearchText="@SearchText"/>
+            }
+
+            @AfterLastCardContent
         }
-        @if (Notes.HasContent() == false)
+        else
         {
             <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="d-inline-block">
                 @if (SearchText.HasContent())
@@ -30,6 +35,7 @@
                 }
             </MudAlert>
         }
+
     </MudStack>
 
 </MudExpansionPanel>
@@ -41,5 +47,5 @@
     [Parameter] public string? Headline { get; set; }
     [Parameter] public bool InitiallyExpanded { get; set; } = true;
     [Parameter] public bool ShowNoteCount { get; set; } = true;
-
+    [Parameter] public RenderFragment? AfterLastCardContent { get; set; }
 }

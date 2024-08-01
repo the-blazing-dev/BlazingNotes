@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using BlazingNotes.Logic.Services
 @inject IState<AppState> AppState
 
 <PageTitle>Home</PageTitle>
@@ -37,9 +38,37 @@
         </MudStack>
     </div>
 
-    <NoteCardList Headline="Suchergebnisse"
-                  Notes="[]"
-                  NoNotesText="noch nicht implementiert"/>
+    @{
+        if (NoteSearcher.IsSearchTermLongEnough(_input))
+        {
+            var searchable = AppState.Value.GetSearchableNotes().OrderByDescending(x => x.CreatedAt).ToList();
+            var (_, highlight, matches) = NoteSearcher.Search(searchable, _input);
+            var matchesTake = matches.Take(10).ToList();
+            <NoteCardList Headline="Suchergebnisse"
+                          Notes="matchesTake"
+                          SearchText="@_input">
+                <AfterLastCardContent>
+                    @if (matches.Count > matchesTake.Count)
+                    {
+                        var href = SearchPage.GetUrl(_input);
+                        <MudButton Href="@href"
+                                   Variant="Variant.Outlined"
+                                   EndIcon="@Icons.Material.Filled.ArrowForward"
+                                   Class="note-card-width">
+                            Continue search
+                        </MudButton>
+                    }
+                </AfterLastCardContent>
+            </NoteCardList>
+        }
+        else
+        {
+            <NoteCardList Headline="Suchergebnisse"
+                          Notes="[]"
+                          NoNotesText="Bitte einen Suchbegriff mit mindestens 3 Zeichen eingeben"
+                          InitiallyExpanded="false"/>
+        }
+    }
     <NoteCardList Headline="Zuletzt erstellt"
                   Notes="AppState.Value.GetHomePageNotes()"
                   ShowNoteCount="false"/>

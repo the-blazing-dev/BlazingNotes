@@ -1,5 +1,4 @@
 @page "/tags"
-@using System.Net
 @inject IState<AppState> AppState
 
 <PageTitle>Trash</PageTitle>
@@ -25,8 +24,7 @@
 
                     @foreach (var tag in group)
                     {
-                        // url encoding is needed because #sometag would be the fragment part of a URI
-                        var href = $"/search?q={WebUtility.UrlEncode(tag)}";
+                        var href = SearchPage.GetUrl(tag);
                         <MudChip Value="tag" Href="@href"
                                  Variant="Variant.Outlined" Color="Color.Primary"/>
                     }
