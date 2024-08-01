@@ -81,4 +81,15 @@ public class AppStateDeletingTests : TestBase
 
         Sut.Value.GetArchivedNotes().Should().NotContain(x => x.Id == note.Id);
     }
+
+    [Fact]
+    public async Task NotesCanBeRestoredFromTrash()
+    {
+        await NotesCanBeDeleted();
+        var deletedNote = GetDeletedNotes().Single();
+
+        Dispatch(new NoteActions.RestoreNoteFromTrashAction(deletedNote.Id));
+
+        GetDeletedNotes().Should().BeEmpty();
+    }
 }
