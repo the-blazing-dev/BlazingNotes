@@ -32,6 +32,7 @@
                     <TimestampRenderer Timestamp="Note.CreatedAt" Prefix="Created:"/>
                     <TimestampRenderer Timestamp="Note.ModifiedAt" Prefix="Modified:"/>
                     <TimestampRenderer Timestamp="Note.ArchivedAt" Prefix="Archived:"/>
+                    <TimestampRenderer Timestamp="Note.DeletedAt" Prefix="Deleted:"/>
                 </MudStack>
             }
         </MudStack>
@@ -42,11 +43,12 @@
             // use two spacers so the "second prio" actions are a little bit separated from Save+Cancel
             // but also not too much at the left edge
             <MudSpacer/>
+
             @if (Note.ArchivedAt.HasValue)
             {
                 <MudButton Color="Color.Primary"
-                           OnClick="HandleRestore">
-                    Restore
+                           OnClick="HandleRestoreFromArchive">
+                    Restore from archive
                 </MudButton>
             }
             else
@@ -54,6 +56,21 @@
                 <MudButton Color="Color.Primary"
                            OnClick="HandleArchive">
                     Archive
+                </MudButton>
+            }
+
+            @if (Note.DeletedAt.HasValue)
+            {
+                <MudButton Color="Color.Primary"
+                           OnClick="HandleRestoreFromTrash">
+                    Restore from trash
+                </MudButton>
+            }
+            else
+            {
+                <MudButton Color="Color.Warning"
+                           OnClick="HandleDelete">
+                    Delete
                 </MudButton>
             }
 
@@ -159,9 +176,21 @@
         HandleSave(); // if the text was changed + to close the dialog
     }
 
-    private void HandleRestore()
+    private void HandleRestoreFromArchive()
     {
         Dispatch(new NoteActions.RestoreNoteFromArchiveAction(Note!.Id));
+        HandleSave(); // if the text was changed + to close the dialog
+    }
+
+    private void HandleDelete()
+    {
+        Dispatch(new NoteActions.DeleteNoteAction(Note!.Id));
+        HandleSave(); // if the text was changed + to close the dialog
+    }
+
+    private void HandleRestoreFromTrash()
+    {
+        Dispatch(new NoteActions.RestoreNoteFromTrashAction(Note!.Id));
         HandleSave(); // if the text was changed + to close the dialog
     }
 

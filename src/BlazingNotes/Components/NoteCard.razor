@@ -10,7 +10,14 @@
     <MudCardActions>
         <MudStack Spacing="0">
             <TimestampRenderer Timestamp="Note.CreatedAt" Class="ml-2" HoverTitle="Created"/>
-            <TimestampRenderer Timestamp="Note.ArchivedAt" Class="ml-2" HoverTitle="Archived" Prefix="A:"/>
+            @if (Note.DeletedAt.HasValue)
+            {
+                <TimestampRenderer Timestamp="Note.DeletedAt" Class="ml-2" HoverTitle="Deleted" Prefix="D:"/>
+            }
+            else
+            {
+                <TimestampRenderer Timestamp="Note.ArchivedAt" Class="ml-2" HoverTitle="Archived" Prefix="A:"/>
+            }
         </MudStack>
         <MudSpacer/>
         @if (Note.ArchivedAt.HasValue)

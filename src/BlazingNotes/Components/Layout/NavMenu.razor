@@ -14,11 +14,14 @@
         }
     </MudNavGroup>
     @* explicit bg color needed because of overlaying other items *@
-    <MudNavLink Href="/archived" Match="NavLinkMatch.Prefix"
-                Class="sticky bg-appbar"
-                Style="bottom: 0">
-        Archived
-    </MudNavLink>
+    <div class="sticky bg-appbar" style="bottom: 0">
+        <MudNavLink Href="/archived" Match="NavLinkMatch.Prefix">
+            Archived
+        </MudNavLink>
+        <MudNavLink Href="/trash" Match="NavLinkMatch.Prefix">
+            Trash
+        </MudNavLink>
+    </div>
 </MudNavMenu>
 
 @code {
