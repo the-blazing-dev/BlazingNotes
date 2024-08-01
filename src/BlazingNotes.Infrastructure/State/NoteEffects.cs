@@ -109,6 +109,17 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
         dispatcher.Dispatch(new NoteActions.RestoreNoteFromTrashSuccessAction(noteFresh));
     }
 
+    [EffectMethod]
+    public async Task Handle(NoteActions.DeleteNotePermanentlyAction action, IDispatcher dispatcher)
+    {
+        await using var db = await dbFactory.CreateDbContextAsync();
+        var noteFresh = await db.Notes.FindAsync(action.NoteId); // todo FindRequiredAsync
+        db.Remove(noteFresh);
+        await db.SaveChangesAsync();
+
+        dispatcher.Dispatch(new NoteActions.DeleteNotePermanentlySuccessAction(action.NoteId));
+    }
+
     private void Clean(Note note)
     {
         note.Text = note.Text.Trim();

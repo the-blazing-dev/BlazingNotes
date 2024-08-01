@@ -26,4 +26,7 @@ public static class NoteActions
     public record TrashNoteSuccessAction(Note Note);
     public record RestoreNoteFromTrashAction(Guid NoteId);
     public record RestoreNoteFromTrashSuccessAction(Note Note);
+
+    public record DeleteNotePermanentlyAction(Guid NoteId);
+    public record DeleteNotePermanentlySuccessAction(Guid NoteId);
 }

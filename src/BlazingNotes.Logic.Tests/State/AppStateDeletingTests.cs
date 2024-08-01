@@ -1,6 +1,7 @@
 using BlazingNotes.Logic.Entities;
 using BlazingNotes.Logic.State;
 using BlazingNotes.Logic.Tests.TestSupport;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit.Abstractions;
 
@@ -99,5 +100,24 @@ public class AppStateDeletingTests : TestBase
 
         var ids = Sut.Value.GetDeletedNotes().Select(x => x.Id).ToList();
         ids.Should().BeEquivalentTo([note1.Id, note3.Id, note2.Id], opt => opt.WithStrictOrdering());
+    }
+
+    [Fact]
+    public async Task NotesCanBeDeletedPermanently()
+    {
+        var (note1, note2, note3) = CreateThreeNotes();
+        // note 2 is trashed first and then deleted permanently
+        Dispatch(new NoteActions.TrashNoteAction(note2.Id));
+        Dispatch(new NoteActions.DeleteNotePermanentlyAction(note2.Id));
+        // note 3 is deleted permanently immediately
+        Dispatch(new NoteActions.DeleteNotePermanentlyAction(note3.Id));
+
+        Sut.Value.Notes.Should().HaveCount(1).And.ContainSingle(x => x == note1);
+
+        await ExecuteOnDb(async db =>
+        {
+            var count = await db.Notes.CountAsync();
+            count.Should().Be(1);
+        });
     }
 }

@@ -92,6 +92,15 @@ public static class NoteReducer
         return UpdateNote(state, action.Note);
     }
 
+    [ReducerMethod]
+    public static AppState Reduce(AppState state, NoteActions.DeleteNotePermanentlySuccessAction action)
+    {
+        return state with
+        {
+            Notes = state.Notes.RemoveAll(x => x.Id == action.NoteId)
+        };
+    }
+
     private static AppState UpdateNote(AppState state, Note updatedNote)
     {
         var oldNote = state.Notes.First(x => x.Id == updatedNote.Id);
