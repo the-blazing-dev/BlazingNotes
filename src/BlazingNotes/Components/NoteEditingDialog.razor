@@ -32,7 +32,7 @@
                     <TimestampRenderer Timestamp="Note.CreatedAt" Prefix="Created:"/>
                     <TimestampRenderer Timestamp="Note.ModifiedAt" Prefix="Modified:"/>
                     <TimestampRenderer Timestamp="Note.ArchivedAt" Prefix="Archived:"/>
-                    <TimestampRenderer Timestamp="Note.DeletedAt" Prefix="Deleted:"/>
+                    <TimestampRenderer Timestamp="Note.DeletedAt" Prefix="Trashed:"/>
                 </MudStack>
             }
         </MudStack>
@@ -54,8 +54,8 @@
             else
             {
                 <MudButton Color="Color.Warning"
-                           OnClick="HandleDelete">
-                    Delete
+                           OnClick="HandleTrash">
+                    Trash
                 </MudButton>
             }
 
@@ -185,9 +185,9 @@
         HandleSave(); // if the text was changed + to close the dialog
     }
 
-    private void HandleDelete()
+    private void HandleTrash()
     {
-        Dispatch(new NoteActions.DeleteNoteAction(Note!.Id));
+        Dispatch(new NoteActions.TrashNoteAction(Note!.Id));
         HandleSave(); // if the text was changed + to close the dialog
     }
 

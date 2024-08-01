@@ -12,7 +12,7 @@
             <TimestampRenderer Timestamp="Note.CreatedAt" Class="ml-2" HoverTitle="Created"/>
             @if (Note.DeletedAt.HasValue)
             {
-                <TimestampRenderer Timestamp="Note.DeletedAt" Class="ml-2" HoverTitle="Deleted" Prefix="D:"/>
+                <TimestampRenderer Timestamp="Note.DeletedAt" Class="ml-2" HoverTitle="Trashed" Prefix="T:"/>
             }
             else
             {

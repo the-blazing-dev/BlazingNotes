@@ -88,14 +88,14 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
     }
 
     [EffectMethod]
-    public async Task Handle(NoteActions.DeleteNoteAction action, IDispatcher dispatcher)
+    public async Task Handle(NoteActions.TrashNoteAction action, IDispatcher dispatcher)
     {
         await using var db = await dbFactory.CreateDbContextAsync();
         var noteFresh = await db.Notes.FindAsync(action.NoteId); // todo FindRequiredAsync
         noteFresh.DeletedAt = DateTime.UtcNow;
         await db.SaveChangesAsync();
 
-        dispatcher.Dispatch(new NoteActions.DeleteNoteSuccessAction(noteFresh));
+        dispatcher.Dispatch(new NoteActions.TrashNoteSuccessAction(noteFresh));
     }
 
     [EffectMethod]

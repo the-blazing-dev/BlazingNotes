@@ -81,7 +81,7 @@ public static class NoteReducer
     }
 
     [ReducerMethod]
-    public static AppState Reduce(AppState state, NoteActions.DeleteNoteSuccessAction action)
+    public static AppState Reduce(AppState state, NoteActions.TrashNoteSuccessAction action)
     {
         return UpdateNote(state, action.Note);
     }
