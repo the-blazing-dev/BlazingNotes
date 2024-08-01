@@ -1,27 +1,12 @@
-@using System.Net
 @inject IState<AppState> AppState
 
 <MudNavMenu>
     <MudNavLink Href="/" Match="NavLinkMatch.All">Home</MudNavLink>
     <MudNavLink Href="/search" Match="NavLinkMatch.Prefix">Search</MudNavLink>
+    <MudNavLink Href="/tags" Match="NavLinkMatch.Prefix">Tags</MudNavLink>
     <MudNavLink Href="/untagged" Match="NavLinkMatch.Prefix">Untagged</MudNavLink>
-    <MudNavGroup Title="Tags" Expanded="true">
-        @foreach (var tag in AppState.Value.GetTags().Order())
-        {
-            // url encoding is needed because #sometag would be the fragment part of a URI
-            var href = $"/search?q={WebUtility.UrlEncode(tag)}";
-            <MudNavLink Href="@href" Match="NavLinkMatch.Prefix" Class="bz-mud-nav-link-dense">@tag</MudNavLink>
-        }
-    </MudNavGroup>
-    @* explicit bg color needed because of overlaying other items *@
-    <div class="sticky bg-appbar" style="bottom: 0">
-        <MudNavLink Href="/archived" Match="NavLinkMatch.Prefix">
-            Archived
-        </MudNavLink>
-        <MudNavLink Href="/trash" Match="NavLinkMatch.Prefix">
-            Trash
-        </MudNavLink>
-    </div>
+    <MudNavLink Href="/archived" Match="NavLinkMatch.Prefix">Archived</MudNavLink>
+    <MudNavLink Href="/trash" Match="NavLinkMatch.Prefix">Trash</MudNavLink>
 </MudNavMenu>
 
 @code {

@@ -1,0 +1,37 @@
+@page "/tags"
+@using System.Net
+@inject IState<AppState> AppState
+
+<PageTitle>Trash</PageTitle>
+
+<MudStack>
+    @* todo check why it is completely different to native <h1> *@
+    @* todo think about placing the title in the navbar *@
+    <MudText Typo="Typo.h4" Color="Color.Primary">Tags</MudText>
+
+    @{
+        var tags = AppState.Value.GetTags().Order();
+        var grouped = tags.GroupBy(x => x[1].ToString().ToUpper())
+            .OrderBy(x => x.Key);
+
+        foreach (var group in grouped)
+        {
+            <MudStack Row>
+                <MudText Class="mr-2 mt-1" Typo="Typo.h6">
+                    @group.Key
+                </MudText>
+
+                <MudStack Row Wrap="Wrap.Wrap" Spacing="0">
+
+                    @foreach (var tag in group)
+                    {
+                        // url encoding is needed because #sometag would be the fragment part of a URI
+                        var href = $"/search?q={WebUtility.UrlEncode(tag)}";
+                        <MudChip Value="tag" Href="@href"
+                                 Variant="Variant.Outlined" Color="Color.Primary"/>
+                    }
+                </MudStack>
+            </MudStack>
+        }
+    }
+</MudStack>
