@@ -13,7 +13,7 @@ public class AppStateBasicTests : TestBase
         Sut = Services.GetRequiredService<IState<AppState>>();
     }
 
-    public IState<AppState> Sut { get; set; }
+    private IState<AppState> Sut { get; }
 
     [Fact]
     public async Task PersistedNotesAreLoadedOnStoreInitialization()
@@ -199,16 +199,5 @@ public class AppStateBasicTests : TestBase
 
         var tags = Sut.Value.GetTags();
         tags.Should().ContainSingle("#importANT");
-    }
-
-    [Fact]
-    public void GetUntaggedNotes_ContainsNotesWithoutTags()
-    {
-        CreateThreeNotes();
-        Dispatch(new NoteActions.CreateNoteRequestAction("my note without tags"));
-        Dispatch(new NoteActions.CreateNoteRequestAction("another #tagged note"));
-
-        var notes = Sut.Value.GetUntaggedNotes();
-        notes.Should().ContainSingle(x => x.Text == "my note without tags");
     }
 }

@@ -19,7 +19,11 @@ public record AppState
 
     public ICollection<Note> GetUntaggedNotes()
     {
-        return Notes.Where(x => x.GetTags().Count == 0).ToList();
+        return Notes
+            .Where(x => x.DeletedAt == null)
+            .Where(x => x.GetTags().Count == 0)
+            .OrderByDescending(x => x.CreatedAt)
+            .ToList();
     }
 
     public ICollection<Note> GetArchivedNotes()

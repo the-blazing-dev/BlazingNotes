@@ -66,13 +66,28 @@ public class TestBase
 
     protected (Note note1, Note note2, Note note3) CreateThreeNotes()
     {
-        Dispatch(new NoteActions.CreateNoteRequestAction("Note1 #first"));
-        Dispatch(new NoteActions.CreateNoteRequestAction("Note2 #second"));
-        Dispatch(new NoteActions.CreateNoteRequestAction("Note3 #third #last"));
+        var note1 = CreateNote("Note1 #first");
+        var note2 = CreateNote("Note2 #second");
+        var note3 = CreateNote("Note3 #third #last");
 
         var state = Services.GetRequiredService<IState<AppState>>();
         var notes = state.Value.Notes.OrderBy(x => x.Text).ToList();
         notes.Should().HaveCount(3);
-        return (notes[0], notes[1], notes[2]);
+        return (note1, note2, note3);
+    }
+
+    protected Note CreateNote(string text)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(text);
+
+        // wait some short time to have increasing timestamps
+        var expectedNow = DateTime.UtcNow.AddMilliseconds(1);
+        SpinWait.SpinUntil(() => DateTime.UtcNow >= expectedNow, TimeSpan.FromSeconds(1));
+
+        Dispatch(new NoteActions.CreateNoteRequestAction(text));
+
+        var state = Services.GetRequiredService<IState<AppState>>();
+        var note = state.Value.Notes.Last();
+        return note;
     }
 }
