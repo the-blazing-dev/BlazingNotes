@@ -14,7 +14,9 @@
 
     @{
         // .ToList() could be a performance/memory issue somewhen
-        var all = AppState.Value.GetSearchableNotes();
+        var all = AppState.Value.GetSearchableNotes()
+            .OrderByDescending(x => x.CreatedAt)
+            .ToList();
         if (NoteSearcher.IsSearchTermLongEnough(Query ?? ""))
         {
             <NoteCardListSeparated Notes="all" SearchText="@Query"/>
