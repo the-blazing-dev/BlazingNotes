@@ -2,7 +2,6 @@ using System.Reflection;
 using BlazingNotes.Components;
 using BlazingNotes.Infrastructure.Data;
 using BlazingNotes.Infrastructure.State;
-using Fluxor;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 
@@ -26,9 +25,9 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error", true);
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-}
 
-app.UseHttpsRedirection();
+    app.UseHttpsRedirection();
+}
 
 app.UseStaticFiles();
 app.UseAntiforgery();
