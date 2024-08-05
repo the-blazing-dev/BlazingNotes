@@ -139,4 +139,32 @@ public class AppStateDeletingTests : TestBase
         Sut.Value.Notes.Should().HaveCount(2);
         Sut.Value.GetDeletedNotes().Should().HaveCount(0);
     }
+
+    [Fact]
+    public async Task TooOldTrashedNotesAreDeletedOnAppStartup()
+    {
+        var limitDays = 30;
+        await ExecuteOnDb(async db =>
+        {
+            db.Notes.Add(new Note
+            {
+                Text = "finally deleted",
+                DeletedAt = DateTime.UtcNow.AddDays(limitDays * -1 -
+                                                    1) // additional "-1" to cross the "midnight" border
+            });
+            db.Notes.Add(new Note
+            {
+                Text = "soon deleted",
+                DeletedAt = DateTime.UtcNow.AddDays(limitDays * -1)
+            });
+
+            await db.SaveChangesAsync();
+        });
+
+        var action = Activator.CreateInstance(typeof(StoreInitializedAction), true)!;
+        Dispatch(action);
+
+        Sut.Value.Notes.Should().HaveCount(1);
+        Sut.Value.Notes.Single().Text.Should().Contain("soon");
+    }
 }

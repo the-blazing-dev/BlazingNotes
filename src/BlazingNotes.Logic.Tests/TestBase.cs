@@ -14,6 +14,7 @@ public class TestBase
     {
         _testOutputHelper = testOutputHelper;
         var services = new ServiceCollection();
+        services.AddLogging();
         services.AddDbContextFactory<AppDb>(x => x.UseInMemoryDatabase(Guid.NewGuid().ToString()));
         services.AddFluxor(options => options.ScanAssemblies(
             typeof(AppState).Assembly,

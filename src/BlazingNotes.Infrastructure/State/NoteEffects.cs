@@ -3,10 +3,11 @@ using BlazingNotes.Logic.Entities;
 using BlazingNotes.Logic.State;
 using Fluxor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BlazingNotes.Infrastructure.State;
 
-public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
+public class NoteEffects(IDbContextFactory<AppDb> dbFactory, ILogger<NoteEffects> logger)
 {
     [EffectMethod]
     public async Task Handle(StoreInitializedAction action, IDispatcher dispatcher)
@@ -18,7 +19,24 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory)
 
         await using var db = await dbFactory.CreateDbContextAsync();
         var notes = await db.Notes.AsNoTracking().ToListAsync();
+        notes = await DeleteOldTrashedNotes(db, notes);
+
         dispatcher.Dispatch(new NoteActions.NotesLoadedAction(notes));
+    }
+
+    private async Task<List<Note>> DeleteOldTrashedNotes(AppDb db, List<Note> notes)
+    {
+        var trashClearLimit = DateTime.UtcNow.Date.AddDays(-30);
+        var notesToRemove = notes.Where(n => n.DeletedAt <= trashClearLimit).ToList();
+        if (notesToRemove.Any())
+        {
+            db.Notes.RemoveRange(notesToRemove);
+            await db.SaveChangesAsync();
+            logger.LogInformation("Finally deleted {Count} notes from db", notesToRemove.Count);
+            notes = notes.Except(notesToRemove).ToList();
+        }
+
+        return notes;
     }
 
     [EffectMethod]
