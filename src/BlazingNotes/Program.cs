@@ -3,6 +3,7 @@ using BlazingNotes.Components;
 using BlazingNotes.Infrastructure.Data;
 using BlazingNotes.Infrastructure.Hosting;
 using BlazingNotes.Infrastructure.State;
+using BlazingNotes.Infrastructure.Utils;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 
@@ -16,6 +17,7 @@ builder.Services.AddFluxor(x => x.ScanAssemblies(Assembly.GetExecutingAssembly()
     typeof(AppState).Assembly, typeof(NoteEffects).Assembly));
 
 var connectionString = builder.Configuration.GetConnectionString("AppDb");
+connectionString = SqLiteFileHelper.ResolveAndPrepareDatabaseFile(connectionString!);
 builder.Services.AddDbContextFactory<AppDb>(x => x.UseSqlite(connectionString));
 
 var app = builder.Build();
