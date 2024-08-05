@@ -1,7 +1,29 @@
+using BlazingDev.BlazingExtensions;
+
 namespace BlazingNotes.Logic.Tests.Entities;
 
 public class NoteTests
 {
+    [Theory]
+    [InlineData("", "")]
+    [InlineData("no tags", "")]
+    [InlineData("one #cool tag", "#cool")]
+    [InlineData("two #tags must #also work", "#tags #also")]
+    [InlineData("with #12numbers34", "#12numbers34")]
+    [InlineData("with #dash-and_underline", "#dash-and_underline")]
+    [InlineData("with #slash/does not work", "#slash")]
+    [InlineData("I am a C#-developer", "")]
+    [InlineData("Deutsche #Wörter machen #Spaß", "#Wörter #Spaß")]
+    [InlineData("#Äpfel fallen vom Baum", "#Äpfel")]
+    public void GetTags(string text, string expectedSpaceSeparated)
+    {
+        var note = new Note
+        {
+            Text = text
+        };
+        note.GetTags().StringJoin(" ").Should().Be(expectedSpaceSeparated);
+    }
+
     [Theory]
     [InlineData("", "")]
     [InlineData("no tags", "no tags")]

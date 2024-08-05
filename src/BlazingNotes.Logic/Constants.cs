@@ -2,7 +2,11 @@ using System.Text.RegularExpressions;
 
 namespace BlazingNotes.Logic;
 
-public static class Constants
+public static partial class Constants
 {
-    public static readonly Regex TagRegex = new Regex("#[a-zA-Z0-9-_]+");
+    // start with word character (including digits and underscores), then also hyphens are allowed
+    public static readonly Regex TagRegex = MyRegex();
+
+    [GeneratedRegex(@"#\w+(-\w+)*")]
+    private static partial Regex MyRegex();
 }
