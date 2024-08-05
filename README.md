@@ -60,8 +60,7 @@ Installers will come soon - in the meantime you have to clone the repo and run i
 You also need to have the [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) installed.
 
 1. clone the repo
-2. execute `scripts/update-database.cmd` (with the repository root as working directory)
-2. navigate into the directory `/src/BlazingNotes/`
-3. run `dotnet run`
-4. open the browser on https://localhost:8401 (developer certificate needed) or alternatively on http://localhost:8400
+2. navigate into the directory `/scripts/`
+3. run the script `_run-app.cmd`
+4. open the browser at http://localhost:8400
 5. start typing :)
