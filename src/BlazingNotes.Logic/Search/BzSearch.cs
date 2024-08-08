@@ -2,7 +2,7 @@ namespace BlazingNotes.Logic.Search;
 
 public static class BzSearch
 {
-    public static bool IsMatch(string fullText, string query)
+    public static bool IsMatch(string query, string fullText)
     {
         if (fullText.LacksContent() ||
             query.LacksContent())

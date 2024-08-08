@@ -14,7 +14,7 @@ public class BzSearchTests
     public void FindsResultsBySingleWord(string query, bool matches)
     {
         var input = "this is a NOTE that I WANT to search for #important";
-        BzSearch.IsMatch(input, query).Should().Be(matches);
+        BzSearch.IsMatch(query, input).Should().Be(matches);
     }
 
     [Theory]
@@ -29,7 +29,7 @@ public class BzSearchTests
     public void FindsResultsByMultipleTerms(string query, bool matches)
     {
         var input = "this is a NOTE that I WANT to search for #important";
-        BzSearch.IsMatch(input, query).Should().Be(matches);
+        BzSearch.IsMatch(query, input).Should().Be(matches);
     }
 
     [Theory]
@@ -42,7 +42,7 @@ public class BzSearchTests
     [InlineData("\t\t", "\n")]
     public void NoMatchForEmptyQueriesOrEmptyTexts(string fullText, string query)
     {
-        BzSearch.IsMatch(fullText, query).Should().Be(false);
+        BzSearch.IsMatch(query, fullText).Should().Be(false);
     }
 
     [Theory]
@@ -51,6 +51,6 @@ public class BzSearchTests
     [InlineData("  hello   world  ", "hello world", true)]
     public void HandlesTrimmableStringsProperly(string fullText, string query, bool isMatch)
     {
-        BzSearch.IsMatch(fullText, query).Should().Be(isMatch);
+        BzSearch.IsMatch(query, fullText).Should().Be(isMatch);
     }
 }
