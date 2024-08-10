@@ -6,4 +6,9 @@ public static class Extensions
     {
         return !input.HasContent();
     }
+
+    public static bool LacksContent<T>(this IEnumerable<T>? input)
+    {
+        return !input.HasContent();
+    }
 }
