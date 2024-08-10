@@ -20,15 +20,13 @@
                           TextUpdateSuppression="false"
                           Label="Suchen oder Erstellen"
                           Class="app-outlined-border-primary"/>
-            <MudStack Row>
-                <MudButton Color="Color.Primary"
-                           Variant="Variant.Filled"
-                           StartIcon="@Icons.Material.Filled.Add"
-                           FullWidth
-                           OnClick="HandleCreate">
-                    Create new note
-                </MudButton>
-            </MudStack>
+            <MudButton Color="Color.Primary"
+                       Variant="Variant.Filled"
+                       StartIcon="@Icons.Material.Filled.Add"
+                       FullWidth
+                       OnClick="HandleCreate">
+                Create new note
+            </MudButton>
         </MudStack>
     </div>
 
@@ -59,18 +57,12 @@
         }
         else
         {
-            <NoteCardList Headline="Suchergebnisse"
-                          Notes="[]"
-                          NoNotesText="Bitte einen Suchbegriff mit mindestens 3 Zeichen eingeben"
-                          InitiallyExpanded="false"/>
+            @* ShowNoteCount=false because we show only 10 preview items *@
+            <NoteCardList Headline="Zuletzt erstellt"
+                          Notes="AppState.Value.GetHomePageNotes()"
+                          ShowNoteCount="false"/>
         }
     }
-
-    @* ShowNoteCount=false because we show only 10 preview items *@
-    <NoteCardList Headline="Zuletzt erstellt"
-                  Notes="AppState.Value.GetHomePageNotes()"
-                  SearchText="@_input"
-                  ShowNoteCount="false"/>
 
 </MudStack>
 
