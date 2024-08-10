@@ -21,10 +21,10 @@
 
     @{
         var all = AppState.Value.GetArchivedNotes();
-        var (longEnough, highlightText, matches) = NoteSearcher.Search(all, _search);
+        var (longEnough, query, matches) = NoteSearcher.Search(all, _search);
 
         <NoteCardList Notes="matches"
-                      SearchText="@highlightText"
+                      SearchQuery="@query"
                       NoNotesText="Keine archivierten Notizen gefunden"/>
     }
 </MudStack>

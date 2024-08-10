@@ -36,12 +36,12 @@
         if (NoteSearcher.IsSearchTermLongEnough(_input))
         {
             var searchable = AppState.Value.GetSearchableNotes().OrderByDescending(x => x.CreatedAt).ToList();
-            var (_, highlight, matches) = NoteSearcher.Search(searchable, _input);
+            var (_, query, matches) = NoteSearcher.Search(searchable, _input);
             var matchesTake = matches.Take(10).ToList();
             // ShowNoteCount=false because we show only 10 preview items
             <NoteCardList Headline="Suchergebnisse"
                           Notes="matchesTake"
-                          SearchText="@highlight"
+                          SearchQuery="@query"
                           ShowNoteCount="false">
                 <AfterLastCardContent>
                     @if (matches.Count > matchesTake.Count)

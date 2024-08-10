@@ -21,10 +21,10 @@
 
     @{
         var all = AppState.Value.GetDeletedNotes();
-        var (longEnough, highlightText, matches) = NoteSearcher.Search(all, _search);
+        var (longEnough, query, matches) = NoteSearcher.Search(all, _search);
 
         <NoteCardList Notes="matches"
-                      SearchText="@highlightText"
+                      SearchQuery="@query"
                       NoNotesText="No items in trash"/>
     }
 </MudStack>

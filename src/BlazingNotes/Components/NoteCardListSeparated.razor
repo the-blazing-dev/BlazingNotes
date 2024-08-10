@@ -1,6 +1,6 @@
 @using BlazingNotes.Logic.Services
 @{
-    var (longEnough, highlightText, matches) = NoteSearcher.Search(Notes, SearchText ?? "");
+    var (longEnough, query, matches) = NoteSearcher.Search(Notes, SearchText ?? "");
     if (longEnough)
     {
         var nonArchiveMatches = matches.Where(x => x.ArchivedAt == null).ToList();
@@ -8,13 +8,13 @@
 
         <NoteCardList Notes="nonArchiveMatches"
                       Headline="Suchergebnisse"
-                      SearchText="@highlightText"/>
+                      SearchQuery="@query"/>
 
         @if (archiveMatches.HasContent())
         {
             <NoteCardList Notes="archiveMatches"
                           Headline="Archiviert"
-                          SearchText="@highlightText"
+                          SearchQuery="@query"
                           InitiallyExpanded="false"/>
         }
     }
