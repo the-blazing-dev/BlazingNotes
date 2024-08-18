@@ -1,0 +1,36 @@
+﻿@page "/journal"
+@using BlazingNotes.Logic.Services
+@inject IState<AppState> AppState
+
+<PageTitle>Journal</PageTitle>
+
+<MudStack Spacing="6">
+    <MudTextField @bind-Value="_query"
+                  Variant="Variant.Outlined"
+                  AutoFocus
+                  Label="Search"
+                  Immediate/>
+
+    @{
+        var all = AppState.Value.GetJournalNotes();
+        var result = NoteSearcher.Search(all, _query);
+        all = result.results.ToList();
+
+        var days = all.Select(x => x.CreatedAt.Date).Distinct().ToList();
+        foreach (var day in days)
+        {
+            var headline = day.ToLongDateString();
+            var dayNotes = all.Where(x => x.CreatedAt.Date == day).ToList();
+            <NoteCardList @key="headline"
+                          Notes="dayNotes"
+                          Headline="@headline"
+                          SearchQuery="result.query"/>
+        }
+    }
+</MudStack>
+
+@code {
+
+    string _query = "";
+
+}

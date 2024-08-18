@@ -23,6 +23,14 @@ public record AppState
             .ToList();
     }
 
+    public ICollection<Note> GetJournalNotes()
+    {
+        return GetSearchableNotes()
+            .Where(x => x.ArchivedAt == null)
+            .OrderByDescending(x => x.CreatedAt)
+            .ToList();
+    }
+
     public ICollection<Note> GetUntaggedNotes()
     {
         return GetSearchableNotes()
