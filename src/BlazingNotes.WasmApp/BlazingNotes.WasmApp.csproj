@@ -4,22 +4,22 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <EmccExtraLDFlags>-s WARN_ON_UNDEFINED_SYMBOLS=0</EmccExtraLDFlags>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.5"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.5" PrivateAssets="all"/>
+        <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.9"/>
     </ItemGroup>
 
+    <PropertyGroup>
+        <WasmBuildNative>true</WasmBuildNative>
+    </PropertyGroup>
+
     <ItemGroup>
-        <_ContentIncludedByDefault Remove="wwwroot\css\app.css"/>
-        <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css"/>
-        <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map"/>
-        <_ContentIncludedByDefault Remove="Layout\MainLayout.razor"/>
-        <_ContentIncludedByDefault Remove="Layout\NavMenu.razor"/>
-        <_ContentIncludedByDefault Remove="Pages\Counter.razor"/>
-        <_ContentIncludedByDefault Remove="Pages\Home.razor"/>
-        <_ContentIncludedByDefault Remove="Pages\Weather.razor"/>
+        <ProjectReference Include="..\BlazingNotes.UI\BlazingNotes.UI.csproj"/>
     </ItemGroup>
 
 </Project>
