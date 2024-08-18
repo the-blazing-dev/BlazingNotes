@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes.Logic.Tests", "BlazingNotes.Logic.Tests\BlazingNotes.Logic.Tests.csproj", "{66444830-23D9-440E-A5E9-09A8CCDBABAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes.UI", "BlazingNotes.UI\BlazingNotes.UI.csproj", "{C54F5020-6128-4902-AE92-60A7F327847D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{66444830-23D9-440E-A5E9-09A8CCDBABAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66444830-23D9-440E-A5E9-09A8CCDBABAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66444830-23D9-440E-A5E9-09A8CCDBABAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C54F5020-6128-4902-AE92-60A7F327847D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C54F5020-6128-4902-AE92-60A7F327847D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C54F5020-6128-4902-AE92-60A7F327847D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C54F5020-6128-4902-AE92-60A7F327847D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

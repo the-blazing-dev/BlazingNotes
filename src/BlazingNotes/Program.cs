@@ -1,9 +1,11 @@
 using System.Reflection;
-using BlazingNotes.Components;
 using BlazingNotes.Infrastructure.Data;
 using BlazingNotes.Infrastructure.Hosting;
 using BlazingNotes.Infrastructure.State;
 using BlazingNotes.Infrastructure.Utils;
+using BlazingNotes.Logic.State;
+using BlazingNotes.UI.AppFrame;
+using Fluxor;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 
