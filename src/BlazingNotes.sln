@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes", "BlazingNotes\BlazingNotes.csproj", "{B98BDB82-91AA-4E4E-B762-A294C8368A45}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes.ServerApp", "BlazingNotes.ServerApp\BlazingNotes.ServerApp.csproj", "{B98BDB82-91AA-4E4E-B762-A294C8368A45}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes.Logic", "BlazingNotes.Logic\BlazingNotes.Logic.csproj", "{120DBCB6-E33E-420F-B6F8-95C73113204F}"
 EndProject
