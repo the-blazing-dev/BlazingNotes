@@ -1,7 +1,7 @@
 ---
-# These are optional elements. Feel free to remove any of them.
-status: proposed
+status: accepted
 date: 2024-08-18
+decision-makers: David Ritter
 ---
 # Wasm-App Database
 
@@ -16,8 +16,8 @@ The Wasm-App also needs some kind of persistence / database.
 
 ## Decision Outcome
 
-Chosen option: "{title of option 1}", because
-{justification. e.g., only option, which meets k.o. criterion decision driver | which resolves force {force} | … | comes out best (see below)}.
+Chosen option: "use browser's IndexedDb", because it feels more like the standard conform way.  
+Also I didn't get the "SQLite inside the browser" running.
 
 ## Pros and Cons of the Options
 
@@ -27,31 +27,37 @@ Beginning with .NET 6 there is the possibility to include native dependencies, S
 Proof of concepts are around, but there isn't that much out there.
 
 Some links:
-- [Video from Steve Sanderson](https://www.youtube.com/watch?v=kesUNeBZ1Os)
+- [First concept video from Steve Sanderson](https://www.youtube.com/watch?v=kesUNeBZ1Os)
 - [Code from Steve Sanderson](https://github.com/SteveSandersonMS/BlazeOrbital/blob/6b5f7892afbdc96871c974eb2d30454df4febb2c/BlazeOrbital/ManufacturingHub/BlazeOrbital.ManufacturingHub.csproj)
 - [Issue regarding the upper two](https://github.com/dotnet/aspnetcore/issues/39825)
 - [fingers10/BlazorWasmEFCore on GitHub](https://github.com/fingers10/BlazorWasmEFCore/tree/master)
+- [SqLiteWasmHelper](https://github.com/JeremyLikness/SqliteWasmHelper)
+- [Notion's journey](https://www.notion.so/blog/how-we-sped-up-notion-in-the-browser-with-wasm-sqlite)
 
 * Good, because we could use SQLite both in ServerApp and WasmApp
 * Good, because we don't need a Store abstraction / Repository pattern
 * Neutral, because some funky csproj settings are needed
 * Neutral, because it seems like some niche work
-* Neutral, because some "SQLite in-process to something persisting" is still needed
-* Bad, because it does not work until now
+* Bad, because some "SQLite in-process to something persisting" is still needed
+* Bad, because there can be multi-tab-problems (see Notion's journey)
+* Bad, because I didn't get it running
 
 ### use browser's IndexedDb
 
-https://github.com/johnjalani/Blazor.IndexedDB.WebAssembly
+IndexedDb is a native database available in all major browsers. You can save document (kinda JSON objects).
 
-{example | description | pointer to more information | …}
+Some links:
+- [IndexedDb at MDN docs](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
+- [caniuse](https://caniuse.com/?search=indexeddb#google_vignette)
+- [Nuget: Johnjalani.Blazor.IndexedDB.WebAssembly](https://github.com/johnjalani/Blazor.IndexedDB.WebAssembly)
 
-* Good, because {argument a}
-* Good, because {argument b}
-* Neutral, because {argument c}
+* Good, because natively supported and widely available
+* Good, because there are more NuGets and tutorials out there than for SQLite
+* Good, because something new interesting to learn
+* Good, because storage performance should be better
+* Neutral, because store abstraction is needed (which could also result in better code and testability)
 * Bad, because {argument d}
-* …
 
-<!-- This is an optional element. Feel free to remove. -->
 ## More Information
 
 ### SQLite inside the browser installation journey
@@ -147,3 +153,8 @@ Microsoft.NET.Runtime.Emscripten.3.1.34.Sdk.win-x64.Msi.x64 wird installiert ...
 
 Workload(s) wasm-tools wurde(n) erfolgreich installiert.
 ```
+
+I did some more trying with [fingers10/BlazorWasmEFCore on GitHub](https://github.com/fingers10/BlazorWasmEFCore/tree/master) where I also got it running inside the Home.razor page.
+But when trying to register it as a service, nothing worked any more (I even got service lookup exceptions).
+
+Then I canceled.
