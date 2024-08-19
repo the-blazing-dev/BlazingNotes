@@ -1,7 +1,9 @@
 using System.Reflection;
 using BlazingNotes.Infrastructure.Data;
 using BlazingNotes.Infrastructure.Hosting;
+using BlazingNotes.Infrastructure.Services;
 using BlazingNotes.Infrastructure.Utils;
+using BlazingNotes.Logic.Services;
 using BlazingNotes.Logic.State;
 using BlazingNotes.UI.AppFrame;
 using Fluxor;
@@ -20,6 +22,7 @@ builder.Services.AddFluxor(x => x.ScanAssemblies(Assembly.GetExecutingAssembly()
 var connectionString = builder.Configuration.GetConnectionString("AppDb");
 connectionString = SqLiteFileHelper.ResolveAndPrepareDatabaseFile(connectionString!);
 builder.Services.AddDbContextFactory<AppDb>(x => x.UseSqlite(connectionString));
+builder.Services.AddScoped<INoteStore, AppDbNoteStore>();
 
 var app = builder.Build();
 await app.Services.MigrateDbAsync();

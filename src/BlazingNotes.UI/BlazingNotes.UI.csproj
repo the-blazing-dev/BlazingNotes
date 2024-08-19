@@ -17,7 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BlazingNotes.Infrastructure\BlazingNotes.Infrastructure.csproj"/>
         <ProjectReference Include="..\BlazingNotes.Logic\BlazingNotes.Logic.csproj"/>
     </ItemGroup>
 

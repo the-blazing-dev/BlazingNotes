@@ -1,6 +1,8 @@
 using System.Reflection;
+using BlazingNotes.Logic.Services;
 using BlazingNotes.Logic.State;
 using BlazingNotes.UI.AppFrame;
+using BlazingNotes.WasmApp.Services;
 using Fluxor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -16,5 +18,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddMudServices();
 builder.Services.AddFluxor(x => x.ScanAssemblies(Assembly.GetExecutingAssembly(),
     typeof(AppState).Assembly, typeof(NoteEffects).Assembly));
+
+builder.Services.AddScoped<INoteStore, InMemoryNoteStore>();
 
 await builder.Build().RunAsync();
