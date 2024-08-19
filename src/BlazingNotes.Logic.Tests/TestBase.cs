@@ -1,5 +1,4 @@
 using BlazingNotes.Infrastructure.Data;
-using BlazingNotes.Infrastructure.State;
 using UnhandledExceptionEventArgs = Fluxor.Exceptions.UnhandledExceptionEventArgs;
 
 namespace BlazingNotes.Logic.Tests;

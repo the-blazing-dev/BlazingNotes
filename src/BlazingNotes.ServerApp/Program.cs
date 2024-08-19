@@ -1,7 +1,6 @@
 using System.Reflection;
 using BlazingNotes.Infrastructure.Data;
 using BlazingNotes.Infrastructure.Hosting;
-using BlazingNotes.Infrastructure.State;
 using BlazingNotes.Infrastructure.Utils;
 using BlazingNotes.Logic.State;
 using BlazingNotes.UI.AppFrame;

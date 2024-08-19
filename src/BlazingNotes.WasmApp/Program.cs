@@ -1,5 +1,4 @@
 using System.Reflection;
-using BlazingNotes.Infrastructure.State;
 using BlazingNotes.Logic.State;
 using BlazingNotes.UI.AppFrame;
 using Fluxor;
