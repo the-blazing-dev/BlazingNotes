@@ -1,12 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes", "BlazingNotes\BlazingNotes.csproj", "{B98BDB82-91AA-4E4E-B762-A294C8368A45}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes.ServerApp", "BlazingNotes.ServerApp\BlazingNotes.ServerApp.csproj", "{B98BDB82-91AA-4E4E-B762-A294C8368A45}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes.Logic", "BlazingNotes.Logic\BlazingNotes.Logic.csproj", "{120DBCB6-E33E-420F-B6F8-95C73113204F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes.Infrastructure", "BlazingNotes.Infrastructure\BlazingNotes.Infrastructure.csproj", "{98CEE087-0EA6-4F77-8F0B-D5B7F995D11E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes.Logic.Tests", "BlazingNotes.Logic.Tests\BlazingNotes.Logic.Tests.csproj", "{66444830-23D9-440E-A5E9-09A8CCDBABAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes.UI", "BlazingNotes.UI\BlazingNotes.UI.csproj", "{C54F5020-6128-4902-AE92-60A7F327847D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingNotes.WasmApp", "BlazingNotes.WasmApp\BlazingNotes.WasmApp.csproj", "{09D77859-9D91-4615-99F6-09A5D9B8D614}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +34,13 @@ Global
 		{66444830-23D9-440E-A5E9-09A8CCDBABAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66444830-23D9-440E-A5E9-09A8CCDBABAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66444830-23D9-440E-A5E9-09A8CCDBABAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C54F5020-6128-4902-AE92-60A7F327847D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C54F5020-6128-4902-AE92-60A7F327847D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C54F5020-6128-4902-AE92-60A7F327847D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C54F5020-6128-4902-AE92-60A7F327847D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09D77859-9D91-4615-99F6-09A5D9B8D614}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09D77859-9D91-4615-99F6-09A5D9B8D614}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09D77859-9D91-4615-99F6-09A5D9B8D614}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09D77859-9D91-4615-99F6-09A5D9B8D614}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

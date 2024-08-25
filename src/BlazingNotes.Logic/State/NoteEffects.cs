@@ -1,13 +1,9 @@
-using BlazingNotes.Infrastructure.Data;
-using BlazingNotes.Logic.Entities;
-using BlazingNotes.Logic.State;
-using Fluxor;
-using Microsoft.EntityFrameworkCore;
+using BlazingNotes.Logic.Services;
 using Microsoft.Extensions.Logging;
 
-namespace BlazingNotes.Infrastructure.State;
+namespace BlazingNotes.Logic.State;
 
-public class NoteEffects(IDbContextFactory<AppDb> dbFactory, ILogger<NoteEffects> logger)
+public class NoteEffects(INoteStore noteStore, ILogger<NoteEffects> logger)
 {
     [EffectMethod]
     public async Task Handle(StoreInitializedAction action, IDispatcher dispatcher)
@@ -17,21 +13,19 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory, ILogger<NoteEffects
         // which gives us advantages like instant search and faster UI experience
         // as soon as this will lead to too large memory consumption we have to rethink the approach
 
-        await using var db = await dbFactory.CreateDbContextAsync();
-        var notes = await db.Notes.AsNoTracking().ToListAsync();
-        notes = await DeleteOldTrashedNotes(db, notes);
+        var notes = await noteStore.GetAllNotesAsync();
+        notes = await DeleteOldTrashedNotes(notes);
 
         dispatcher.Dispatch(new NoteActions.NotesLoadedAction(notes));
     }
 
-    private async Task<List<Note>> DeleteOldTrashedNotes(AppDb db, List<Note> notes)
+    private async Task<List<Note>> DeleteOldTrashedNotes(List<Note> notes)
     {
         var trashClearLimit = DateTime.UtcNow.Date.AddDays(-30);
         var notesToRemove = notes.Where(n => n.DeletedAt <= trashClearLimit).ToList();
         if (notesToRemove.Any())
         {
-            db.Notes.RemoveRange(notesToRemove);
-            await db.SaveChangesAsync();
+            await noteStore.RemoveRangeAsync(notesToRemove);
             logger.LogInformation("Finally deleted {Count} notes from db", notesToRemove.Count);
             notes = notes.Except(notesToRemove).ToList();
         }
@@ -50,10 +44,7 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory, ILogger<NoteEffects
         };
 
         Clean(note);
-
-        await using var db = await dbFactory.CreateDbContextAsync();
-        db.Notes.Add(note);
-        await db.SaveChangesAsync();
+        await noteStore.AddNoteAsync(note);
 
         dispatcher.Dispatch(new NoteActions.NoteCreatedAction(note));
     }
@@ -68,16 +59,16 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory, ILogger<NoteEffects
             return;
         }
 
-        await using var db = await dbFactory.CreateDbContextAsync();
-        var noteFresh = await db.Notes.FindRequiredAsync(action.Note.Id);
+        var noteFresh = await noteStore.GetByIdAsync(action.Note.Id);
+        var oldText = noteFresh.Text;
         noteFresh.Text = action.NewText;
         Clean(noteFresh);
 
         // only update entity + timestamp on "real" changes
-        if (db.Entry(noteFresh).State == EntityState.Modified)
+        if (noteFresh.Text != oldText)
         {
             noteFresh.ModifiedAt = DateTime.UtcNow;
-            await db.SaveChangesAsync();
+            await noteStore.SaveNoteAsync(noteFresh);
         }
 
         dispatcher.Dispatch(new NoteActions.SaveNoteEditingSuccessAction(noteFresh));
@@ -86,10 +77,9 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory, ILogger<NoteEffects
     [EffectMethod]
     public async Task Handle(NoteActions.ArchiveNoteAction action, IDispatcher dispatcher)
     {
-        await using var db = await dbFactory.CreateDbContextAsync();
-        var noteFresh = await db.Notes.FindRequiredAsync(action.NoteId);
+        var noteFresh = await noteStore.GetByIdAsync(action.NoteId);
         noteFresh.ArchivedAt = DateTime.UtcNow;
-        await db.SaveChangesAsync();
+        await noteStore.SaveNoteAsync(noteFresh);
 
         dispatcher.Dispatch(new NoteActions.ArchiveNoteSuccessAction(noteFresh));
     }
@@ -97,10 +87,9 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory, ILogger<NoteEffects
     [EffectMethod]
     public async Task Handle(NoteActions.RestoreNoteFromArchiveAction action, IDispatcher dispatcher)
     {
-        await using var db = await dbFactory.CreateDbContextAsync();
-        var noteFresh = await db.Notes.FindRequiredAsync(action.NoteId);
+        var noteFresh = await noteStore.GetByIdAsync(action.NoteId);
         noteFresh.ArchivedAt = null;
-        await db.SaveChangesAsync();
+        await noteStore.SaveNoteAsync(noteFresh);
 
         dispatcher.Dispatch(new NoteActions.RestoreNoteFromArchiveSuccessAction(noteFresh));
     }
@@ -108,10 +97,9 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory, ILogger<NoteEffects
     [EffectMethod]
     public async Task Handle(NoteActions.TrashNoteAction action, IDispatcher dispatcher)
     {
-        await using var db = await dbFactory.CreateDbContextAsync();
-        var noteFresh = await db.Notes.FindRequiredAsync(action.NoteId);
+        var noteFresh = await noteStore.GetByIdAsync(action.NoteId);
         noteFresh.DeletedAt = DateTime.UtcNow;
-        await db.SaveChangesAsync();
+        await noteStore.SaveNoteAsync(noteFresh);
 
         dispatcher.Dispatch(new NoteActions.TrashNoteSuccessAction(noteFresh));
     }
@@ -119,10 +107,9 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory, ILogger<NoteEffects
     [EffectMethod]
     public async Task Handle(NoteActions.RestoreNoteFromTrashAction action, IDispatcher dispatcher)
     {
-        await using var db = await dbFactory.CreateDbContextAsync();
-        var noteFresh = await db.Notes.FindRequiredAsync(action.NoteId);
+        var noteFresh = await noteStore.GetByIdAsync(action.NoteId);
         noteFresh.DeletedAt = null;
-        await db.SaveChangesAsync();
+        await noteStore.SaveNoteAsync(noteFresh);
 
         dispatcher.Dispatch(new NoteActions.RestoreNoteFromTrashSuccessAction(noteFresh));
     }
@@ -130,10 +117,8 @@ public class NoteEffects(IDbContextFactory<AppDb> dbFactory, ILogger<NoteEffects
     [EffectMethod]
     public async Task Handle(NoteActions.DeleteNotePermanentlyAction action, IDispatcher dispatcher)
     {
-        await using var db = await dbFactory.CreateDbContextAsync();
-        var noteFresh = await db.Notes.FindRequiredAsync(action.NoteId);
-        db.Remove(noteFresh);
-        await db.SaveChangesAsync();
+        var noteFresh = await noteStore.GetByIdAsync(action.NoteId);
+        await noteStore.RemoveAsync(noteFresh);
 
         dispatcher.Dispatch(new NoteActions.DeleteNotePermanentlySuccessAction(action.NoteId));
     }

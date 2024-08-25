@@ -1,1 +1,1 @@
-dotnet ef database update --project .\src\BlazingNotes
+dotnet ef database update --project .\src\BlazingNotes.ServerApp\

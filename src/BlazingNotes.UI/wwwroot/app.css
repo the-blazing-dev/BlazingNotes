@@ -1,3 +1,25 @@
+html {
+    font-family: 'Roboto', 'Helvetica', 'Arial', 'sans-serif';
+}
+
+body {
+    /* copied from MudBlazor light theme */
+    color: rgba(66, 66, 66, 1);
+    background-color: white;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        /* copied from MudBlazor dark theme */
+        color: rgba(255, 255, 255, 0.6980392156862745);
+        background-color: rgba(50, 51, 61, 1);
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+}
+
 h1:focus {
     outline: none;
 }

@@ -24,7 +24,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\BlazingNotes.Logic\BlazingNotes.Logic.csproj"/>
-        <ProjectReference Include="..\BlazingNotes\BlazingNotes.csproj"/>
+        <ProjectReference Include="..\BlazingNotes.ServerApp\BlazingNotes.ServerApp.csproj"/>
     </ItemGroup>
 
 </Project>

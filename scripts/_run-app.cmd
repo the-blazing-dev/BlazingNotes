@@ -1,1 +1,1 @@
-dotnet run --project ../src/BlazingNotes/
+dotnet run --project ../src/BlazingNotes.ServerApp/
