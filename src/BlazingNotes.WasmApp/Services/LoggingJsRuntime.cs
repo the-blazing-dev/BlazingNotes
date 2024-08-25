@@ -12,11 +12,19 @@ public class LoggingJsRuntime(IJSRuntime inner, ILogger<LoggingJsRuntime> logger
         var withArgsString = GetWithArgsString(args);
 
         logger.LogInformation($"Start of '{identifier}'{withArgsString}");
-        var sw = Stopwatch.StartNew();
-        var result = await inner.InvokeAsync<TValue>(identifier, args);
-        sw.Stop();
-        logger.LogInformation($"End of '{identifier}'{withArgsString}, took {sw.Elapsed}");
-        return result;
+        try
+        {
+            var sw = Stopwatch.StartNew();
+            var result = await inner.InvokeAsync<TValue>(identifier, args);
+            sw.Stop();
+            logger.LogInformation($"End of '{identifier}'{withArgsString}, took {sw.Elapsed}");
+            return result;
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning($"Failed: '{identifier}'{withArgsString}: {ex.Message}");
+            throw;
+        }
     }
 
     public async ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken,
@@ -25,11 +33,19 @@ public class LoggingJsRuntime(IJSRuntime inner, ILogger<LoggingJsRuntime> logger
         var withArgsString = GetWithArgsString(args);
 
         logger.LogInformation($"Start of '{identifier}'{withArgsString}");
-        var sw = Stopwatch.StartNew();
-        var result = await inner.InvokeAsync<TValue>(identifier, cancellationToken, args);
-        sw.Stop();
-        logger.LogInformation($"End of '{identifier}'{withArgsString}, took {sw.Elapsed}");
-        return result;
+        try
+        {
+            var sw = Stopwatch.StartNew();
+            var result = await inner.InvokeAsync<TValue>(identifier, cancellationToken, args);
+            sw.Stop();
+            logger.LogInformation($"End of '{identifier}'{withArgsString}, took {sw.Elapsed}");
+            return result;
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning($"Failed: '{identifier}'{withArgsString}: {ex.Message}");
+            throw;
+        }
     }
 
     private static string GetWithArgsString(object?[]? args)
