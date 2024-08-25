@@ -46,6 +46,8 @@ There are quite a few NuGets out there, I decided to have a closer look at the f
 * [Johnjalani.Blazor.IndexedDB.WebAssembly](https://www.nuget.org/packages/Johnjalani.Blazor.IndexedDB.WebAssembly) (there are quite similar ones around)
 
 The first one is a more low-level abstraction that makes use of the [idb](https://github.com/jakearchibald/idb) JS library.  
+It's current version is marked as preview, but it looks quite stable.
+
 The second one is a high-level abstraction that mimics some EF-like behavior and depends on the first one.
 
 First investigations showed that the second NuGet pulls all entries into memory on initialization.  
@@ -55,3 +57,8 @@ At some point this could be problematic for us, but we can change this ADR's dec
 * Good, because technical details have been abstracted
 * Neutral, because all data is pulled into memory (done by the 2nd NuGet)
 * Bad, because dependencies
+* Bad, because the second one has a ChangeDetector bug (fixed)
+
+## More Information
+
+https://github.com/mdn/dom-examples/blob/main/to-do-notifications/scripts/todo.js
