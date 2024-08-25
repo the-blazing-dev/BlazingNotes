@@ -25,6 +25,6 @@ builder.Services.AddScoped<IIndexedDbFactory, IndexedDbFactory>(sp =>
     var factory = new IndexedDbFactory(jsRuntime);
     return factory;
 });
-builder.Services.AddScoped<INoteStore, WasmAppDbNoteStore>();
+builder.Services.AddScoped<INoteStore, IndexedDbNoteStore>();
 
 await builder.Build().RunAsync();

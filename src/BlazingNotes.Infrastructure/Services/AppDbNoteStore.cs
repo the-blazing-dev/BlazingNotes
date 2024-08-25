@@ -7,6 +7,16 @@ namespace BlazingNotes.Infrastructure.Services;
 
 public class AppDbNoteStore(IDbContextFactory<AppDb> dbContextFactory) : INoteStore
 {
+    public string GetName()
+    {
+        return "SQLite";
+    }
+
+    public string GetDescription()
+    {
+        return "Your notes are stored at the local user directory of your computer.";
+    }
+
     public async Task<List<Note>> GetAllNotesAsync()
     {
         await using var db = await dbContextFactory.CreateDbContextAsync();

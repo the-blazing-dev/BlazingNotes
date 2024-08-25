@@ -4,9 +4,20 @@ using Blazor.IndexedDB.WebAssembly;
 
 namespace BlazingNotes.WasmApp.Services;
 
-public class WasmAppDbNoteStore(IIndexedDbFactory dbFactory) : INoteStore
+public class IndexedDbNoteStore(IIndexedDbFactory dbFactory) : INoteStore
 {
     private WasmAppDb _db = null!;
+
+    public string GetName()
+    {
+        return "Browser";
+    }
+
+    public string GetDescription()
+    {
+        return "Your notes are stored in an IndexedDB inside your browser. " +
+               "Clearing the site's data will also remove all your notes!";
+    }
 
     public async Task<List<Note>> GetAllNotesAsync()
     {

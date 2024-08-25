@@ -77,3 +77,14 @@ bz-tag {
 .mud-nav-link.active > svg {
     color: var(--mud-palette-primary) !important;
 }
+
+/* utilities */
+.h-100 {
+    height: 100% !important;
+}
+
+/* links inside cards should look like links */
+.mud-card-content a {
+    text-decoration: underline;
+    color: var(--mud-palette-primary);
+}

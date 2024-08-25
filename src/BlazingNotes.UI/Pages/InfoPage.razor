@@ -1,0 +1,31 @@
+﻿@page "/info"
+@using BlazingNotes.Logic.Services
+@inject INoteStore NoteStore
+@inject IState<AppState> AppState
+
+<PageTitle>Info</PageTitle>
+
+<MudStack Spacing="6">
+    <MudText Typo="Typo.h4" Color="Color.Primary">Info</MudText>
+
+    <MudCard Class="bg-appbar">
+        <MudCardContent>
+            BlazingNotes is developed by David Ritter (<a href="https://github.com/the-blazing-dev" target="_blank">the-blazing-dev</a>).
+            <br/>
+            It is fully open-source, check it out at
+            <a href="https://github.com/the-blazing-dev/BlazingNotes"
+               target="_blank">
+                GitHub
+            </a>.
+        </MudCardContent>
+    </MudCard>
+
+    <MudCard Class="bg-appbar">
+        <MudCardContent>
+            Note store: <b>@NoteStore.GetName()</b> <br/>
+            @NoteStore.GetDescription() <br/>
+            <br/>
+            Total note count: <b>@AppState.Value.Notes.Count.ToString("N0")</b>
+        </MudCardContent>
+    </MudCard>
+</MudStack>
