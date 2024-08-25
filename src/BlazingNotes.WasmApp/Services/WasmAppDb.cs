@@ -12,7 +12,7 @@ public class WasmAppDb : IndexedDb
     {
     }
 
-    public IndexedSet<Note> Notes { get; set; }
+    public IndexedSet<Note> Notes { get; set; } = null!; // set by IndexedDb
 
     public new async Task SaveChanges()
     {
@@ -33,8 +33,10 @@ public class WasmAppDb : IndexedDb
         var internalItemsField = Notes.GetType().GetField("internalItems", privateMember);
 
         if (internalItemsField == null)
+        {
             throw new Exception(
                 "Could not get private field 'internalItems' from IndexedSet. Did you update the NuGet?");
+        }
 
         var internalItems = (IEnumerable)internalItemsField.GetValue(Notes)!;
         foreach (var item in internalItems)

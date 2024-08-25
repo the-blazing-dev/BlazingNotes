@@ -12,15 +12,19 @@ using MudBlazor.Services;
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<Routes>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
-
-// todo needed?
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Logging.SetMinimumLevel(LogLevel.Information);
 
 builder.Services.AddMudServices();
 builder.Services.AddFluxor(x => x.ScanAssemblies(Assembly.GetExecutingAssembly(),
     typeof(AppState).Assembly, typeof(NoteEffects).Assembly));
+builder.Services.AddTransient<LoggingJsRuntime>();
 
-builder.Services.AddScoped<IIndexedDbFactory, IndexedDbFactory>();
+builder.Services.AddScoped<IIndexedDbFactory, IndexedDbFactory>(sp =>
+{
+    var jsRuntime = sp.GetRequiredService<LoggingJsRuntime>();
+    var factory = new IndexedDbFactory(jsRuntime);
+    return factory;
+});
 builder.Services.AddScoped<INoteStore, WasmAppDbNoteStore>();
 
 await builder.Build().RunAsync();
