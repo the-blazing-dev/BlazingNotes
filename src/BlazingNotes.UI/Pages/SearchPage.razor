@@ -39,7 +39,7 @@
     public static string GetUrl(string query)
     {
         // url encoding is needed because #sometag would be the fragment part of a URI
-        return $"/search?q={WebUtility.UrlEncode(query)}";
+        return $"search?q={WebUtility.UrlEncode(query)}";
     }
 
 }
