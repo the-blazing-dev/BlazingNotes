@@ -1,0 +1,22 @@
+<!-- Copyright the_blazing_dev -->
+<svg width="110" height="110" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="45" cy="55" r="45" fill="#0040ff"/>
+    <circle cx="65" cy="55" r="45" fill="#0040ff"/>
+    <rect x="45" y="10" width="20" height="90" fill="#0040ff"/>
+    <rect x="65" y="55" width="45" height="45" fill="#0040ff"/>
+
+    <circle cx="45" cy="55" r="35" fill="#00bfff"/>
+    <circle cx="65" cy="55" r="35" fill="#00bfff"/>
+    <rect x="45" y="20" width="20" height="70" fill="#00bfff"/>
+    <rect x="65" y="55" width="35" height="35" fill="#00bfff"/>
+
+    <circle cx="45" cy="55" r="25" fill="#00ffff"/>
+    <circle cx="65" cy="55" r="25" fill="#00ffff"/>
+    <rect x="45" y="30" width="20" height="50" fill="#00ffff"/>
+    <rect x="65" y="55" width="25" height="25" fill="#00ffff"/>
+
+    <circle cx="45" cy="55" r="15" fill="whitesmoke"/>
+    <circle cx="65" cy="55" r="15" fill="whitesmoke"/>
+    <rect x="45" y="40" width="20" height="30" fill="whitesmoke"/>
+    <rect x="65" y="55" width="15" height="15" fill="whitesmoke"/>
+</svg>
