@@ -1,3 +1,7 @@
+:root {
+    --color-primary: rgba(33, 150, 243, 1)
+}
+
 .splash-screen {
     position: fixed;
     top: 0;
@@ -8,28 +12,23 @@
     place-items: center;
     text-align: center;
     font-size: 1.5em;
+    color: var(--color-primary);
 }
 
-.loading-progress {
-    position: relative;
-    display: block;
-    width: 8em;
-    height: 8em;
+.loading-progress-container {
+    width: 10em;
+    height: 1em;
+    background-color: #e0e0e0;
+    border-radius: 3px;
     margin: 0 auto;
 }
 
-.loading-progress circle {
-    fill: none;
-    stroke: #e0e0e0;
-    stroke-width: 0.6em;
-    transform-origin: 50% 50%;
-    transform: rotate(-90deg);
-}
-
-.loading-progress circle:last-child {
-    stroke: #1b6ec2;
-    stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
-    transition: stroke-dasharray 0.05s ease-in-out;
+.loading-progress-bar {
+    width: var(--blazor-load-percentage, 0%);
+    height: 100%;
+    background-color: var(--color-primary);
+    transition: width 0.05s ease-in-out;
+    border-radius: 3px;
 }
 
 .loading-progress-text {
