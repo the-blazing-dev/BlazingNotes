@@ -51,6 +51,10 @@ h1:focus {
 }
 
 /* app-specific styles */
+input::placeholder, textarea::placeholder {
+    font-weight: 300;
+}
+
 .note-card-text-width {
     width: 300px;
 }
@@ -65,9 +69,15 @@ h1:focus {
     background-color: var(--mud-palette-appbar-background) !important;
 }
 
-.app-outlined-border-primary .mud-input-outlined .mud-input-outlined-border {
+.home-page-main-input .mud-input-outlined .mud-input-outlined-border {
     /* use !important to win over :hover and :focus */
     border-color: var(--mud-palette-primary) !important;
+}
+
+.home-page-main-input label {
+    /* let's always have the blue color for the label, if it's focused or not.
+       Focus state is visible through border thickness. */
+    color: var(--mud-palette-primary) !important;
 }
 
 .timestamp-renderer {

@@ -8,7 +8,7 @@
     <TitleContent>
         @if (ShowCreateDialogSelector.Value)
         {
-            @:Create note
+            @:Create new note
         }
         else
         {
@@ -115,6 +115,7 @@
         </MudButton>
         <MudButton Color="Color.Success"
                    OnClick="HandleSave"
+                   Disabled="!_newText.HasContent()"
                    accesskey="S"
                    title="[accesskey + S]">
             Save
