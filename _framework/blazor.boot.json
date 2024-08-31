@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "BlazingNotes.WasmApp",
   "resources": {
-    "hash": "sha256-4UJo5H5LGeoH7JoYkRFca6We2rnDqOwRpntqf4dvDag=",
+    "hash": "sha256-vCh4IoiRGlVMt5R3K7CbhBpqzUVD+JsHS0Sp7PRaXiM=",
     "jsModuleNative": {
       "dotnet.native.8.0.8.e1s5qpey4j.js": "sha256-WY10Mygq9DI6CNZAQDecayvjJh/asDkajidHXGjXAnI="
     },
@@ -18,9 +18,9 @@
     },
     "assembly": {
       "BlazingDev.BlazingExtensions.wasm": "sha256-YNLhPUP/EcSs5EsPjYldsSQz0T0LbeLG/3P/2g5WdFM=",
-      "BlazingNotes.Logic.wasm": "sha256-cRUkzA8pJQaNNSMNXjEaK232N+e+gYFZvOIO+hvwlpQ=",
-      "BlazingNotes.UI.wasm": "sha256-b9O0VpWR0HXrAl6CvlRh1+8RbGZgKpds2z07k0uAFZc=",
-      "BlazingNotes.WasmApp.wasm": "sha256-HIfPVR0M24/uAnQUdMgTgoA60bp0n4cq8075+rUjTiI=",
+      "BlazingNotes.Logic.wasm": "sha256-NmXsDTQprer6XWmwAd/JTK5AXIk1kZrd+jUWQOhG+M0=",
+      "BlazingNotes.UI.wasm": "sha256-pXjj3yH/izosVxpVwdJizTgsqRyBOLp7OZ7j4HAghuA=",
+      "BlazingNotes.WasmApp.wasm": "sha256-llt/qPmHaFtX4SMwCsmxdYZNoe8pDGzw3c0PhwDZtb8=",
       "Blazor.IndexedDB.WebAssembly.wasm": "sha256-Ng2k87F66TMXZt6MVssUKxupRwxe6YI38icT6Yj/otE=",
       "Fluxor.Blazor.Web.ReduxDevTools.wasm": "sha256-jDE1ZNbW4Ejki3o6xiZhe09Wz3ggxn9eZ1/1cRF/I7c=",
       "Fluxor.Blazor.Web.wasm": "sha256-EQY4gKqrJmDxIMv//eRwx0R5QItoj2wrFMh9SGea6RE=",
@@ -43,7 +43,7 @@
       "Microsoft.Extensions.Primitives.wasm": "sha256-Ms2HR5Gpug/0uRAzdk4SUNT76Ml3CjFv9Jo+dUIMGac=",
       "Microsoft.JSInterop.wasm": "sha256-sQ34qlxDFXKQbcyPES9llBTMgxMUB0Z75oiR+Jr1WzA=",
       "Microsoft.JSInterop.WebAssembly.wasm": "sha256-ZyIqQss3I64BQC2gc7JEDrkYq14vXKEXuw5vBJ5oFYM=",
-      "MudBlazor.wasm": "sha256-e5JAhDFd88VhLry6m67kZeXaCEUqijPgbUgRaWXaoVc=",
+      "MudBlazor.wasm": "sha256-uG8V37RW0UkjNWy1TI2+nnOsHcQxgQylxBZej+Dp3yU=",
       "netstandard.wasm": "sha256-y0W8GKYeiyfZ4ax0yRuS0Djx75aw30HjzmtSAExvj3M=",
       "System.Collections.Concurrent.wasm": "sha256-o5kAy2l++9Zd0wjPNH7YFZ6HBKF3SeEQqggSFGzKe3E=",
       "System.Collections.Immutable.wasm": "sha256-UUnZxKdhkCrwDCKnnbQsd34Z7ZODe+lHi4p5A9m7p0g=",
