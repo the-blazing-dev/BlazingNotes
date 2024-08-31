@@ -1,0 +1,10 @@
+@{
+    var separator = ChildContent == null ? "" : " | ";
+}
+<PageTitle>@ChildContent @separator BlazingNotes</PageTitle>
+
+@code {
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+}
