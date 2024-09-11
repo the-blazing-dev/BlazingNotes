@@ -69,17 +69,6 @@ input::placeholder, textarea::placeholder {
     background-color: var(--mud-palette-appbar-background) !important;
 }
 
-.home-page-main-input .mud-input-outlined .mud-input-outlined-border {
-    /* use !important to win over :hover and :focus */
-    border-color: var(--mud-palette-primary) !important;
-}
-
-.home-page-main-input label {
-    /* let's always have the blue color for the label, if it's focused or not.
-       Focus state is visible through border thickness. */
-    color: var(--mud-palette-primary) !important;
-}
-
 .timestamp-renderer {
     opacity: 0.33;
 }
@@ -103,4 +92,13 @@ bz-tag {
 .mud-card-content a {
     text-decoration: underline;
     color: var(--mud-palette-primary);
+}
+
+.bz-border-color-primary {
+    border-color: var(--mud-palette-primary);
+}
+
+.bz-icon-only-button {
+    padding: 6px 12px;
+    min-width: auto;
 }
