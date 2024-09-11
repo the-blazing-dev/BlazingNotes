@@ -6,7 +6,7 @@ public static class NoteActions
 {
     public record NotesLoadedAction(List<Note> Notes);
 
-    public record CreateNoteRequestAction(string Text);
+    public record CreateNoteRequestAction(string Text, bool IsArchived = false);
     public record NoteCreatedAction(Note Note);
     public record ShowCreateNoteDialogAction;
     public record HideCreateNoteDialogAction;

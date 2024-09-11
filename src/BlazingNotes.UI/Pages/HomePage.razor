@@ -29,8 +29,17 @@
                                StartIcon="@Icons.Material.Filled.Add"
                                FullWidth
                                Disabled="!_input.HasContent()"
-                               OnClick="HandleCreate">
-                        Create new note
+                               OnClick="HandleCreate"
+                               title="Create new note: [CTRL+ENTER]">
+                        Create
+                    </MudButton>
+                    <MudButton Color="Color.Primary"
+                               Variant="Variant.Filled"
+                               Disabled="!_input.HasContent()"
+                               OnClick="HandleCreateAndArchive"
+                               Class="bz-icon-only-button"
+                               title="Create and Archive: [CTRL+ALT+ENTER]">
+                        <MudIcon Icon="@Icons.Material.Filled.Archive"></MudIcon>
                     </MudButton>
                 </MudStack>
             </MudStack>
@@ -83,9 +92,19 @@
         _input = "";
     }
 
+    private void HandleCreateAndArchive()
+    {
+        Dispatch(new NoteActions.CreateNoteRequestAction(_input, IsArchived: true));
+        _input = "";
+    }
+
     private void HandleKeyUp(KeyboardEventArgs args)
     {
-        if (args.CtrlKey && args.Key == "Enter")
+        if (args.CtrlKey && args.AltKey && args.Key == "Enter")
+        {
+            HandleCreateAndArchive();
+        }
+        else if (args.CtrlKey && args.Key == "Enter")
         {
             HandleCreate();
         }

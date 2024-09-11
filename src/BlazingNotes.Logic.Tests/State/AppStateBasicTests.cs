@@ -64,6 +64,15 @@ public class AppStateBasicTests : TestBase
     }
 
     [Fact]
+    public void NotesCanBeCreatedAndArchivedInOneStep()
+    {
+        Dispatch(new NoteActions.CreateNoteRequestAction("some note", IsArchived: true));
+        var note = Sut.Value.Notes.Single();
+        note.Text.Should().Be("some note");
+        note.ArchivedAt.Should().BeCloseToNow();
+    }
+
+    [Fact]
     public void ShowCreateNoteDialog()
     {
         Dispatch(new NoteActions.ShowCreateNoteDialogAction());

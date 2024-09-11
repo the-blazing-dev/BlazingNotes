@@ -40,7 +40,8 @@ public class NoteEffects(INoteStore noteStore, ILogger<NoteEffects> logger)
 
         var note = new Note
         {
-            Text = action.Text.Trim()
+            Text = action.Text.Trim(),
+            ArchivedAt = action.IsArchived ? DateTime.UtcNow : null
         };
 
         Clean(note);
