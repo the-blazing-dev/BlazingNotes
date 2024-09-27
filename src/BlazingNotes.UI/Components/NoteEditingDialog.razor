@@ -200,7 +200,7 @@
         }
         else
         {
-            Dispatch(new NoteActions.SaveNoteEditingAction(Note!, _newText));
+            Dispatch(new NoteActions.SaveNoteEditingAction(Note!, _newText, _updatedCreateTimestamp));
         }
     }
 

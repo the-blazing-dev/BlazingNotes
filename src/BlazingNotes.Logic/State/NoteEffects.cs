@@ -53,7 +53,8 @@ public class NoteEffects(INoteStore noteStore, ILogger<NoteEffects> logger)
     [EffectMethod]
     public async Task Handle(NoteActions.SaveNoteEditingAction action, IDispatcher dispatcher)
     {
-        if (!action.NewText.HasContent())
+        if (!action.NewText.HasContent() &&
+            action.CreatedAt == null)
         {
             // ignored for now
             dispatcher.Dispatch(new NoteActions.CancelNoteEditingAction(action.Note));
@@ -69,8 +70,14 @@ public class NoteEffects(INoteStore noteStore, ILogger<NoteEffects> logger)
         if (noteFresh.Text != oldText)
         {
             noteFresh.ModifiedAt = DateTime.UtcNow;
-            await noteStore.SaveNoteAsync(noteFresh);
         }
+
+        if (action.CreatedAt.HasValue)
+        {
+            noteFresh.CreatedAt = action.CreatedAt.Value;
+        }
+
+        await noteStore.SaveNoteAsync(noteFresh);
 
         dispatcher.Dispatch(new NoteActions.SaveNoteEditingSuccessAction(noteFresh));
     }

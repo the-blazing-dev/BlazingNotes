@@ -66,9 +66,9 @@
     {
         if (arg.HasValue)
         {
-            var newDateTime = Ts.Date.Add(arg.Value);
-            Timestamp = newDateTime; // to prevent jumping back to old value
-            return TimestampChanged.InvokeAsync(newDateTime);
+            var newValue = Ts.Date.Add(arg.Value);
+            Timestamp = newValue; // to prevent jumping back to old value
+            return TimestampChanged.InvokeAsync(newValue);
         }
 
         return Task.CompletedTask;

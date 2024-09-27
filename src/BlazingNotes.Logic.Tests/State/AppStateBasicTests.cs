@@ -1,6 +1,6 @@
 namespace BlazingNotes.Logic.Tests.State;
 
-public class AppStateBasicTests : TestBase
+public class AppStateBasicTests : TestBase, IAsyncLifetime
 {
     public AppStateBasicTests(ITestOutputHelper helper) : base(helper)
     {
@@ -8,6 +8,11 @@ public class AppStateBasicTests : TestBase
     }
 
     private IState<AppState> Sut { get; }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
 
     [Fact]
     public async Task PersistedNotesAreLoadedOnStoreInitialization()
@@ -131,6 +136,24 @@ public class AppStateBasicTests : TestBase
     }
 
     [Fact]
+    public void NoteEditingWithCreatedAtModificationAndSaving()
+    {
+        var (note1, _, _) = CreateThreeNotes();
+        Dispatch(new NoteActions.StartNoteEditingAction(note1));
+
+        Sut.Value.CurrentlyEditingNote.Should().Be(note1);
+        var newCreatedAt = DateTime.Now.AddDays(-2);
+
+        Dispatch(new NoteActions.SaveNoteEditingAction(note1, "Note1 #numberOne", newCreatedAt));
+
+        Sut.Value.CurrentlyEditingNote.Should().BeNull();
+        var note1Fresh = Sut.Value.Notes.Single(x => x.Text.Contains("Note1"));
+        note1Fresh.Id.Should().Be(note1.Id);
+        note1Fresh.Text.Should().Be("Note1 #numberOne");
+        note1Fresh.CreatedAt.Should().Be(newCreatedAt);
+    }
+
+    [Fact]
     public void NoteEditingWithCancel()
     {
         var (note1, _, _) = CreateThreeNotes();
@@ -202,5 +225,18 @@ public class AppStateBasicTests : TestBase
 
         var tags = Sut.Value.GetTags();
         tags.Should().ContainSingle("#importANT");
+    }
+
+    public Task DisposeAsync()
+    {
+        return CheckDbPersistence();
+    }
+
+    private async Task CheckDbPersistence()
+    {
+        var dbNotes = await ExecuteOnDb(x => x.Notes.OrderBy(x => x.Id).ToListAsync());
+        var stateNotes = Sut.Value.Notes.OrderBy(x => x.Id).ToList();
+
+        dbNotes.Should().BeEquivalentTo(stateNotes);
     }
 }
