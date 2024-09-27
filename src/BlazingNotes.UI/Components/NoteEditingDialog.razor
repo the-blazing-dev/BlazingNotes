@@ -32,7 +32,11 @@
                 @* min-height: 3em to fix MudDatePicker Icon padding which is greater than the input.
                    only relevant if only "Created:" will be rendered. *@
                 <MudStack Spacing="1" Style="min-height: 3em">
-                    <TimestampRenderer Timestamp="Note.CreatedAt" Prefix="Created:" Editable/>
+                    @{
+                        var createdAt = _updatedCreateTimestamp ?? Note.CreatedAt;
+                    }
+                    <TimestampRenderer Timestamp="createdAt" Prefix="Created:" Editable
+                                       TimestampChanged="HandleCreatedAtChanged"/>
                     <TimestampRenderer Timestamp="Note.ModifiedAt" Prefix="Modified:"/>
                     <TimestampRenderer Timestamp="Note.ArchivedAt" Prefix="Archived:"/>
                     <TimestampRenderer Timestamp="Note.DeletedAt" Prefix="Trashed:"/>
@@ -129,6 +133,7 @@
 @code {
 
     string _newText = "";
+    DateTime? _updatedCreateTimestamp = null;
 
     DialogOptions _options = new()
     {
@@ -157,6 +162,7 @@
         if (Note != null)
         {
             _newText = Note.Text;
+            _updatedCreateTimestamp = null;
         }
     }
 
@@ -167,6 +173,11 @@
 // empty text when new edit starts
             _newText = "";
         }
+    }
+
+    private void HandleCreatedAtChanged(DateTime newValue)
+    {
+        _updatedCreateTimestamp = newValue;
     }
 
     private void HandleCancel()

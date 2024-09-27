@@ -1,6 +1,5 @@
 @if (Timestamp.HasValue)
 {
-    var ts = Timestamp.Value.ToLocalTime();
     const string space = " ";
     var classes = $"timestamp-renderer {Class}";
     <MudText Typo="Typo.body2" Class="@classes" title="@HoverTitle">
@@ -12,27 +11,27 @@
             @if (Editable)
             {
                 @* "Editable" to allow text input *@
-                <MudDatePicker Date="Timestamp"
+                <MudDatePicker Date="Ts"
                                DateChanged="HandleDateChanged"
                                Editable
                                Class="date-picker flex-grow-0"/>
-                <MudTimePicker Time="Timestamp?.TimeOfDay"
+                <MudTimePicker Time="Ts.TimeOfDay"
                                TimeChanged="HandleTimeChanged"
                                Editable
                                Class="time-picker flex-grow-0"/>
             }
             else
             {
-                if (ts.Date != DateTime.Today)
+                if (Ts.Date != DateTime.Today)
                 {
                     // only show date if it's not from today
-                    @ts.ToString("ddd,")
+                    @Ts.ToString("ddd,")
                     @space
-                    @ts.ToShortDateString()
+                    @Ts.ToShortDateString()
                     @space
                 }
 
-                @ts.ToShortTimeString()
+                @Ts.ToShortTimeString()
             }
         </MudStack>
     </MudText>
@@ -46,13 +45,18 @@
     [Parameter] public bool Editable { get; set; }
     [Parameter] public EventCallback<DateTime> TimestampChanged { get; set; }
 
-    private Task HandleDateChanged(DateTime? newValue)
+    private DateTime Ts => Timestamp.GetValueOrDefault().ToLocalTime();
+
+    private Task HandleDateChanged(DateTime? arg)
     {
-        if (newValue.HasValue)
+        if (arg.HasValue)
         {
-            // todo check if time portion persists
+            // we need to do "arg.Value.Date" because the change could come from:
+            // 1) user editing the data -> no time portion
+            // 2) rerendering / parameter setting -> including time portion
+            var newValue = arg.Value.Date.Add(Ts.TimeOfDay);
             Timestamp = newValue; // to prevent jumping back to old value
-            return TimestampChanged.InvokeAsync(newValue.Value);
+            return TimestampChanged.InvokeAsync(newValue);
         }
 
         return Task.CompletedTask;
@@ -62,7 +66,7 @@
     {
         if (arg.HasValue)
         {
-            var newDateTime = Timestamp!.Value.Date.Add(arg.Value);
+            var newDateTime = Ts.Date.Add(arg.Value);
             Timestamp = newDateTime; // to prevent jumping back to old value
             return TimestampChanged.InvokeAsync(newDateTime);
         }
