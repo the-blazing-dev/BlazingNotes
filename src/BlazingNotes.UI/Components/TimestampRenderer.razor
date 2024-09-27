@@ -4,19 +4,37 @@
     const string space = " ";
     var classes = $"timestamp-renderer {Class}";
     <MudText Typo="Typo.body2" Class="@classes" title="@HoverTitle">
-        @if (Prefix.HasContent())
-        {
-            @:@Prefix&nbsp;
-        }
-        @if (ts.Date != DateTime.Today)
-        {
-            // only show date if its not from today
-            @ts.ToString("ddd,")
-            @space
-            @ts.ToShortDateString()
-            @space
-        }
-        @ts.ToShortTimeString()
+        <MudStack Row AlignItems="AlignItems.Baseline">
+            @if (Prefix.HasContent())
+            {
+                <span class="prefix">@Prefix</span>
+            }
+            @if (Editable)
+            {
+                @* "Editable" to allow text input *@
+                <MudDatePicker Date="Timestamp"
+                               DateChanged="HandleDateChanged"
+                               Editable
+                               Class="date-picker flex-grow-0"/>
+                <MudTimePicker Time="Timestamp?.TimeOfDay"
+                               TimeChanged="HandleTimeChanged"
+                               Editable
+                               Class="time-picker flex-grow-0"/>
+            }
+            else
+            {
+                if (ts.Date != DateTime.Today)
+                {
+                    // only show date if it's not from today
+                    @ts.ToString("ddd,")
+                    @space
+                    @ts.ToShortDateString()
+                    @space
+                }
+
+                @ts.ToShortTimeString()
+            }
+        </MudStack>
     </MudText>
 }
 
@@ -25,4 +43,31 @@
     [Parameter] public string? Prefix { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter] public string? HoverTitle { get; set; }
+    [Parameter] public bool Editable { get; set; }
+    [Parameter] public EventCallback<DateTime> TimestampChanged { get; set; }
+
+    private Task HandleDateChanged(DateTime? newValue)
+    {
+        if (newValue.HasValue)
+        {
+            // todo check if time portion persists
+            Timestamp = newValue; // to prevent jumping back to old value
+            return TimestampChanged.InvokeAsync(newValue.Value);
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private Task HandleTimeChanged(TimeSpan? arg)
+    {
+        if (arg.HasValue)
+        {
+            var newDateTime = Timestamp!.Value.Date.Add(arg.Value);
+            Timestamp = newDateTime; // to prevent jumping back to old value
+            return TimestampChanged.InvokeAsync(newDateTime);
+        }
+
+        return Task.CompletedTask;
+    }
+
 }

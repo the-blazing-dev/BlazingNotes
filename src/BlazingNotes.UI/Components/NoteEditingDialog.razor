@@ -4,7 +4,8 @@
 <MudDialog Visible="Note != null || ShowCreateDialogSelector.Value"
            VisibleChanged="HandleVisibleChanged"
            Options="_options"
-           DefaultFocus="DefaultFocus.FirstChild">
+           DefaultFocus="DefaultFocus.FirstChild"
+           Class="note-editing-dialog">
     <TitleContent>
         @if (ShowCreateDialogSelector.Value)
         {
@@ -27,9 +28,11 @@
                           OnKeyUp="HandleKeyUp"/>
             @if (Note != null)
             {
-                @* no spacing here *@
-                <MudStack Spacing="0">
-                    <TimestampRenderer Timestamp="Note.CreatedAt" Prefix="Created:"/>
+                @* spacing=1 to be very condensed for the metadata *@
+                @* min-height: 3em to fix MudDatePicker Icon padding which is greater than the input.
+                   only relevant if only "Created:" will be rendered. *@
+                <MudStack Spacing="1" Style="min-height: 3em">
+                    <TimestampRenderer Timestamp="Note.CreatedAt" Prefix="Created:" Editable/>
                     <TimestampRenderer Timestamp="Note.ModifiedAt" Prefix="Modified:"/>
                     <TimestampRenderer Timestamp="Note.ArchivedAt" Prefix="Archived:"/>
                     <TimestampRenderer Timestamp="Note.DeletedAt" Prefix="Trashed:"/>
