@@ -114,7 +114,7 @@
             Cancel
         </MudButton>
         <MudButton Color="Color.Success"
-                   OnClick="HandleSave"
+                   OnClick="() => HandleSave()"
                    Disabled="!_newText.HasContent()"
                    accesskey="S"
                    title="[accesskey + S]">
@@ -174,9 +174,16 @@
 
     private void HandleKeyUp(KeyboardEventArgs args)
     {
-        if (args.CtrlKey && args.Key == "Enter") // todo extension method
+        if (args.IsSaveShortcut(out var isArchived))
         {
-            HandleSave(); // todo check if _newText is updated
+            if (isArchived)
+            {
+                HandleArchive();
+            }
+            else
+            {
+                HandleSave();
+            }
         }
     }
 

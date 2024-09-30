@@ -25,14 +25,14 @@
                                StartIcon="@Icons.Material.Filled.Add"
                                FullWidth
                                Disabled="!_input.HasContent()"
-                               OnClick="HandleCreate"
+                               OnClick="() => HandleCreate(false)"
                                title="Create new note: [CTRL+ENTER]">
                         Create
                     </MudButton>
                     <MudButton Color="Color.Primary"
                                Variant="Variant.Filled"
                                Disabled="!_input.HasContent()"
-                               OnClick="HandleCreateAndArchive"
+                               OnClick="() => HandleCreate(true)"
                                Class="bz-icon-only-button"
                                title="Create and Archive: [CTRL+ALT+ENTER]">
                         <MudIcon Icon="@Icons.Material.Filled.Archive"></MudIcon>
@@ -52,27 +52,17 @@
 
     [Parameter] public EventCallback<string> InputChanged { get; set; }
 
-    private async Task HandleCreate()
+    private async Task HandleCreate(bool isArchived)
     {
-        Dispatch(new NoteActions.CreateNoteRequestAction(_input));
-        await HandleInputChanged("");
-    }
-
-    private async Task HandleCreateAndArchive()
-    {
-        Dispatch(new NoteActions.CreateNoteRequestAction(_input, true));
+        Dispatch(new NoteActions.CreateNoteRequestAction(_input, isArchived));
         await HandleInputChanged("");
     }
 
     private async Task HandleKeyUp(KeyboardEventArgs args)
     {
-        if (args.CtrlKey && args.AltKey && args.Key == "Enter")
+        if (args.IsSaveShortcut(out var isArchived))
         {
-            await HandleCreateAndArchive();
-        }
-        else if (args.CtrlKey && args.Key == "Enter")
-        {
-            await HandleCreate();
+            await HandleCreate(isArchived);
         }
     }
 
