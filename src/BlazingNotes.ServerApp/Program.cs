@@ -21,7 +21,8 @@ builder.Services.AddFluxor(x => x.ScanAssemblies(Assembly.GetExecutingAssembly()
 
 var connectionString = builder.Configuration.GetConnectionString("AppDb");
 connectionString = SqLiteFileHelper.ResolveAndPrepareDatabaseFile(connectionString!);
-builder.Services.AddDbContextFactory<AppDb>(x => x.UseSqlite(connectionString));
+builder.Services.AddDbContextFactory<AppDb>(x => x.UseSqlite(connectionString)
+    .EnableSensitiveDataLogging(builder.Environment.IsDevelopment()));
 builder.Services.AddScoped<INoteStore, AppDbNoteStore>();
 
 var app = builder.Build();

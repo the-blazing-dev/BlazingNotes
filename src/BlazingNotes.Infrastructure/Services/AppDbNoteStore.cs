@@ -41,7 +41,8 @@ public class AppDbNoteStore(IDbContextFactory<AppDb> dbContextFactory) : INoteSt
         await using var db = await dbContextFactory.CreateDbContextAsync();
         var noteFresh = await db.Notes.FindRequiredAsync(note.Id);
         noteFresh.Text = note.Text;
-        noteFresh.CreatedAt = note.CreatedAt.ToUniversalTime(); // todo push that to some EF handler
+        noteFresh.CreatedAt =
+            note.CreatedAt.IfUndefinedSetKind(DateTimeKind.Utc).ToUniversalTime(); // todo push that to some EF handler
         noteFresh.ModifiedAt = note.ModifiedAt;
         noteFresh.RelevantAt = note.RelevantAt;
         noteFresh.ArchivedAt = note.ArchivedAt;
