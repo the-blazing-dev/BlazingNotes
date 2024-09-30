@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "BlazingNotes.WasmApp",
   "resources": {
-    "hash": "sha256-eKMu7K9VntNtqJCh6TJSL+ctyRoSRosj8UUz9jTMxjE=",
+    "hash": "sha256-DAjvbpHbS5vQx+Yb4gxhOPrM/Pj+pU95IdI8JiaZflE=",
     "jsModuleNative": {
       "dotnet.native.8.0.8.e1s5qpey4j.js": "sha256-WY10Mygq9DI6CNZAQDecayvjJh/asDkajidHXGjXAnI="
     },
@@ -18,9 +18,9 @@
     },
     "assembly": {
       "BlazingDev.BlazingExtensions.wasm": "sha256-YNLhPUP/EcSs5EsPjYldsSQz0T0LbeLG/3P/2g5WdFM=",
-      "BlazingNotes.Logic.wasm": "sha256-s90uRlEMWv1jm1LXcbRwmKBoxq1YLJANWtIbnB/m4R0=",
-      "BlazingNotes.UI.wasm": "sha256-gOwMZvumZsWlO5a/Mb2TVgPwtP4gKqARzQRRrXQnqu4=",
-      "BlazingNotes.WasmApp.wasm": "sha256-lXHV2PKyL59F1TqjpnLvId1TPajvNwB3AZ/oWa5cLK8=",
+      "BlazingNotes.Logic.wasm": "sha256-BEwkSjLkbqYh7Y9xkg96qLifGttXU4vqSwRVWB2/1QY=",
+      "BlazingNotes.UI.wasm": "sha256-zYOhnbo+BF9lB/sLkrewHH9+JERdUvdBP3LMOo5hh6Q=",
+      "BlazingNotes.WasmApp.wasm": "sha256-QpeND3jegcJpSos2T4wYlwVOmQPJdXgYpAZOAEuqZ4U=",
       "Blazor.IndexedDB.WebAssembly.wasm": "sha256-Ng2k87F66TMXZt6MVssUKxupRwxe6YI38icT6Yj/otE=",
       "Fluxor.Blazor.Web.ReduxDevTools.wasm": "sha256-jDE1ZNbW4Ejki3o6xiZhe09Wz3ggxn9eZ1/1cRF/I7c=",
       "Fluxor.Blazor.Web.wasm": "sha256-EQY4gKqrJmDxIMv//eRwx0R5QItoj2wrFMh9SGea6RE=",
@@ -56,7 +56,7 @@
       "System.Diagnostics.DiagnosticSource.wasm": "sha256-lwNpTke2v8zqrbABlajS+EY3Y3E43Rd9GXHFqfsA480=",
       "System.Diagnostics.StackTrace.wasm": "sha256-K8Exc/k4h/r/tggczfIU/WAYCrWbXwirZfgjfKDUYvw=",
       "System.Linq.Expressions.wasm": "sha256-T2VUq+MQH9XfVwOx1uoCawYGW8Bd0F5SICKyVmy/KAs=",
-      "System.Linq.wasm": "sha256-EDwSK1SDTCJG+MF2r6Kjc41MYqLnkUWjHAJcdSy8xvY=",
+      "System.Linq.wasm": "sha256-u4IlCZsccLnW9Htoj3h4fDc811pvpCGRMGNpn5546vM=",
       "System.Memory.wasm": "sha256-vls+IFbXkLW+ddrQU0sCL4ga+qZjWRqYjIJq72f9ydM=",
       "System.ObjectModel.wasm": "sha256-DRBo9NpOZgLKvUOKH4nM+fUfyhIKHrXpK4fxhpMLS+A=",
       "System.Private.CoreLib.wasm": "sha256-IFhCKcxq5YunBDF+S33hGLR1yq4LEJB48tBw3i+0jHA=",
