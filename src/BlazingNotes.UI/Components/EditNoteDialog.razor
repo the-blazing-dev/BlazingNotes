@@ -1,24 +1,17 @@
 @inject IStateSelection<AppState, Note?> EditingNoteSelector
-@inject IStateSelection<AppState, bool> ShowCreateDialogSelector
 
-<MudDialog Visible="Note != null || ShowCreateDialogSelector.Value"
+<MudDialog Visible="Note != null"
            VisibleChanged="HandleVisibleChanged"
-           Options="_options"
+           Options="CreateNoteDialog.DialogOptions"
            DefaultFocus="DefaultFocus.FirstChild"
            Class="note-editing-dialog">
     <TitleContent>
-        @if (ShowCreateDialogSelector.Value)
-        {
-            @:Create new note
-        }
-        else
-        {
-            @:Edit note
-        }
+        Edit note
     </TitleContent>
     <DialogContent>
         <MudStack>
             @* immediate is needed to also support the OnKeyUp submit *@
+            @* changes here should be copied over to CreateNoteDialog.razor *@
             <MudTextField @bind-Value="_newText"
                           Label="Text"
                           Lines="3"
@@ -135,24 +128,13 @@
     string _newText = "";
     DateTime? _updatedCreateTimestamp = null;
 
-    DialogOptions _options = new()
-    {
-        FullWidth = true, // full width of the MaxWidth setting
-        BackdropClick = true,
-        CloseOnEscapeKey = true
-    };
-
     private Note? Note => EditingNoteSelector.Value;
 
     protected override void OnInitialized()
     {
-// use an StateSelector so it does not rerender because of irrelevant changes
-        // somebody could simplify this double-handling-thing, but actually I think that it has reached it's end already 
+        // use an StateSelector so it does not rerender because of irrelevant changes
         EditingNoteSelector.Select(x => x.CurrentlyEditingNote);
         EditingNoteSelector.SelectedValueChanged += EditingNoteSelectorOnSelectedValueChanged;
-
-        ShowCreateDialogSelector.Select(x => x.ShowCreateNoteDialog);
-        ShowCreateDialogSelector.SelectedValueChanged += ShowCreateDialogSelectorOnSelectedValueChanged;
 
         base.OnInitialized();
     }
@@ -166,15 +148,6 @@
         }
     }
 
-    private void ShowCreateDialogSelectorOnSelectedValueChanged(object? sender, bool e)
-    {
-        if (ShowCreateDialogSelector.Value)
-        {
-// empty text when new edit starts
-            _newText = "";
-        }
-    }
-
     private void HandleCreatedAtChanged(DateTime newValue)
     {
         _updatedCreateTimestamp = newValue;
@@ -182,26 +155,12 @@
 
     private void HandleCancel()
     {
-        if (ShowCreateDialogSelector.Value)
-        {
-            Dispatch(new NoteActions.HideCreateNoteDialogAction());
-        }
-        else
-        {
-            Dispatch(new NoteActions.CancelNoteEditingAction(Note!));
-        }
+        Dispatch(new NoteActions.CancelNoteEditingAction(Note!));
     }
 
     private void HandleSave()
     {
-        if (ShowCreateDialogSelector.Value)
-        {
-            Dispatch(new NoteActions.CreateNoteRequestAction(_newText));
-        }
-        else
-        {
-            Dispatch(new NoteActions.SaveNoteEditingAction(Note!, _newText, _updatedCreateTimestamp));
-        }
+        Dispatch(new NoteActions.SaveNoteEditingAction(Note!, _newText, _updatedCreateTimestamp));
     }
 
     private void HandleVisibleChanged(bool isVisible)
@@ -248,7 +207,7 @@
     private void HandleDeletePermanently(Guid noteId)
     {
         Dispatch(new NoteActions.DeleteNotePermanentlyAction(noteId));
-// no other method call needed because CurrentlyEditingNote is cleared automatically by reducers
+        // no other method call needed because CurrentlyEditingNote is cleared automatically by reducers
     }
 
 }

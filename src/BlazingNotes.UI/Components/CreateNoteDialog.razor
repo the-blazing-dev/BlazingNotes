@@ -1,0 +1,87 @@
+@inject IStateSelection<AppState, bool> ShowCreateDialogSelector
+
+<MudDialog Visible="ShowCreateDialogSelector.Value"
+           VisibleChanged="HandleVisibleChanged"
+           Options="DialogOptions"
+           DefaultFocus="DefaultFocus.FirstChild"
+           Class="note-editing-dialog">
+    <TitleContent>
+        Create new note
+    </TitleContent>
+    <DialogContent>
+        <MudStack>
+            @* immediate is needed to also support the OnKeyUp submit *@
+            @* changes here should be copied over to EditNoteDialog.razor *@
+            <MudTextField @bind-Value="_newText"
+                          Label="Text"
+                          Lines="3"
+                          AutoGrow="true"
+                          Variant="Variant.Outlined"
+                          Immediate="true"
+                          OnKeyUp="HandleKeyUp"/>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="HandleCancel"
+                   title="[Esc]">
+            Cancel
+        </MudButton>
+        <MudButton Color="Color.Success"
+                   OnClick="HandleSave"
+                   Disabled="!_newText.HasContent()"
+                   accesskey="S"
+                   title="[accesskey + S]">
+            Save
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    string _newText = "";
+
+    internal static DialogOptions DialogOptions { get; } = new()
+    {
+        FullWidth = true, // full width of the MaxWidth setting
+        BackdropClick = true,
+        CloseOnEscapeKey = true
+    };
+
+    protected override void OnInitialized()
+    {
+        // use an StateSelector so it does not rerender because of irrelevant changes
+        ShowCreateDialogSelector.Select(x => x.ShowCreateNoteDialog);
+
+        base.OnInitialized();
+    }
+
+    private void HandleCancel()
+    {
+        Dispatch(new NoteActions.HideCreateNoteDialogAction());
+        // we don't clear the text here because maybe someone want's to continue soon
+    }
+
+    private void HandleSave()
+    {
+        Dispatch(new NoteActions.CreateNoteRequestAction(_newText));
+        _newText = "";
+    }
+
+    private void HandleVisibleChanged(bool isVisible)
+    {
+        // happens on backdrop click and ESC key
+        if (!isVisible)
+        {
+            HandleCancel();
+        }
+    }
+
+    private void HandleKeyUp(KeyboardEventArgs args)
+    {
+        if (args.CtrlKey && args.Key == "Enter") // todo extension method
+        {
+            HandleSave();
+        }
+    }
+
+}

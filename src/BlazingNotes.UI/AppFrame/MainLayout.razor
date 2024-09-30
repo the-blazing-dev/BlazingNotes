@@ -25,7 +25,8 @@
     </MudMainContent>
 </MudLayout>
 
-<NoteEditingDialog/>
+<CreateNoteDialog/>
+<EditNoteDialog/>
 
 <div id="blazor-error-ui">
     An unhandled error has occurred.
@@ -46,7 +47,7 @@
             PrimaryLighten = Colors.Blue.Lighten2,
             PrimaryDarken = Colors.Blue.Darken2,
             AppbarBackground = Colors.Gray.Lighten3,
-            AppbarText = new PaletteLight().TextPrimary,
+            AppbarText = new PaletteLight().TextPrimary
         },
         PaletteDark = new PaletteDark
         {
@@ -54,9 +55,9 @@
             PrimaryLighten = Colors.Blue.Lighten2,
             PrimaryDarken = Colors.Blue.Darken2
         },
-        Typography = new()
+        Typography = new Typography
         {
-            Input = new()
+            Input = new Input
             {
                 FontSize = "inherit"
             }
