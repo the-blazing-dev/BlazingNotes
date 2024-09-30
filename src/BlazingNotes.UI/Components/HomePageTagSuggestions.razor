@@ -1,0 +1,59 @@
+@inject IState<AppState> AppState
+@{
+    var history = AppState.Value.GetTagSuggestions().Take(6).ToList();
+}
+<MudCardContent Class="px-3 pb-3 pt-2 note-card-text-width" title="Click to add the tag to your new note">
+    <hr/>
+    <span>Tag Suggestions:</span>
+    @if (history.HasContent())
+    {
+        <ul>
+            @foreach (var item in history)
+            {
+                <li>
+                    <a class="cursor-copy" @onclick="() => OnAddTags.InvokeAsync(item)">@item</a>
+                </li>
+            }
+        </ul>
+    }
+</MudCardContent>
+
+@code {
+
+// because "OnAddTags" is a "reference parameter" the Renderer always renders this component
+// whenever the parent one is rendered, which is actually on every OnKeyUp at the moment...
+// so we only fetch/calculate/render the tags history list when something inside the AppState changes
+// we didn't have performance problems so far, but I wanted to solve it somehow upfront.
+
+    bool _shouldRender = true; // true for initial render
+    [Parameter] public EventCallback<string> OnAddTags { get; set; }
+
+    protected override void OnInitialized()
+    {
+        AppState.StateChanged += HandleAppStateChanged;
+        base.OnInitialized();
+    }
+
+    private void HandleAppStateChanged(object? sender, EventArgs e)
+    {
+        _shouldRender = true;
+    }
+
+    protected override bool ShouldRender()
+    {
+        if (_shouldRender)
+        {
+            _shouldRender = false;
+            return true;
+        }
+
+        return false;
+    }
+
+    protected override ValueTask DisposeAsyncCore(bool disposing)
+    {
+        AppState.StateChanged -= HandleAppStateChanged;
+        return base.DisposeAsyncCore(disposing);
+    }
+
+}

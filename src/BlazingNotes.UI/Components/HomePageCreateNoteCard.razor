@@ -1,71 +1,78 @@
 <MudCard Outlined Class="mx-auto bz-border-color-primary">
-    @* less top margin because the outlined TextField has some additional spacing *@
-    <MudCardContent Class="px-3 pb-3 pt-2 note-card-text-width">
-        <MudStack Spacing="2" Class="">
-            <MudTextField T="string"
-                          Value="_input"
-                          ValueChanged="HandleInputChanged"
-                          AutoGrow="true"
-                          Lines="3"
-                          MaxLines="10"
-                          Immediate="true"
-                          OnKeyUp="HandleKeyUp"
-                          AutoFocus="true"
-                          Variant="Variant.Outlined"
-                          TextUpdateSuppression="false"
-                          Label="Suchen oder Erstellen"
-                          Class="mb-0"
-                          Placeholder="Hier kannst du nach bestehenden Notizen suchen und gleichzeitig neue Notizen erstellen"/>
-            <MudStack Row Spacing="2">
-                <MudButton Color="Color.Primary"
-                           Variant="Variant.Filled"
-                           StartIcon="@Icons.Material.Filled.Add"
-                           FullWidth
-                           Disabled="!_input.HasContent()"
-                           OnClick="HandleCreate"
-                           title="Create new note: [CTRL+ENTER]">
-                    Create
-                </MudButton>
-                <MudButton Color="Color.Primary"
-                           Variant="Variant.Filled"
-                           Disabled="!_input.HasContent()"
-                           OnClick="HandleCreateAndArchive"
-                           Class="bz-icon-only-button"
-                           title="Create and Archive: [CTRL+ALT+ENTER]">
-                    <MudIcon Icon="@Icons.Material.Filled.Archive"></MudIcon>
-                </MudButton>
+    @* not as intended to place multiple MudCardContents inside a MudCard, but it works perfectly :) *@
+    <MudStack Class="flex-md-row" Wrap="Wrap.Wrap" Spacing="0">
+        @* less top margin because the outlined TextField has some additional spacing *@
+        <MudCardContent Class="px-3 pb-3 pt-2 note-card-text-width">
+            <MudStack Spacing="2" Class="">
+                <MudTextField T="string"
+                              @ref="_inputField"
+                              Value="_input"
+                              ValueChanged="HandleInputChanged"
+                              AutoGrow="true"
+                              Lines="3"
+                              MaxLines="10"
+                              Immediate="true"
+                              OnKeyUp="HandleKeyUp"
+                              AutoFocus="true"
+                              Variant="Variant.Outlined"
+                              TextUpdateSuppression="false"
+                              Label="Suchen oder Erstellen"
+                              Class="mb-0"
+                              Placeholder="Hier kannst du nach bestehenden Notizen suchen und gleichzeitig neue Notizen erstellen"/>
+                <MudStack Row Spacing="2">
+                    <MudButton Color="Color.Primary"
+                               Variant="Variant.Filled"
+                               StartIcon="@Icons.Material.Filled.Add"
+                               FullWidth
+                               Disabled="!_input.HasContent()"
+                               OnClick="HandleCreate"
+                               title="Create new note: [CTRL+ENTER]">
+                        Create
+                    </MudButton>
+                    <MudButton Color="Color.Primary"
+                               Variant="Variant.Filled"
+                               Disabled="!_input.HasContent()"
+                               OnClick="HandleCreateAndArchive"
+                               Class="bz-icon-only-button"
+                               title="Create and Archive: [CTRL+ALT+ENTER]">
+                        <MudIcon Icon="@Icons.Material.Filled.Archive"></MudIcon>
+                    </MudButton>
+                </MudStack>
             </MudStack>
-        </MudStack>
-    </MudCardContent>
+        </MudCardContent>
+
+        <HomePageTagSuggestions OnAddTags="HandleAddTags"/>
+    </MudStack>
 </MudCard>
 
 @code {
 
     string _input = "";
+    MudTextField<string> _inputField = null!;
 
     [Parameter] public EventCallback<string> InputChanged { get; set; }
 
-    private void HandleCreate()
+    private async Task HandleCreate()
     {
         Dispatch(new NoteActions.CreateNoteRequestAction(_input));
-        HandleInputChanged("");
+        await HandleInputChanged("");
     }
 
-    private void HandleCreateAndArchive()
+    private async Task HandleCreateAndArchive()
     {
         Dispatch(new NoteActions.CreateNoteRequestAction(_input, true));
-        HandleInputChanged("");
+        await HandleInputChanged("");
     }
 
     private async Task HandleKeyUp(KeyboardEventArgs args)
     {
         if (args.CtrlKey && args.AltKey && args.Key == "Enter")
         {
-            HandleCreateAndArchive();
+            await HandleCreateAndArchive();
         }
         else if (args.CtrlKey && args.Key == "Enter")
         {
-            HandleCreate();
+            await HandleCreate();
         }
     }
 
@@ -73,6 +80,20 @@
     {
         _input = arg;
         return InputChanged.InvokeAsync(arg);
+    }
+
+    private async Task HandleAddTags(string tagsToAdd)
+    {
+        if (_input.HasContent() &&
+            !char.IsWhiteSpace(_input.Last()))
+        {
+            _input += " ";
+        }
+
+        _input += tagsToAdd + " ";
+
+        await _inputField.FocusAsync();
+        await InputChanged.InvokeAsync(_input);
     }
 
 }

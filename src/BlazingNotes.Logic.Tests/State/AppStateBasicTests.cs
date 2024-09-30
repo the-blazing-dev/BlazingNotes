@@ -9,7 +9,7 @@ public class AppStateBasicTests : TestBase, IAsyncLifetime
 
     private IState<AppState> Sut { get; }
 
-    public Task InitializeAsync()
+    Task IAsyncLifetime.InitializeAsync()
     {
         return Task.CompletedTask;
     }
@@ -71,7 +71,7 @@ public class AppStateBasicTests : TestBase, IAsyncLifetime
     [Fact]
     public void NotesCanBeCreatedAndArchivedInOneStep()
     {
-        Dispatch(new NoteActions.CreateNoteRequestAction("some note", IsArchived: true));
+        Dispatch(new NoteActions.CreateNoteRequestAction("some note", true));
         var note = Sut.Value.Notes.Single();
         note.Text.Should().Be("some note");
         note.ArchivedAt.Should().BeCloseToNow();
@@ -114,7 +114,10 @@ public class AppStateBasicTests : TestBase, IAsyncLifetime
     [Fact]
     public void OnlyTenItemsAreShownInHomePage()
     {
-        for (var i = 0; i < 15; i++) Dispatch(new NoteActions.CreateNoteRequestAction("Note #" + i));
+        for (var i = 0; i < 15; i++)
+        {
+            Dispatch(new NoteActions.CreateNoteRequestAction("Note #" + i));
+        }
 
         Sut.Value.GetHomePageNotes().Should().HaveCount(10);
     }
@@ -227,9 +230,34 @@ public class AppStateBasicTests : TestBase, IAsyncLifetime
         tags.Should().ContainSingle("#importANT");
     }
 
-    public Task DisposeAsync()
+    [Fact]
+    public void GetTagSuggestions()
     {
-        return CheckDbPersistence();
+        Assert([]);
+
+        CreateNote("hello #world");
+        Assert(["#world"]);
+
+        // latest note/tags come first
+        CreateNote("second #note");
+        Assert(["#note", "#world"]);
+
+        // duplicates are not useful, but will come first
+        CreateNote("hello #world again!");
+        Assert(["#world", "#note"]);
+
+        // casing is irrelevant (but last one wins)
+        CreateNote("HELLO #WORLD AGAIN!");
+        Assert(["#WORLD", "#note"]);
+
+        // multiple tags in notes
+        CreateNote("I like #multiple tags in my #note");
+        Assert(["#multiple #note", "#WORLD", "#note"]);
+
+        void Assert(IEnumerable<string> expected)
+        {
+            Sut.Value.GetTagSuggestions().Should().BeEquivalentTo(expected, x => x.WithStrictOrdering());
+        }
     }
 
     private async Task CheckDbPersistence()
@@ -238,5 +266,10 @@ public class AppStateBasicTests : TestBase, IAsyncLifetime
         var stateNotes = Sut.Value.Notes.OrderBy(x => x.Id).ToList();
 
         dbNotes.Should().BeEquivalentTo(stateNotes);
+    }
+
+    public Task DisposeAsync()
+    {
+        return CheckDbPersistence();
     }
 }

@@ -69,4 +69,12 @@ public record AppState
 
         return result;
     }
+
+    public IEnumerable<string> GetTagSuggestions()
+    {
+        return GetHomePageNotes()
+            .Select(x => x.GetTags())
+            .Select(x => x.StringJoin(" "))
+            .Distinct(StringComparer.OrdinalIgnoreCase);
+    }
 }
