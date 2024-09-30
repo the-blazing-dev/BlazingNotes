@@ -73,6 +73,25 @@ input::placeholder, textarea::placeholder {
     opacity: 0.33;
 }
 
+.note-editing-dialog .timestamp-renderer {
+    opacity: 0.66;
+}
+
+/* needed because classes are applied at container element, styles too late at input element */
+.timestamp-renderer .date-picker {
+    width: 9em;
+}
+
+/* needed because classes are applied at container element, styles too late at input element */
+.timestamp-renderer .time-picker {
+    width: 7em;
+}
+
+.note-editing-dialog .timestamp-renderer .prefix {
+    /*to have some small alignment*/
+    min-width: 5em;
+}
+
 bz-tag {
     display: inline-block; /* needed to keep #dashed-tags together as long as possible */
     color: var(--mud-palette-primary);
