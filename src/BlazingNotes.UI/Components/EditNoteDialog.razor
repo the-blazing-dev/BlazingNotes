@@ -9,7 +9,8 @@
         Edit note
     </TitleContent>
     <DialogContent>
-        <MudStack>
+        @* put onkeyup here so it also works in the datetime pickers *@
+        <MudStack @onkeyup="HandleKeyUp">
             @* immediate is needed to also support the OnKeyUp submit *@
             @* changes here should be copied over to CreateNoteDialog.razor *@
             <MudTextField @bind-Value="_newText"
@@ -17,8 +18,7 @@
                           Lines="3"
                           AutoGrow="true"
                           Variant="Variant.Outlined"
-                          Immediate="true"
-                          OnKeyUp="HandleKeyUp"/>
+                          Immediate="true"/>
             @if (Note != null)
             {
                 @* spacing=1 to be very condensed for the metadata *@

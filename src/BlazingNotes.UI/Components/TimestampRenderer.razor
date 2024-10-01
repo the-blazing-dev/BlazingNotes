@@ -3,22 +3,14 @@
     const string space = " ";
     var classes = $"timestamp-renderer {Class}";
     <MudText Typo="Typo.body2" Class="@classes" title="@HoverTitle">
-        <MudStack Row AlignItems="AlignItems.Baseline">
+        <MudStack Row AlignItems="AlignItems.Baseline" Wrap="Wrap.Wrap">
             @if (Prefix.HasContent())
             {
                 <span class="prefix">@Prefix</span>
             }
             @if (Editable)
             {
-                @* "Editable" to allow text input *@
-                <MudDatePicker Date="Ts"
-                               DateChanged="HandleDateChanged"
-                               Editable
-                               Class="date-picker flex-grow-0"/>
-                <MudTimePicker Time="Ts.TimeOfDay"
-                               TimeChanged="HandleTimeChanged"
-                               Editable
-                               Class="time-picker flex-grow-0"/>
+                <DateTimePicker @bind-Timestamp="Ts"/>
             }
             else
             {
@@ -38,6 +30,7 @@
 }
 
 @code {
+
     [Parameter] public DateTime? Timestamp { get; set; }
     [Parameter] public string? Prefix { get; set; }
     [Parameter] public string? Class { get; set; }
@@ -45,33 +38,14 @@
     [Parameter] public bool Editable { get; set; }
     [Parameter] public EventCallback<DateTime> TimestampChanged { get; set; }
 
-    private DateTime Ts => Timestamp.GetValueOrDefault().ToLocalTime();
-
-    private Task HandleDateChanged(DateTime? arg)
+    private DateTime Ts
     {
-        if (arg.HasValue)
+        get => Timestamp.GetValueOrDefault().ToLocalTime();
+        set
         {
-            // we need to do "arg.Value.Date" because the change could come from:
-            // 1) user editing the data -> no time portion
-            // 2) rerendering / parameter setting -> including time portion
-            var newValue = arg.Value.Date.Add(Ts.TimeOfDay);
-            Timestamp = newValue; // to prevent jumping back to old value
-            return TimestampChanged.InvokeAsync(newValue);
+            Timestamp = value.ToUniversalTime();
+            TimestampChanged.InvokeAsync(Timestamp.Value);
         }
-
-        return Task.CompletedTask;
-    }
-
-    private Task HandleTimeChanged(TimeSpan? arg)
-    {
-        if (arg.HasValue)
-        {
-            var newValue = Ts.Date.Add(arg.Value);
-            Timestamp = newValue; // to prevent jumping back to old value
-            return TimestampChanged.InvokeAsync(newValue);
-        }
-
-        return Task.CompletedTask;
     }
 
 }
