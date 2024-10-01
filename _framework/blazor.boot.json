@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "BlazingNotes.WasmApp",
   "resources": {
-    "hash": "sha256-IrHGVTXhhAfMKF6HxbZTz+eWiB2eRcZSICNUqxailzg=",
+    "hash": "sha256-iy935LyW3vnGAAspB1shNkvyH/4da1Ef/HXqBQxMMjk=",
     "jsModuleNative": {
       "dotnet.native.8.0.8.e1s5qpey4j.js": "sha256-WY10Mygq9DI6CNZAQDecayvjJh/asDkajidHXGjXAnI="
     },
@@ -18,9 +18,9 @@
     },
     "assembly": {
       "BlazingDev.BlazingExtensions.wasm": "sha256-YNLhPUP/EcSs5EsPjYldsSQz0T0LbeLG/3P/2g5WdFM=",
-      "BlazingNotes.Logic.wasm": "sha256-ITxDKRqkW+vEyh8dXZ62he1AZeRNBypLSW1wnI7lUs0=",
-      "BlazingNotes.UI.wasm": "sha256-Cj0Ma3lk+Wc5cL+zFmfZ9rO8G+HD/PBLsLn328jTQ9E=",
-      "BlazingNotes.WasmApp.wasm": "sha256-rQrLPnTEBjGFfSRV1zk+2ds6UXDstYXiig6DTeDpm6g=",
+      "BlazingNotes.Logic.wasm": "sha256-aZQO53KkJZWLcw61XcQ64JSCSolth2N0zdDjrnP1HBM=",
+      "BlazingNotes.UI.wasm": "sha256-Td3plAcRNTcbYEq30+RtGUMZFvUslLeR3z9AykUp5GU=",
+      "BlazingNotes.WasmApp.wasm": "sha256-k1/uU+pxM7P1NJwR8ouQU9D0nzNgZ9oUKV3m4RZQB50=",
       "Blazor.IndexedDB.WebAssembly.wasm": "sha256-Ng2k87F66TMXZt6MVssUKxupRwxe6YI38icT6Yj/otE=",
       "Fluxor.Blazor.Web.ReduxDevTools.wasm": "sha256-jDE1ZNbW4Ejki3o6xiZhe09Wz3ggxn9eZ1/1cRF/I7c=",
       "Fluxor.Blazor.Web.wasm": "sha256-EQY4gKqrJmDxIMv//eRwx0R5QItoj2wrFMh9SGea6RE=",
@@ -62,7 +62,7 @@
       "System.Private.CoreLib.wasm": "sha256-zf9Zau50Fblm/5NVZZhIjlkj835gZA/HJgKyuGytcW0=",
       "System.Private.Uri.wasm": "sha256-Y8PeYZKHx2oXynn6j9Z7RmLedy+uaKhLOsXLPNca+iI=",
       "System.Runtime.InteropServices.JavaScript.wasm": "sha256-axgwq/HmUZ9ac8hGCXLwlExQsFnu3rH6uakC50cgATc=",
-      "System.Runtime.wasm": "sha256-IL4h5mKuBbDOEi50PeKtQvtKC3WcpM9OSWzaevXmY/c=",
+      "System.Runtime.wasm": "sha256-GSom6+kRaLD9PJiMBvuRE4/RimMynYxtfD0byguoTdo=",
       "System.Text.Encodings.Web.wasm": "sha256-hvL1Sp38Sb9Pf0P2X3TSMaVAgkSIFhOOfYTuLaUbkvs=",
       "System.Text.Json.wasm": "sha256-4tpnl/ujvrhHswBE/X2CgEw7lzrqblc1PtK8j3GotXo=",
       "System.Text.RegularExpressions.wasm": "sha256-hb7zGZPT9237cAK2toOFyhaVNZrhfeov7c/5Sl0XH4M=",
