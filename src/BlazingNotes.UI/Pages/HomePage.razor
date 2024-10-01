@@ -8,18 +8,17 @@
     <HomePageCreateNoteCard InputChanged="x => _input = x"/>
 
     @{
-        if (NoteSearcher.IsSearchTermLongEnough(_input))
+        // do search before we pass everything to the NoteCardListSeparated component so we can limit the result list
+        var searchable = AppState.Value.GetSearchableNotes().OrderByDescending(x => x.CreatedAt).ToList();
+        var result = NoteSearcher.Search(searchable, _input);
+        if (result.LongEnough)
         {
-            var searchable = AppState.Value.GetSearchableNotes().OrderByDescending(x => x.CreatedAt).ToList();
-            var (_, query, matches) = NoteSearcher.Search(searchable, _input);
-            var matchesTake = matches.Take(10).ToList();
-            // ShowNoteCount=false because we show only 10 preview items
-            <NoteCardList Headline="Suchergebnisse"
-                          Notes="matchesTake"
-                          SearchQuery="@query"
-                          ShowNoteCount="false">
+            var split = result.SplitByArchived();
+            var subset = split.notArchived.Concat(split.archived).Take(10).ToList();
+
+            <NoteCardListSeparated Notes="subset" SearchText="@_input">
                 <AfterLastCardContent>
-                    @if (matches.Count > matchesTake.Count)
+                    @if (result.Notes.Count > subset.Count)
                     {
                         var href = SearchPage.GetUrl(_input);
                         <MudButton Href="@href"
@@ -30,7 +29,7 @@
                         </MudButton>
                     }
                 </AfterLastCardContent>
-            </NoteCardList>
+            </NoteCardListSeparated>
         }
         else
         {

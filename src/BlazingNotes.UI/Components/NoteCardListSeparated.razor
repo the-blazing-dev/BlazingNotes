@@ -5,26 +5,30 @@
     {
         <NoteCardList Notes="split.notArchived"
                       Headline="Suchergebnisse"
-                      SearchQuery="@result.Query"/>
+                      SearchQuery="@result.Query"
+                      AfterLastCardContent="AfterLastCardContent"/>
 
         @if (split.archived.HasContent())
         {
             <NoteCardList Notes="split.archived"
                           Headline="Archiviert"
                           SearchQuery="@result.Query"
-                          InitiallyExpanded="false"/>
+                          InitiallyExpanded="false"
+                          AfterLastCardContent="AfterLastCardContent"/>
         }
     }
     else
     {
         <NoteCardList Notes="split.notArchived"
-                      NoNotesText="@NoNotesText"/>
+                      NoNotesText="@NoNotesText"
+                      AfterLastCardContent="AfterLastCardContent"/>
 
         @if (split.archived.HasContent())
         {
             <NoteCardList Notes="split.archived"
                           Headline="Archiviert"
-                          InitiallyExpanded="false"/>
+                          InitiallyExpanded="false"
+                          AfterLastCardContent="AfterLastCardContent"/>
         }
     }
 }
@@ -33,4 +37,5 @@
     [Parameter] [EditorRequired] public required ICollection<Note> Notes { get; set; }
     [Parameter] public string? SearchText { get; set; }
     [Parameter] public string? NoNotesText { get; set; }
+    [Parameter] public RenderFragment? AfterLastCardContent { get; set; }
 }
