@@ -77,19 +77,17 @@ input::placeholder, textarea::placeholder {
     opacity: 0.66;
 }
 
-/* needed because classes are applied at container element, styles too late at input element */
-.timestamp-renderer .date-picker {
-    width: 9em;
-}
-
-/* needed because classes are applied at container element, styles too late at input element */
-.timestamp-renderer .time-picker {
-    width: 7em;
-}
-
 .note-editing-dialog .timestamp-renderer .prefix {
     /*to have some small alignment*/
     min-width: 5em;
+}
+
+@media (prefers-color-scheme: dark) {
+    input[type=datetime-local] {
+        color-scheme: dark; /* to fix calendar icon */
+        color: inherit;
+        background-color: inherit;
+    }
 }
 
 bz-tag {
