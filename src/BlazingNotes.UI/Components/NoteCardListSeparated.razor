@@ -1,34 +1,28 @@
-@using BlazingNotes.Logic.Services
 @{
-    var (longEnough, query, matches) = NoteSearcher.Search(Notes, SearchText ?? "");
-    if (longEnough)
+    var result = NoteSearcher.Search(Notes, SearchText ?? "");
+    var split = result.SplitByArchived();
+    if (result.LongEnough)
     {
-        var nonArchiveMatches = matches.Where(x => x.ArchivedAt == null).ToList();
-        var archiveMatches = matches.Where(x => x.ArchivedAt.HasValue).ToList();
-
-        <NoteCardList Notes="nonArchiveMatches"
+        <NoteCardList Notes="split.notArchived"
                       Headline="Suchergebnisse"
-                      SearchQuery="@query"/>
+                      SearchQuery="@result.Query"/>
 
-        @if (archiveMatches.HasContent())
+        @if (split.archived.HasContent())
         {
-            <NoteCardList Notes="archiveMatches"
+            <NoteCardList Notes="split.archived"
                           Headline="Archiviert"
-                          SearchQuery="@query"
+                          SearchQuery="@result.Query"
                           InitiallyExpanded="false"/>
         }
     }
     else
     {
-        var nonArchived = matches.Where(x => x.ArchivedAt == null).ToList();
-        var archived = matches.Where(x => x.ArchivedAt.HasValue).ToList();
-
-        <NoteCardList Notes="nonArchived"
+        <NoteCardList Notes="split.notArchived"
                       NoNotesText="@NoNotesText"/>
 
-        @if (archived.HasContent())
+        @if (split.archived.HasContent())
         {
-            <NoteCardList Notes="archived"
+            <NoteCardList Notes="split.archived"
                           Headline="Archiviert"
                           InitiallyExpanded="false"/>
         }

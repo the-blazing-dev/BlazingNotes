@@ -1,5 +1,4 @@
 ﻿@page "/journal"
-@using BlazingNotes.Logic.Services
 @inject IState<AppState> AppState
 
 <BzPageTitle>Journal</BzPageTitle>
@@ -14,17 +13,16 @@
     @{
         var all = AppState.Value.GetJournalNotes();
         var result = NoteSearcher.Search(all, _query);
-        all = result.results.ToList();
 
-        var days = all.Select(x => x.CreatedAt.Date).Distinct().ToList();
+        var days = result.Notes.Select(x => x.CreatedAt.Date).Distinct().ToList();
         foreach (var day in days)
         {
             var headline = day.ToLongDateString();
-            var dayNotes = all.Where(x => x.CreatedAt.Date == day).ToList();
+            var dayNotes = result.Notes.Where(x => x.CreatedAt.Date == day).ToList();
             <NoteCardList @key="headline"
                           Notes="dayNotes"
                           Headline="@headline"
-                          SearchQuery="result.query"/>
+                          SearchQuery="result.Query"/>
         }
     }
 </MudStack>

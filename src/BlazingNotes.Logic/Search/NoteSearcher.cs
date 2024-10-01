@@ -1,18 +1,19 @@
-using BlazingNotes.Logic.Search;
-
-namespace BlazingNotes.Logic.Services;
+namespace BlazingNotes.Logic.Search;
 
 public static class NoteSearcher
 {
-    public static (bool longEnough, BzSearchQuery query, ICollection<Note> results) Search(ICollection<Note> notes,
+    public static NoteSearchResult Search(ICollection<Note> notes,
         string searchTerm)
     {
         var query = new BzSearchQuery(searchTerm);
-        if (!IsSearchTermLongEnough(searchTerm)) return (false, query, notes);
+        if (!IsSearchTermLongEnough(searchTerm))
+        {
+            return new NoteSearchResult(false, query, notes);
+        }
 
         var matches = notes.Where(x => BzSearch.IsMatch(query, x.Text)).ToList();
 
-        return (true, query, matches);
+        return new NoteSearchResult(true, query, matches);
     }
 
     public static bool IsSearchTermLongEnough(string search)
