@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "BlazingNotes.WasmApp",
   "resources": {
-    "hash": "sha256-iy935LyW3vnGAAspB1shNkvyH/4da1Ef/HXqBQxMMjk=",
+    "hash": "sha256-ylEdGUcnWeB6efcg/yjzJz+Lygzjiew5WkGsWkeob2c=",
     "jsModuleNative": {
       "dotnet.native.8.0.8.e1s5qpey4j.js": "sha256-WY10Mygq9DI6CNZAQDecayvjJh/asDkajidHXGjXAnI="
     },
@@ -18,16 +18,16 @@
     },
     "assembly": {
       "BlazingDev.BlazingExtensions.wasm": "sha256-YNLhPUP/EcSs5EsPjYldsSQz0T0LbeLG/3P/2g5WdFM=",
-      "BlazingNotes.Logic.wasm": "sha256-aZQO53KkJZWLcw61XcQ64JSCSolth2N0zdDjrnP1HBM=",
-      "BlazingNotes.UI.wasm": "sha256-Td3plAcRNTcbYEq30+RtGUMZFvUslLeR3z9AykUp5GU=",
-      "BlazingNotes.WasmApp.wasm": "sha256-k1/uU+pxM7P1NJwR8ouQU9D0nzNgZ9oUKV3m4RZQB50=",
+      "BlazingNotes.Logic.wasm": "sha256-yb9RlvkcVDsYYBozXLe/yEe6Ozy9JdUn78YvKef+y44=",
+      "BlazingNotes.UI.wasm": "sha256-3ogTQOCN54IVvuBe1etXhmLuCZ9Da7QqmTVJZgRJAIs=",
+      "BlazingNotes.WasmApp.wasm": "sha256-rOeIvkxmWoQIOQrSAqrG9PWBEijgPj0O5q+zkcN99F8=",
       "Blazor.IndexedDB.WebAssembly.wasm": "sha256-Ng2k87F66TMXZt6MVssUKxupRwxe6YI38icT6Yj/otE=",
       "Fluxor.Blazor.Web.ReduxDevTools.wasm": "sha256-jDE1ZNbW4Ejki3o6xiZhe09Wz3ggxn9eZ1/1cRF/I7c=",
       "Fluxor.Blazor.Web.wasm": "sha256-EQY4gKqrJmDxIMv//eRwx0R5QItoj2wrFMh9SGea6RE=",
       "Fluxor.wasm": "sha256-QxsT3q2RKCTpONQ/VtLJDj0LKq/xEGj9veYEqkI/PSI=",
       "Microsoft.AspNetCore.Components.Browser.wasm": "sha256-wgN0rMdsailppzMXfuHqe89vmatoNGn9nQsPraC8pJ0=",
       "Microsoft.AspNetCore.Components.Forms.wasm": "sha256-un0mWHcNYsRjdRZz/RwoEXZ36QV3diPGsr1753foDzQ=",
-      "Microsoft.AspNetCore.Components.wasm": "sha256-wCdMHPvY4OVejdQTYAgSpMBMHPDvi9ddDAlm9qkW2NI=",
+      "Microsoft.AspNetCore.Components.wasm": "sha256-wKqgnwshTmibWzzwpuCwPvQ25ahu1rxzwWbwnXhfV8E=",
       "Microsoft.AspNetCore.Components.Web.wasm": "sha256-gfa7d/RpSug6AYn3aLFUAWoCJe2dtzyimixFFYV3r9s=",
       "Microsoft.AspNetCore.Components.WebAssembly.wasm": "sha256-QZUYy5e6wHwviWjOpldjR+SqfxB6aVVq19e9vWVg92I=",
       "Microsoft.Extensions.Configuration.Abstractions.wasm": "sha256-87sn2TYqgdZ95sXmavjKEzoEfMgHnYQ9LOvnMX+aZcI=",
