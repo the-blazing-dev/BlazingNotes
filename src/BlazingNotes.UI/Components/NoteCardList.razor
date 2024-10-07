@@ -1,5 +1,4 @@
 @using BlazingNotes.Logic
-@using BlazingNotes.Logic.Search
 @{
     var headline = Headline;
     if (headline.HasContent() && ShowNoteCount && Notes.Count > 0)
@@ -18,7 +17,7 @@
         {
             foreach (var item in Notes)
             {
-                <NoteCard Note="item" SearchQuery="@SearchQuery"/>
+                <NoteCard @key="item.Id" Note="item" SearchQuery="@SearchQuery"/>
             }
 
             @AfterLastCardContent
