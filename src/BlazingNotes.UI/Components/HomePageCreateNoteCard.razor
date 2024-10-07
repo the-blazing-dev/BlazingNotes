@@ -1,3 +1,5 @@
+@inject IJSRuntime Js
+
 <MudCard Outlined Class="mx-auto bz-border-color-primary">
     @* not as intended to place multiple MudCardContents inside a MudCard, but it works perfectly :) *@
     <MudStack Class="flex-md-row" Wrap="Wrap.Wrap" Spacing="0">
@@ -19,7 +21,15 @@
                               Label="Suchen oder Erstellen"
                               Class="mb-0"
                               Placeholder="Hier kannst du nach bestehenden Notizen suchen und gleichzeitig neue Notizen erstellen"/>
-                <MudStack Row Spacing="2">
+                <MudStack Row Spacing="2" onclick="addHashtagCharacter">
+                    @* .d-sm-none: hidden from small upwards (because larger devices probably have keyboards) *@
+                    <MudButton Color="Color.Primary"
+                               Variant="Variant.Filled"
+                               Class="bz-icon-only-button d-sm-none"
+                               OnClick="HandleHashtag"
+                               title="Add # character">
+                        <MudIcon Icon="@Icons.Material.Filled.Tag"></MudIcon>
+                    </MudButton>
                     <MudButton Color="Color.Primary"
                                Variant="Variant.Filled"
                                StartIcon="@Icons.Material.Filled.Add"
@@ -84,6 +94,11 @@
 
         await _inputField.FocusAsync();
         await InputChanged.InvokeAsync(_input);
+    }
+
+    private async Task HandleHashtag()
+    {
+        await Js.InvokeVoidAsync("addHashtagCharacter", _inputField.InputReference.ElementReference);
     }
 
 }
