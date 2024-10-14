@@ -1,15 +1,59 @@
 <MudField Variant="Variant.Outlined" Class="flex-grow-0" InnerPadding="false" Margin="Margin.Dense">
-    <input type="datetime-local"
-           @bind="@Timestamp"
+    <input type="date"
+           @bind="@DatePart"
            @bind:after="() => TimestampChanged.InvokeAsync(Timestamp)"
            class="date-time-picker mt-n1"
+           style="outline: none"/>
+    @* outline: none because it's already handled by MudField *@
+    <input type="time"
+           value="@TimePart"
+           @onchange="HandleTimePartChanged"
+           class="date-time-picker mt-n1 pl-2"
            style="outline: none"/>
     @* outline: none because it's already handled by MudField *@
 </MudField>
 
 @code {
 
+    private DateTime DatePart
+    {
+        get => Timestamp.Date;
+        set
+        {
+            var timePart = Timestamp.TimeOfDay;
+            Timestamp = value.Date.Add(timePart);
+        }
+    }
+
+    private TimeSpan TimePart
+    {
+        get
+        {
+            var ts = Timestamp;
+            return new TimeSpan(ts.Hour, ts.Minute, ts.Second);
+        }
+        set
+        {
+            var date = Timestamp.Date;
+            Timestamp = date.Date.Add(value);
+        }
+    }
+
     [Parameter] [EditorRequired] public DateTime Timestamp { get; set; }
     [Parameter] public EventCallback<DateTime> TimestampChanged { get; set; }
+
+// needed because the built-in converter does not handle TimeSpan
+    private async Task HandleTimePartChanged(ChangeEventArgs arg)
+    {
+        var asString = arg.Value?.ToString();
+        if (!asString.HasContent())
+        {
+            return;
+        }
+
+        var ts = TimeSpan.Parse(asString);
+        TimePart = ts;
+        await TimestampChanged.InvokeAsync(Timestamp);
+    }
 
 }
