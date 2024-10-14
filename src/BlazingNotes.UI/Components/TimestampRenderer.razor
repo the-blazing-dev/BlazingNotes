@@ -3,7 +3,8 @@
     const string space = " ";
     var classes = $"timestamp-renderer {Class}";
     <MudText Typo="Typo.body2" Class="@classes" title="@HoverTitle">
-        <MudStack Row AlignItems="AlignItems.Baseline" Wrap="Wrap.Wrap">
+        @* no spacing for now because it wraps on mobile and looks bad then *@
+        <MudStack Row AlignItems="AlignItems.Baseline" Wrap="Wrap.Wrap" Spacing="0">
             @if (Prefix.HasContent())
             {
                 <span class="prefix">@Prefix</span>

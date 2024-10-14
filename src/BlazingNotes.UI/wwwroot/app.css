@@ -80,6 +80,7 @@ input::placeholder, textarea::placeholder {
 .note-editing-dialog .timestamp-renderer .prefix {
     /*to have some small alignment*/
     min-width: 5em;
+    margin-right: 0.5em;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -87,6 +88,17 @@ input::placeholder, textarea::placeholder {
         color-scheme: dark; /* to fix calendar icon */
         color: inherit;
         background-color: inherit;
+    }
+}
+
+/* trying to reduce default native input width on chrome mobile */
+@media (max-width: 500px) {
+    input[type=date] {
+        max-width: 110px; /* 104px on desktop + some cushion */
+    }
+
+    input[type=time] {
+        max-width: 80px; /* 75px on desktop + some cushion */
     }
 }
 
