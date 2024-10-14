@@ -83,11 +83,16 @@ input::placeholder, textarea::placeholder {
 }
 
 @media (prefers-color-scheme: dark) {
-    input[type=datetime-local] {
+    input[type=datetime-local], input[type=date], input[type=time] {
         color-scheme: dark; /* to fix calendar icon */
         color: inherit;
         background-color: inherit;
     }
+}
+
+/* decrease space between input and symbol */
+input[type=date]::-webkit-calendar-picker-indicator {
+    margin-left: -15px;
 }
 
 bz-tag {
