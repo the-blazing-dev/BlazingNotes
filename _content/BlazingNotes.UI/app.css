@@ -112,6 +112,12 @@ bz-tag {
     color: var(--mud-palette-primary);
 }
 
+bz-search {
+    display: inline-block; /* needed to keep dashed-results together as long as possible */
+    background-color: mark;
+    color: marktext;
+}
+
 /* use default color for the icons of active menu items */
 .mud-nav-link.active > svg {
     color: var(--mud-palette-primary) !important;
