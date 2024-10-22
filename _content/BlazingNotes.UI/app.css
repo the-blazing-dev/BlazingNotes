@@ -134,6 +134,16 @@ bz-search {
     color: var(--mud-palette-primary);
 }
 
+.blurred-note .note-text {
+    filter: blur(4px);
+    transition: 0.25s filter;
+}
+
+.blurred-note:hover .note-text,
+.blurred-note:focus .note-text {
+    filter: blur(0px);
+}
+
 .bz-border-color-primary {
     border-color: var(--mud-palette-primary);
 }
