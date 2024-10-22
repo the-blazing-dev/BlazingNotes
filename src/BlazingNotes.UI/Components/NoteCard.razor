@@ -1,12 +1,8 @@
-@using BlazingNotes.Logic.Search
 <MudCard Elevation="3" @ondblclick="HandleDblClick">
     <MudCardContent Class="note-card-text-width note-card-text-height"
                     Style="word-break: break-word">
         <p style="white-space: pre-line" class="pb-0">
-            <MudHighlighter Text="@Note.GetTextWithTagsMarked()"
-                            HighlightedTexts="@SearchQuery?.RequiredTerms"
-                            Markup="true"
-                            Class="yellow"/>
+            @(new MarkupString(Note.GetXssSafeText(SearchQuery)))
         </p>
     </MudCardContent>
     <MudCardActions>
