@@ -13,8 +13,11 @@ public class NoteTests
     [InlineData("with #dash-and_underline", "#dash-and_underline")]
     [InlineData("with #slash/does not work", "#slash")]
     [InlineData("I am a C#-developer", "")]
+    [InlineData("inside#text", "")]
+    [InlineData("inside-#text", "")]
     [InlineData("Deutsche #Wörter machen #Spaß", "#Wörter #Spaß")]
     [InlineData("#Äpfel fallen vom Baum", "#Äpfel")]
+    [InlineData("HTML-encoded&#xD;&#xA;newline", "")]
     public void GetTags(string text, string expectedSpaceSeparated)
     {
         var note = new Note
