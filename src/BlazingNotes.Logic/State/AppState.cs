@@ -18,9 +18,17 @@ public record AppState
     {
         return GetSearchableNotes()
             .Where(x => x.ArchivedAt == null)
-            .Where(x => x.HiddenUntil == null || x.HiddenUntil < DateTime.Now)
+            .Where(x => !x.IsHidden())
             .OrderByDescending(x => x.CreatedAt)
             .Take(10)
+            .ToList();
+    }
+
+    public ICollection<Note> GetHiddenNotes()
+    {
+        return GetSearchableNotes()
+            .Where(x => x.IsHidden())
+            .OrderBy(x => x.HiddenUntil)
             .ToList();
     }
 

@@ -1,0 +1,36 @@
+﻿@page "/later"
+@inject IState<AppState> AppState
+
+<BzPageTitle>Later</BzPageTitle>
+
+<MudStack Spacing="6">
+    <MudStack Row AlignItems="AlignItems.Center">
+        @* todo check why it is completely different to native <h1> *@
+        @* todo think about placing the title in the navbar *@
+        <MudText Typo="Typo.h4" Color="Color.Primary">Later</MudText>
+
+        <MudTextField @bind-Value="_search"
+                      Variant="Variant.Outlined"
+                      AutoFocus
+                      Label="Search"
+                      Margin="Margin.Dense"
+                      Immediate
+                      Class="flex-grow-0"/>
+    </MudStack>
+
+    @{
+        var all = AppState.Value.GetHiddenNotes();
+        var (longEnough, query, matches) = NoteSearcher.Search(all, _search);
+        var noNotesText = "Keine \"Notizen für später\" gefunden";
+
+        <NoteCardList Notes="matches"
+                      SearchQuery="@query"
+                      NoNotesText="@noNotesText"/>
+    }
+</MudStack>
+
+@code {
+
+    string _search = "";
+
+}

@@ -9,19 +9,19 @@
          Dense="true">
     <ActivatorContent>
         @* the activator content represents the primary action *@
-        @if (CurrentValue == null || CurrentValue < DateTime.Now)
-        {
-            <MudIconButton Icon="@Icons.Material.Outlined.Update"
-                           OnClick="() => HandleHide(TimeSpan.FromDays(1))"
-                           title="Hide for 1d
-or open context menu"/>
-        }
-        else
+        @if (Note.IsHidden())
         {
             <MudIconButton Icon="@Icons.Material.Filled.Update"
                            Color="Color.Primary"
                            OnClick="HandleUnhide"
                            title="Clear hide duration"/>
+        }
+        else
+        {
+            <MudIconButton Icon="@Icons.Material.Outlined.Update"
+                           OnClick="() => HandleHide(TimeSpan.FromDays(1))"
+                           title="Hide for 1d
+or open context menu"/>
         }
     </ActivatorContent>
     <ChildContent>
@@ -65,9 +65,15 @@ or open context menu"/>
     ElementReference _dateInput;
     DateTime _datePickerDate = DateTime.Today;
 
-    [Parameter] public DateTime? CurrentValue { get; set; }
+    [Parameter] public Note Note { get; set; }
     [Parameter] public EventCallback<TimeSpan> OnDurationSelected { get; set; }
     [Parameter] public EventCallback OnUnhideSelected { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _datePickerDate = Note.HiddenUntil.GetValueOrDefault().Date.Clamp(DateTime.Today, null);
+        base.OnInitialized();
+    }
 
     private Task HandleHide(TimeSpan dur)
     {

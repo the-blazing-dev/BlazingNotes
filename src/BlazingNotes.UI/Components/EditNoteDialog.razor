@@ -27,10 +27,12 @@
                 <MudStack Spacing="1" Style="min-height: 3em">
                     @{
                         var createdAt = _updatedCreateTimestamp ?? Note.CreatedAt;
+                        var hiddenUntil = Note.IsHidden() ? Note.HiddenUntil : null;
                     }
                     <TimestampRenderer Timestamp="createdAt" Prefix="Created:" Editable
                                        TimestampChanged="HandleCreatedAtChanged"/>
                     <TimestampRenderer Timestamp="Note.ModifiedAt" Prefix="Modified:"/>
+                    <TimestampRenderer Timestamp="hiddenUntil" Prefix="Hide until:"/>
                     <TimestampRenderer Timestamp="Note.ArchivedAt" Prefix="Archived:"/>
                     <TimestampRenderer Timestamp="Note.DeletedAt" Prefix="Trashed:"/>
                 </MudStack>

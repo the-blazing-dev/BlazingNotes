@@ -1,8 +1,18 @@
 @{
     var result = NoteSearcher.Search(Notes, SearchText ?? "");
-    var split = result.SplitByArchived();
+    var split = result.Split();
     if (result.LongEnough)
     {
+// todo refactor
+        if (split.hidden.HasContent())
+        {
+            <NoteCardList Notes="split.hidden"
+                          Headline="Später"
+                          SearchQuery="@result.Query"
+                          InitiallyExpanded="false"
+                          AfterLastCardContent="AfterLastCardContent"/>
+        }
+
         <NoteCardList Notes="split.notArchived"
                       Headline="Suchergebnisse"
                       SearchQuery="@result.Query"
@@ -19,6 +29,15 @@
     }
     else
     {
+        if (split.hidden.HasContent())
+        {
+            <NoteCardList Notes="split.hidden"
+                          Headline="Later"
+                          SearchQuery="@result.Query"
+                          InitiallyExpanded="false"
+                          AfterLastCardContent="AfterLastCardContent"/>
+        }
+
         <NoteCardList Notes="split.notArchived"
                       NoNotesText="@NoNotesText"
                       AfterLastCardContent="AfterLastCardContent"/>

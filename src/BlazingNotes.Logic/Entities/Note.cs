@@ -27,6 +27,13 @@ public class Note
         return result;
     }
 
+    public bool IsHidden()
+    {
+        // use DateTime.Now (and not UtcNow) because the user wants it to be hidden from his point of view
+        // we could use TimeProvider somewhen
+        return HiddenUntil.HasValue && HiddenUntil.Value > DateTime.Now;
+    }
+
     public string GetXssSafeText(BzSearchQuery? search)
     {
         // use ASCII DC1-DC4 as special character the user hopefully never searches for

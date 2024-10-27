@@ -13,8 +13,8 @@
         var result = NoteSearcher.Search(searchable, _input);
         if (result.LongEnough)
         {
-            var split = result.SplitByArchived();
-            var subset = split.notArchived.Concat(split.archived).Take(10).ToList();
+            var split = result.Split();
+            var subset = split.notArchived.Concat(split.hidden).Concat(split.archived).Take(10).ToList();
 
             <NoteCardListSeparated Notes="subset" SearchText="@_input">
                 <AfterLastCardContent>
