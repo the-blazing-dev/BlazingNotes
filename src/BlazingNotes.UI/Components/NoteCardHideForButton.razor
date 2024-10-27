@@ -1,0 +1,63 @@
+@* hide not for some time *@
+@* MudMenu is used as context menu *@
+<MudMenu ActivationEvent="MouseEvent.RightClick"
+         AnchorOrigin="Origin.TopRight"
+         TransformOrigin="Origin.BottomRight"
+         Dense="true">
+    <ActivatorContent>
+        @* the activator content represents the primary action *@
+        @if (true)
+        {
+            <MudIconButton Icon="@Icons.Material.Outlined.Update"
+                           Color="Color.Primary"
+                           OnClick="HandleHide"
+                           title="Hide for 1d"/>
+        }
+        else
+        {
+            <MudIconButton Icon="@Icons.Material.Filled.Update"
+                           Color="Color.Primary"
+                           OnClick="HandleUnhide"/>
+        }
+    </ActivatorContent>
+    <ChildContent>
+        @* here we define the secondary action *@
+        <MudMenuItem Class="hide-until-menu-item px-2">
+            <MudStack Row Class="py-0" Spacing="0" AlignItems="AlignItems.Baseline">
+                <MudMenuItem Class="px-3" Disabled Style="width: 75%">
+                    Hide for:
+                </MudMenuItem>
+                <MudMenuItem Class="px-1 text-center" Style="width: 25%">
+                    <MudIcon Icon="@Icons.Material.Outlined.EditCalendar"
+                             Size="Size.Small"
+                             Style="vertical-align: text-bottom">
+                    </MudIcon>
+                </MudMenuItem>
+            </MudStack>
+            <MudStack Row Class="py-0" Spacing="0">
+                <MudMenuItem Class="px-3">1h</MudMenuItem>
+                <MudMenuItem Class="px-3">2h</MudMenuItem>
+                <MudMenuItem Class="px-3">4h</MudMenuItem>
+                <MudMenuItem Class="px-3">8h</MudMenuItem>
+            </MudStack>
+            <MudStack Row Class="py-0" Spacing="0">
+                <MudMenuItem Class="px-3">1d</MudMenuItem>
+                <MudMenuItem Class="px-3">2d</MudMenuItem>
+                <MudMenuItem Class="px-3">3d</MudMenuItem>
+                <MudMenuItem Class="px-3">5d</MudMenuItem>
+            </MudStack>
+        </MudMenuItem>
+    </ChildContent>
+</MudMenu>
+
+@code {
+
+    private void HandleHide()
+    {
+    }
+
+    private void HandleUnhide()
+    {
+    }
+
+}

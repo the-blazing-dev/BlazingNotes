@@ -25,10 +25,13 @@
         </MudStack>
         <MudSpacer/>
 
+        <NoteCardHideForButton/>
+
+        @* archive *@
         @* MudMenu is used as context menu *@
         <MudMenu ActivationEvent="MouseEvent.RightClick"
                  AnchorOrigin="Origin.TopRight"
-                 TransformOrigin="Origin.BottomRight">
+                 TransformOrigin="Origin.BottomRight" Dense="true">
             <ActivatorContent>
                 @* the activator content represents the primary action *@
                 @if (Note.DeletedAt.HasValue)
