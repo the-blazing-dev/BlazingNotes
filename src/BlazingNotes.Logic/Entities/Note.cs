@@ -14,6 +14,7 @@ public class Note
     public DateTime? RelevantAt { get; set; }
     public DateTime? ArchivedAt { get; set; }
     public DateTime? DeletedAt { get; set; }
+    public DateTime? HiddenUntil { get; set; }
 
     public ICollection<string> GetTags()
     {
