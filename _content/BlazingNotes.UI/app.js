@@ -5,3 +5,7 @@ function addHashtagCharacter(el) {
     el.setSelectionRange(start + 1, start + 1);
     el.focus();
 }
+
+function showPicker(el) {
+    el.showPicker();
+}
