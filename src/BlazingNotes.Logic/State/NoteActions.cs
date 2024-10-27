@@ -29,4 +29,9 @@ public static class NoteActions
 
     public record DeleteNotePermanentlyAction(Guid NoteId);
     public record DeleteNotePermanentlySuccessAction(Guid NoteId);
+
+    public record HideForAction(Guid NoteId, TimeSpan Duration);
+    public record HideForSuccessAction(Note Note);
+    public record UnhideAction(Guid NoteId);
+    public record UnhideSuccessAction(Note Note);
 }

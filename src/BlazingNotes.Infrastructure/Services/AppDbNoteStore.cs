@@ -47,6 +47,7 @@ public class AppDbNoteStore(IDbContextFactory<AppDb> dbContextFactory) : INoteSt
         noteFresh.RelevantAt = note.RelevantAt;
         noteFresh.ArchivedAt = note.ArchivedAt;
         noteFresh.DeletedAt = note.DeletedAt;
+        noteFresh.HiddenUntil = note.HiddenUntil;
         await db.SaveChangesAsync();
     }
 

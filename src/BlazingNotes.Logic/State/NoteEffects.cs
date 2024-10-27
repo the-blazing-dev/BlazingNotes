@@ -36,7 +36,10 @@ public class NoteEffects(INoteStore noteStore, ILogger<NoteEffects> logger)
     [EffectMethod]
     public async Task Handle(NoteActions.CreateNoteRequestAction action, IDispatcher dispatcher)
     {
-        if (!action.Text.HasContent()) return;
+        if (!action.Text.HasContent())
+        {
+            return;
+        }
 
         var note = new Note
         {
@@ -129,6 +132,27 @@ public class NoteEffects(INoteStore noteStore, ILogger<NoteEffects> logger)
         await noteStore.RemoveAsync(noteFresh);
 
         dispatcher.Dispatch(new NoteActions.DeleteNotePermanentlySuccessAction(action.NoteId));
+    }
+
+    [EffectMethod]
+    public async Task Handle(NoteActions.HideForAction action, IDispatcher dispatcher)
+    {
+        var noteFresh = await noteStore.GetByIdAsync(action.NoteId);
+        // use DateTime.Now (and not UtcNow) because the user wants it to be hidden from his point of view
+        noteFresh.HiddenUntil = DateTime.Now.Add(action.Duration);
+        await noteStore.SaveNoteAsync(noteFresh);
+
+        dispatcher.Dispatch(new NoteActions.HideForSuccessAction(noteFresh));
+    }
+
+    [EffectMethod]
+    public async Task Handle(NoteActions.UnhideAction action, IDispatcher dispatcher)
+    {
+        var noteFresh = await noteStore.GetByIdAsync(action.NoteId);
+        noteFresh.HiddenUntil = null;
+        await noteStore.SaveNoteAsync(noteFresh);
+
+        dispatcher.Dispatch(new NoteActions.UnhideSuccessAction(noteFresh));
     }
 
     private void Clean(Note note)

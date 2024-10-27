@@ -25,7 +25,9 @@
         </MudStack>
         <MudSpacer/>
 
-        <NoteCardHideForButton/>
+        <NoteCardHideForButton CurrentValue="Note.HiddenUntil"
+                               OnDurationSelected="HandleHideForDurationSelected"
+                               OnUnhideSelected="HandleUnhide"/>
 
         @* archive *@
         @* MudMenu is used as context menu *@
@@ -119,6 +121,16 @@
     private void HandleDblClick()
     {
         HandleClick();
+    }
+
+    private void HandleHideForDurationSelected(TimeSpan duration)
+    {
+        Dispatch(new NoteActions.HideForAction(Note.Id, duration));
+    }
+
+    private void HandleUnhide()
+    {
+        Dispatch(new NoteActions.UnhideAction(Note.Id));
     }
 
 }

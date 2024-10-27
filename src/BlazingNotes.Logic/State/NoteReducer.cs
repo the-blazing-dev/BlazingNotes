@@ -103,6 +103,18 @@ public static class NoteReducer
         };
     }
 
+    [ReducerMethod]
+    public static AppState Reduce(AppState state, NoteActions.HideForSuccessAction action)
+    {
+        return UpdateNote(state, action.Note);
+    }
+
+    [ReducerMethod]
+    public static AppState Reduce(AppState state, NoteActions.UnhideSuccessAction action)
+    {
+        return UpdateNote(state, action.Note);
+    }
+
     private static AppState UpdateNote(AppState state, Note updatedNote)
     {
         var oldNote = state.Notes.First(x => x.Id == updatedNote.Id);
