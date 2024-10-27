@@ -1,10 +1,11 @@
 @{
+    var cssClass = "note-card";
     var hasBlurTag = Note.GetTags().Contains("#blur");
-    var blurClass = hasBlurTag ? "blurred-note" : "";
+    cssClass += hasBlurTag ? " blurred-note" : "";
 }
 
 @* tabindex="-1" makes it selectable but not "tabbable". So notes can be unblurred on mobile with clicking *@
-<MudCard Elevation="3" @ondblclick="HandleDblClick" Class="@blurClass" tabindex="-1">
+<MudCard Elevation="3" @ondblclick="HandleDblClick" Class="@cssClass" tabindex="-1">
     <MudCardContent Class="note-card-text-width note-card-text-height"
                     Style="word-break: break-word">
         <p style="white-space: pre-line" class="pb-0 note-text">

@@ -65,6 +65,14 @@ input::placeholder, textarea::placeholder {
     overflow: auto;
 }
 
+.note-card .mud-icon-button {
+    padding: 8px;
+}
+
+.note-card .mud-icon-size-medium {
+    font-size: 1.25rem;
+}
+
 .bg-appbar {
     background-color: var(--mud-palette-appbar-background) !important;
 }
