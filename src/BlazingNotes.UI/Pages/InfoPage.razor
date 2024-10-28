@@ -21,6 +21,27 @@
     </MudCard>
 
     <MudCard Class="bg-appbar">
+        <MudCardHeader Style="font-size: 1.5em">
+            Hints
+        </MudCardHeader>
+        <MudCardContent>
+            <p>
+                Use
+                <bz-tag>#blur</bz-tag>
+                to create blurred notes so that people behind you or
+                watching your screen sharing don't immediately see notes.
+            </p>
+            <p>
+                Use
+                <bz-tag>#md</bz-tag>
+                or
+                <bz-tag>#markdown</bz-tag>
+                to enable markdown formatting in your notes.
+            </p>
+        </MudCardContent>
+    </MudCard>
+
+    <MudCard Class="bg-appbar">
         <MudCardContent>
             Note store: <b>@NoteStore.GetName()</b> <br/>
             @NoteStore.GetDescription() <br/>
