@@ -1,16 +1,37 @@
+@using Markdig
 @{
     var cssClass = "note-card";
-    var hasBlurTag = Note.GetTags().Contains("#blur");
+    var tags = Note.GetTags();
+    var hasBlurTag = tags.Contains("#blur");
     cssClass += hasBlurTag ? " blurred-note" : "";
+
+    var renderAsMarkdown = tags.Contains("#md") || tags.Contains("#markdown");
 }
 
 @* tabindex="-1" makes it selectable but not "tabbable". So notes can be unblurred on mobile with clicking *@
 <MudCard Elevation="3" @ondblclick="HandleDblClick" Class="@cssClass" tabindex="-1">
     <MudCardContent Class="note-card-text-width note-card-text-height"
                     Style="word-break: break-word">
-        <p style="white-space: pre-line" class="pb-0 note-text">
-            @(new MarkupString(Note.GetXssSafeText(SearchQuery)))
-        </p>
+        @if (renderAsMarkdown)
+        {
+            var pipeline = new MarkdownPipelineBuilder()
+                .UseSoftlineBreakAsHardlineBreak()
+                .UseTaskLists()
+                .UseAutoLinks()
+                .UseCitations()
+                .Build();
+            var html = Markdown.ToHtml(Note.GetXssSafeText(SearchQuery), pipeline);
+
+            <div class="note-text-markdown">
+                @(new MarkupString(html))
+            </div>
+        }
+        else
+        {
+            <p style="white-space: pre-line" class="pb-0 note-text">
+                @(new MarkupString(Note.GetXssSafeText(SearchQuery)))
+            </p>
+        }
     </MudCardContent>
     <MudCardActions>
         <MudStack Spacing="0">

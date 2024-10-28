@@ -54,6 +54,10 @@ public class Note
         var htmlEncoder = HtmlEncoder.Default;
         result = htmlEncoder.Encode(result);
 
+        // encoded line breaks are bad for Markdig
+        var lineBreakEncoded = htmlEncoder.Encode("\n");
+        result = result.Replace(lineBreakEncoded, "\n");
+
         if (search != null)
         {
             foreach (var term in search.Value.RequiredTerms)
@@ -71,6 +75,11 @@ public class Note
         result = result.Replace(dcSearchEnd.ToString(), xmlSearchEnd);
         result = result.Replace(dcTagStart.ToString(), xmlTagStart);
         result = result.Replace(dcTagEnd.ToString(), xmlTagEnd);
+
+        if (result.Contains("#md"))
+        {
+            Console.WriteLine(result);
+        }
 
         return result;
     }
