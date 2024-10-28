@@ -65,6 +65,30 @@ input::placeholder, textarea::placeholder {
     overflow: auto;
 }
 
+.note-text-markdown ul, .note-text-markdown ol {
+    list-style-type: revert;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding-left: 2em;
+}
+
+.note-text-markdown .contains-task-list {
+    list-style-type: none;
+    padding-left: 1em;
+}
+
+.note-text-markdown p {
+    margin-bottom: 1em;
+}
+
+/* code not in a <pre> tag */
+.note-text-markdown p code,
+.note-text-markdown pre {
+    border: 1px solid currentColor;
+    border-radius: 3px;
+    padding: 0 2px;
+}
+
 .note-card .mud-icon-button {
     padding: 8px;
 }
