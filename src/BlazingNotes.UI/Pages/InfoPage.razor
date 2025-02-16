@@ -46,7 +46,18 @@
             Note store: <b>@NoteStore.GetName()</b> <br/>
             @NoteStore.GetDescription() <br/>
             <br/>
-            Total note count: <b>@AppState.Value.Notes.Count.ToString("N0")</b>
+            Total note count: <b>@AppState.Value.Notes.Count.ToString("N0")</b> <br/>
+            <br/>
+            <MudButton Variant="Variant.Outlined" Color="Color.Info" OnClick="HandleExport">Export notes</MudButton>
         </MudCardContent>
     </MudCard>
 </MudStack>
+
+@code {
+
+    private void HandleExport()
+    {
+        Dispatch(new NoteActions.ExportNotesAction());
+    }
+
+}

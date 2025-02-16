@@ -19,6 +19,7 @@ public class TestBase
         services.AddDbContextFactory<AppDb>(x => x.UseInMemoryDatabase(Guid.NewGuid().ToString()));
         services
             .AddScoped<INoteStore, AppDbNoteStore>(); // good enough for now, can be replace by in-memory implementation
+        services.AddScoped<IDownloadFileService, NoopDownloadFileService>();
         services.AddFluxor(options => options.ScanAssemblies(
             typeof(AppState).Assembly,
             typeof(NoteEffects).Assembly // we need to reference the effects because they dispatch further effects

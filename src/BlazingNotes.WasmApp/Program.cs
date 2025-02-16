@@ -2,6 +2,7 @@ using System.Reflection;
 using BlazingNotes.Logic.Services;
 using BlazingNotes.Logic.State;
 using BlazingNotes.UI.AppFrame;
+using BlazingNotes.UI.Services;
 using BlazingNotes.WasmApp.Services;
 using Blazor.IndexedDB.WebAssembly;
 using Fluxor;
@@ -26,5 +27,6 @@ builder.Services.AddScoped<IIndexedDbFactory, IndexedDbFactory>(sp =>
     return factory;
 });
 builder.Services.AddScoped<INoteStore, IndexedDbNoteStore>();
+builder.Services.AddScoped<IDownloadFileService, DownloadFileService>();
 
 await builder.Build().RunAsync();

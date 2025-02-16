@@ -6,6 +6,7 @@ using BlazingNotes.Infrastructure.Utils;
 using BlazingNotes.Logic.Services;
 using BlazingNotes.Logic.State;
 using BlazingNotes.UI.AppFrame;
+using BlazingNotes.UI.Services;
 using Fluxor;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
@@ -24,6 +25,7 @@ connectionString = SqLiteFileHelper.ResolveAndPrepareDatabaseFile(connectionStri
 builder.Services.AddDbContextFactory<AppDb>(x => x.UseSqlite(connectionString)
     .EnableSensitiveDataLogging(builder.Environment.IsDevelopment()));
 builder.Services.AddScoped<INoteStore, AppDbNoteStore>();
+builder.Services.AddScoped<IDownloadFileService, DownloadFileService>();
 
 var app = builder.Build();
 await app.Services.MigrateDbAsync();

@@ -1,9 +1,11 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using BlazingNotes.Logic.Services;
 using Microsoft.Extensions.Logging;
 
 namespace BlazingNotes.Logic.State;
 
-public class NoteEffects(INoteStore noteStore, ILogger<NoteEffects> logger)
+public class NoteEffects(INoteStore noteStore, IDownloadFileService downloadFileService, ILogger<NoteEffects> logger)
 {
     [EffectMethod]
     public async Task Handle(StoreInitializedAction action, IDispatcher dispatcher)
@@ -153,6 +155,32 @@ public class NoteEffects(INoteStore noteStore, ILogger<NoteEffects> logger)
         await noteStore.SaveNoteAsync(noteFresh);
 
         dispatcher.Dispatch(new NoteActions.UnhideSuccessAction(noteFresh));
+    }
+
+    [EffectMethod]
+    public async Task Handle(NoteActions.ExportNotesAction action, IDispatcher dispatcher)
+    {
+        var notes = await noteStore.GetAllNotesAsync();
+        var notDeletedNotes = notes.Where(x => x.DeletedAt == null).ToList();
+
+        var model = new ExportModel()
+        {
+            Notes = notDeletedNotes,
+            ExportedAt = DateTime.UtcNow
+        };
+
+        var options = new JsonSerializerOptions()
+        {
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+        var bytes = JsonSerializer.SerializeToUtf8Bytes(model, options);
+        var stream = new MemoryStream(bytes);
+
+        // use local time here because users will see it
+        var fileName = $"bznotes-backup-{DateTime.Now.ToString("yyyyMMdd-HHmmss")}.json";
+
+        await downloadFileService.ProvideFileAsync(stream, fileName);
     }
 
     private void Clean(Note note)

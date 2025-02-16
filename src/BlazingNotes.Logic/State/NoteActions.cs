@@ -34,4 +34,6 @@ public static class NoteActions
     public record HideForSuccessAction(Note Note);
     public record UnhideAction(Guid NoteId);
     public record UnhideSuccessAction(Note Note);
+
+    public record ExportNotesAction();
 }
