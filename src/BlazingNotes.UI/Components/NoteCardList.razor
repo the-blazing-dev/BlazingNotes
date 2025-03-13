@@ -1,4 +1,3 @@
-@using BlazingNotes.Logic
 @{
     var headline = Headline;
     if (headline.HasContent() && ShowNoteCount && Notes.Count > 0)
@@ -6,49 +5,66 @@
         headline += $" — {Notes.Count}";
     }
 }
-<MudExpansionPanel Text="@headline"
-                   Class="my-0 bg-appbar"
-                   Expanded="InitiallyExpanded"
-                   HideIcon="Headline.LacksContent()">
-    @* ^ no headline - the card is probably the only one - hide icon and disable toggling *@
 
-    <MudStack Row Wrap="Wrap.Wrap" Spacing="6">
-        <BzLooper Items="Notes">
-            <ItemTemplate>
-                <NoteCard @key="context.Id" Note="context" SearchQuery="@SearchQuery"/>
-            </ItemTemplate>
-            <LoadMoreContent>
-                @if (AfterLastCardContent != null)
-                {
-                    // then use the custom one
-                    @AfterLastCardContent
-                }
-                else // fall back to default one
-                {
-                    <MudButton OnClick="context"
-                               Variant="Variant.Outlined"
-                               EndIcon="@Icons.Material.Filled.ArrowForward"
-                               Class="note-card-text-width">
-                        Show more
-                    </MudButton>
-                }
-            </LoadMoreContent>
-            <NoItemsContent>
-                <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="d-inline-block">
-                    @if (SearchQuery.HasValue && SearchQuery.Value.RequiredTerms.HasContent())
-                    {
-                        @:No notes found
-                    }
-                    else
-                    {
-                        @NoNotesText
-                    }
-                </MudAlert>
-            </NoItemsContent>
-        </BzLooper>
-    </MudStack>
-
-</MudExpansionPanel>
+@* use MudCard instead of MudExpansionPanel to get rid of the animations *@
+<MudCard Class="bg-appbar">
+    @if (headline.HasContent())
+    {
+        <MudCardHeader @onclick="() => _isExpanded = !_isExpanded" Class="cursor-pointer">
+            <CardHeaderContent>
+                <MudText>@headline</MudText>
+            </CardHeaderContent>
+            <CardHeaderActions>
+                <MudToggleIconButton
+                    @bind-Toggled="_isExpanded"
+                    Icon="@Icons.Material.Filled.ExpandMore"
+                    ToggledIcon="@Icons.Material.Filled.ExpandLess"
+                    Style="padding: 8px"/>
+            </CardHeaderActions>
+        </MudCardHeader>
+    }
+    @if (_isExpanded)
+    {
+        var noPaddingTopClass = headline.HasContent() ? "pt-0" : "";
+        <MudCardContent Class="@noPaddingTopClass">
+            <MudStack Row Wrap="Wrap.Wrap" Spacing="4">
+                <BzLooper Items="Notes">
+                    <ItemTemplate>
+                        <NoteCard @key="context.Id" Note="context" SearchQuery="@SearchQuery"/>
+                    </ItemTemplate>
+                    <LoadMoreContent>
+                        @if (AfterLastCardContent != null)
+                        {
+                            // then use the custom one
+                            @AfterLastCardContent
+                        }
+                        else // fall back to default one
+                        {
+                            <MudButton OnClick="context"
+                                       Variant="Variant.Outlined"
+                                       EndIcon="@Icons.Material.Filled.ArrowForward"
+                                       Class="note-card-text-width">
+                                Show more
+                            </MudButton>
+                        }
+                    </LoadMoreContent>
+                    <NoItemsContent>
+                        <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="d-inline-block">
+                            @if (SearchQuery.HasValue && SearchQuery.Value.RequiredTerms.HasContent())
+                            {
+                                @:No notes found
+                            }
+                            else
+                            {
+                                @NoNotesText
+                            }
+                        </MudAlert>
+                    </NoItemsContent>
+                </BzLooper>
+            </MudStack>
+        </MudCardContent>
+    }
+</MudCard>
 
 @code {
     [Parameter] [EditorRequired] public required ICollection<Note> Notes { get; set; }
@@ -58,4 +74,13 @@
     [Parameter] public bool InitiallyExpanded { get; set; } = true;
     [Parameter] public bool ShowNoteCount { get; set; } = true;
     [Parameter] public RenderFragment? AfterLastCardContent { get; set; }
+
+    bool _isExpanded;
+
+    protected override void OnInitialized()
+    {
+        _isExpanded = InitiallyExpanded;
+        base.OnInitialized();
+    }
+
 }

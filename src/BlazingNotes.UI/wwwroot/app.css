@@ -166,6 +166,11 @@ bz-search {
     color: var(--mud-palette-primary);
 }
 
+/* reduce space of collapsed MudCard (used as alternative to MudExpander) */
+.mud-card-header .mud-card-header-actions {
+    margin-bottom: -8px;
+}
+
 .blurred-note .note-text {
     filter: blur(4px);
     transition: 0.25s filter;
