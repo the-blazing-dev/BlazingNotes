@@ -76,11 +76,6 @@ public class Note
         result = result.Replace(dcTagStart.ToString(), xmlTagStart);
         result = result.Replace(dcTagEnd.ToString(), xmlTagEnd);
 
-        if (result.Contains("#md"))
-        {
-            Console.WriteLine(result);
-        }
-
         return result;
     }
 }

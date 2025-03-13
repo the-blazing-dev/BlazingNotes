@@ -14,20 +14,17 @@
         if (result.LongEnough)
         {
             var split = result.Split();
-            var subset = split.notArchived.Concat(split.hidden).Concat(split.archived).Take(10).ToList();
+            var subset = split.notArchived.Concat(split.hidden).Concat(split.archived).ToList();
+            var href = SearchPage.GetUrl(_input);
 
             <NoteCardListSeparated Notes="subset" SearchText="@_input">
                 <AfterLastCardContent>
-                    @if (result.Notes.Count > subset.Count)
-                    {
-                        var href = SearchPage.GetUrl(_input);
-                        <MudButton Href="@href"
-                                   Variant="Variant.Outlined"
-                                   EndIcon="@Icons.Material.Filled.ArrowForward"
-                                   Class="note-card-text-width">
-                            Continue search
-                        </MudButton>
-                    }
+                    <MudButton Href="@href"
+                               Variant="Variant.Outlined"
+                               EndIcon="@Icons.Material.Filled.ArrowForward"
+                               Class="note-card-text-width">
+                        Continue search
+                    </MudButton>
                 </AfterLastCardContent>
             </NoteCardListSeparated>
         }

@@ -13,29 +13,39 @@
     @* ^ no headline - the card is probably the only one - hide icon and disable toggling *@
 
     <MudStack Row Wrap="Wrap.Wrap" Spacing="6">
-        @if (Notes.HasContent())
-        {
-            foreach (var item in Notes)
-            {
-                <NoteCard @key="item.Id" Note="item" SearchQuery="@SearchQuery"/>
-            }
-
-            @AfterLastCardContent
-        }
-        else
-        {
-            <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="d-inline-block">
-                @if (SearchQuery.HasValue && SearchQuery.Value.RequiredTerms.HasContent())
+        <BzLooper Items="Notes">
+            <ItemTemplate>
+                <NoteCard @key="context.Id" Note="context" SearchQuery="@SearchQuery"/>
+            </ItemTemplate>
+            <LoadMoreContent>
+                @if (AfterLastCardContent != null)
                 {
-                    @:No notes found
+                    // then use the custom one
+                    @AfterLastCardContent
                 }
-                else
+                else // fall back to default one
                 {
-                    @NoNotesText
+                    <MudButton OnClick="context"
+                               Variant="Variant.Outlined"
+                               EndIcon="@Icons.Material.Filled.ArrowForward"
+                               Class="note-card-text-width">
+                        Show more
+                    </MudButton>
                 }
-            </MudAlert>
-        }
-
+            </LoadMoreContent>
+            <NoItemsContent>
+                <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="d-inline-block">
+                    @if (SearchQuery.HasValue && SearchQuery.Value.RequiredTerms.HasContent())
+                    {
+                        @:No notes found
+                    }
+                    else
+                    {
+                        @NoNotesText
+                    }
+                </MudAlert>
+            </NoItemsContent>
+        </BzLooper>
     </MudStack>
 
 </MudExpansionPanel>

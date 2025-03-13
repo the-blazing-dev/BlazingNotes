@@ -1,0 +1,44 @@
+@typeparam T
+
+@if (Items != null)
+{
+    var isCollection = Items.TryGetNonEnumeratedCount(out var count);
+    var allItemsDisplayed = isCollection && _takeCount >= count;
+
+    foreach (var item in Items.Take(_takeCount))
+    {
+        @ItemTemplate(item)
+    }
+
+    if (!allItemsDisplayed)
+    {
+        @LoadMoreContent(HandleLoadMore)
+    }
+}
+else
+{
+    @NoItemsContent
+}
+
+@code {
+    [Parameter] [EditorRequired] public IEnumerable<T>? Items { get; set; }
+    [Parameter] public int LoadMoreBatchSize { get; set; } = 20;
+    [Parameter] [EditorRequired] public required RenderFragment<T> ItemTemplate { get; set; }
+    [Parameter] [EditorRequired] public required RenderFragment<Action> LoadMoreContent { get; set; }
+    [Parameter] [EditorRequired] public RenderFragment? NoItemsContent { get; set; }
+
+    int _takeCount = 0;
+
+    protected override void OnInitialized()
+    {
+        _takeCount = LoadMoreBatchSize;
+        base.OnInitialized();
+    }
+
+    private void HandleLoadMore()
+    {
+        _takeCount += LoadMoreBatchSize;
+        StateHasChanged(); // needed because it's called from an action and not an EventCallback
+    }
+
+}
