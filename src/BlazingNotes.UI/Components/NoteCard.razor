@@ -2,8 +2,8 @@
 @{
     var cssClass = "note-card";
     var tags = Note.GetTags();
-    var hasBlurTag = tags.Contains("#blur");
-    cssClass += hasBlurTag ? " blurred-note" : "";
+    cssClass += tags.Contains("#blur") ? " blurred-note" : "";
+    cssClass += tags.Contains("#wide") ? " wide-note" : "";
 
     var renderAsMarkdown = tags.Contains("#md") || tags.Contains("#markdown");
 }
