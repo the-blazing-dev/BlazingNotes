@@ -59,6 +59,10 @@ input::placeholder, textarea::placeholder {
     width: 300px;
 }
 
+.wide-note .note-card-text-width {
+    width: calc(600px + 16px); /* 16px is the flexbox spacing */
+}
+
 .note-card-text-height {
     min-height: 100px;
     max-height: 300px;
@@ -164,6 +168,11 @@ bz-search {
 .mud-card-content a {
     text-decoration: underline;
     color: var(--mud-palette-primary);
+}
+
+/* reduce space of collapsed MudCard (used as alternative to MudExpander) */
+.mud-card-header .mud-card-header-actions {
+    margin-bottom: -8px;
 }
 
 .blurred-note .note-text {
