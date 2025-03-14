@@ -3,7 +3,7 @@
 
 <BzPageTitle>Journal</BzPageTitle>
 
-<MudStack Spacing="6">
+<MudStack Spacing="4">
     <MudTextField @bind-Value="_query"
                   Variant="Variant.Outlined"
                   AutoFocus
@@ -19,15 +19,26 @@
             .Distinct()
             .OrderByDescending(x => x)
             .ToList();
-        foreach (var day in days)
-        {
-            var headline = day.ToLongDateString();
-            var dayNotes = result.Notes.Where(x => x.PrimaryDate.ToLocalTime().Date == day).ToList();
-            <NoteCardList @key="headline"
-                          Notes="dayNotes"
-                          Headline="@headline"
-                          SearchQuery="result.Query"/>
-        }
+
+        <BzLooper Items="days">
+            <ItemTemplate>
+                @{
+                    var day = context;
+                    var headline = day.ToLongDateString();
+                    var dayNotes = result.Notes.Where(x => x.PrimaryDate.ToLocalTime().Date == day).ToList();
+                    <NoteCardList @key="headline"
+                                  Notes="dayNotes"
+                                  Headline="@headline"
+                                  SearchQuery="result.Query"/>
+                }
+            </ItemTemplate>
+            <NoItemsContent>
+                <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">No notes found</MudAlert>
+            </NoItemsContent>
+            <LoadMoreContent>
+                <MudButton Variant="Variant.Outlined" OnClick="context">Load more days</MudButton>
+            </LoadMoreContent>
+        </BzLooper>
     }
 </MudStack>
 

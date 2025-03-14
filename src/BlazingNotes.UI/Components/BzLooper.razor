@@ -1,18 +1,26 @@
 @typeparam T
+@* future idea: cache already fetched items inside a local list, and extend that *@
 
 @if (Items != null)
 {
     var isCollection = Items.TryGetNonEnumeratedCount(out var count);
+    var anyItemDisplay = false;
     var allItemsDisplayed = isCollection && _takeCount >= count;
 
     foreach (var item in Items.Take(_takeCount))
     {
+        anyItemDisplay = true;
         @ItemTemplate(item)
     }
 
     if (!allItemsDisplayed)
     {
         @LoadMoreContent(HandleLoadMore)
+    }
+
+    if (!anyItemDisplay)
+    {
+        @NoItemsContent
     }
 }
 else
