@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "BlazingNotes.WasmApp",
   "resources": {
-    "hash": "sha256-ZAHbV1OCdtlLE7OltwpdZQULJlirCwD3ECH9ZTKVC+Y=",
+    "hash": "sha256-gGz3enz9l9qbburRdbaB6hFcJFijKq39SDpIEZuM0Xc=",
     "jsModuleNative": {
       "dotnet.native.8.0.14.e1s5qpey4j.js": "sha256-9smcVCHULaktvKpapcy5V5R7QlIpWV/ngtcYkW8DVXU="
     },
@@ -18,9 +18,9 @@
     },
     "assembly": {
       "BlazingDev.BlazingExtensions.wasm": "sha256-YNLhPUP/EcSs5EsPjYldsSQz0T0LbeLG/3P/2g5WdFM=",
-      "BlazingNotes.Logic.wasm": "sha256-Ozl+dlZHXKaQqyeaAfhofPuZa0yyPvkTtwvbNZkAY4k=",
-      "BlazingNotes.UI.wasm": "sha256-c4QWDp26ZH1ORltJjvIH++ian0j6k2O3/FqpncpYkAw=",
-      "BlazingNotes.WasmApp.wasm": "sha256-1b65BNVILpdjpTBX36Dn6Vq+KfckNmQVNRrtjwO5WfE=",
+      "BlazingNotes.Logic.wasm": "sha256-pxehG6htmkt11JfIH6+jZp9p3B/ZWjb/2e/we/uLNoY=",
+      "BlazingNotes.UI.wasm": "sha256-twQiLsAqcJDopc6H40Yd+P9fy8ZYzuWudVF9q/984B8=",
+      "BlazingNotes.WasmApp.wasm": "sha256-1AdfUmiNjilyvMOYZLdL4faI5ZnB1PLSuRsIFdgksmU=",
       "Blazor.IndexedDB.WebAssembly.wasm": "sha256-Ng2k87F66TMXZt6MVssUKxupRwxe6YI38icT6Yj/otE=",
       "Fluxor.Blazor.Web.ReduxDevTools.wasm": "sha256-jDE1ZNbW4Ejki3o6xiZhe09Wz3ggxn9eZ1/1cRF/I7c=",
       "Fluxor.Blazor.Web.wasm": "sha256-EQY4gKqrJmDxIMv//eRwx0R5QItoj2wrFMh9SGea6RE=",
@@ -28,7 +28,7 @@
       "Markdig.wasm": "sha256-+0BicYzI+5ABC8GZr1ITU0gPsHD5CMBjOpk5297sa58=",
       "Microsoft.AspNetCore.Components.Browser.wasm": "sha256-wgN0rMdsailppzMXfuHqe89vmatoNGn9nQsPraC8pJ0=",
       "Microsoft.AspNetCore.Components.Forms.wasm": "sha256-un0mWHcNYsRjdRZz/RwoEXZ36QV3diPGsr1753foDzQ=",
-      "Microsoft.AspNetCore.Components.wasm": "sha256-FU4Qi8t3DSY8xJA3rpYTzxgXvIg+O+g3bASHzh8ddbo=",
+      "Microsoft.AspNetCore.Components.wasm": "sha256-JoBMXLYSJ/RxjELIo1Z48W8O2c1DcInlE6NLdbbn7dw=",
       "Microsoft.AspNetCore.Components.Web.wasm": "sha256-gfa7d/RpSug6AYn3aLFUAWoCJe2dtzyimixFFYV3r9s=",
       "Microsoft.AspNetCore.Components.WebAssembly.wasm": "sha256-QZUYy5e6wHwviWjOpldjR+SqfxB6aVVq19e9vWVg92I=",
       "Microsoft.Extensions.Configuration.Abstractions.wasm": "sha256-87sn2TYqgdZ95sXmavjKEzoEfMgHnYQ9LOvnMX+aZcI=",
