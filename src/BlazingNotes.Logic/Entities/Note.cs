@@ -16,6 +16,11 @@ public class Note
     public DateTime? DeletedAt { get; set; }
     public DateTime? HiddenUntil { get; set; }
 
+    /// <summary>
+    /// The user-specified RelevantAt or otherwise CreatedAt. Good for sorting and grouping
+    /// </summary>
+    public DateTime PrimaryDate => RelevantAt ?? CreatedAt;
+
     public ICollection<string> GetTags()
     {
         return Constants.TagRegex.Matches(Text).Select(x => x.Value).ToList();

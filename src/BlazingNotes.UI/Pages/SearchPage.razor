@@ -14,7 +14,7 @@
     @{
         // .ToList() could be a performance/memory issue somewhen
         var all = AppState.Value.GetSearchableNotes()
-            .OrderByDescending(x => x.CreatedAt)
+            .OrderByDescending(x => x.PrimaryDate)
             .ToList();
         if (NoteSearcher.IsSearchTermLongEnough(Query ?? ""))
         {

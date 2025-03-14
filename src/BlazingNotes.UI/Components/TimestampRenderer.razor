@@ -25,7 +25,10 @@
                     @space
                 }
 
-                @ts.ToShortTimeString()
+                if (ts.TimeOfDay != TimeSpan.Zero)
+                {
+                    @ts.ToShortTimeString()
+                }
             }
         </MudStack>
     </MudText>

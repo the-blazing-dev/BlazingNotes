@@ -9,7 +9,9 @@
 
     @{
         // do search before we pass everything to the NoteCardListSeparated component so we can limit the result list
-        var searchable = AppState.Value.GetSearchableNotes().OrderByDescending(x => x.CreatedAt).ToList();
+        var searchable = AppState.Value.GetSearchableNotes()
+            .OrderByDescending(x => x.PrimaryDate)
+            .ToList();
         var result = NoteSearcher.Search(searchable, _input);
         if (result.LongEnough)
         {

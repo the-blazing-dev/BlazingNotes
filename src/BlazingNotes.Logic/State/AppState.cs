@@ -19,7 +19,7 @@ public record AppState
         return GetSearchableNotes()
             .Where(x => x.ArchivedAt == null)
             .Where(x => !x.IsHidden())
-            .OrderByDescending(x => x.CreatedAt)
+            .OrderByDescending(x => x.CreatedAt) // keep CreatedAt here instead of PrimaryDate
             .Take(10)
             .ToList();
     }
@@ -36,7 +36,6 @@ public record AppState
     {
         return GetSearchableNotes()
             .Where(x => x.ArchivedAt == null)
-            .OrderByDescending(x => x.CreatedAt)
             .ToList();
     }
 
@@ -44,7 +43,7 @@ public record AppState
     {
         return GetSearchableNotes()
             .Where(x => x.GetTags().Count == 0)
-            .OrderByDescending(x => x.CreatedAt)
+            .OrderByDescending(x => x.PrimaryDate)
             .ToList();
     }
 

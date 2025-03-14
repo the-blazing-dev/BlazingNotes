@@ -14,11 +14,15 @@
         var all = AppState.Value.GetJournalNotes();
         var result = NoteSearcher.Search(all, _query);
 
-        var days = result.Notes.Select(x => x.CreatedAt.Date).Distinct().ToList();
+        var days = result.Notes
+            .Select(x => x.PrimaryDate.ToLocalTime().Date)
+            .Distinct()
+            .OrderByDescending(x => x)
+            .ToList();
         foreach (var day in days)
         {
             var headline = day.ToLongDateString();
-            var dayNotes = result.Notes.Where(x => x.CreatedAt.Date == day).ToList();
+            var dayNotes = result.Notes.Where(x => x.PrimaryDate.ToLocalTime().Date == day).ToList();
             <NoteCardList @key="headline"
                           Notes="dayNotes"
                           Headline="@headline"
