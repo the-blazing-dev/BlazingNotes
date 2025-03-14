@@ -131,21 +131,21 @@ public class AppStateBasicTests : AppStateTestBase
     }
 
     [Fact]
-    public void NoteEditingWithCreatedAtModificationAndSaving()
+    public void NoteEditing_WithRelevantAtModification_AndSaving()
     {
         var (note1, _, _) = CreateThreeNotes();
         Dispatch(new NoteActions.StartNoteEditingAction(note1));
 
         Sut.Value.CurrentlyEditingNote.Should().Be(note1);
-        var newCreatedAt = DateTime.Now.AddDays(-2);
+        var newRelevantAt = DateTime.Now.AddDays(-2);
 
-        Dispatch(new NoteActions.SaveNoteEditingAction(note1, "Note1 #numberOne", newCreatedAt));
+        Dispatch(new NoteActions.SaveNoteEditingAction(note1, "Note1 #numberOne", newRelevantAt));
 
         Sut.Value.CurrentlyEditingNote.Should().BeNull();
         var note1Fresh = Sut.Value.Notes.Single(x => x.Text.Contains("Note1"));
         note1Fresh.Id.Should().Be(note1.Id);
         note1Fresh.Text.Should().Be("Note1 #numberOne");
-        note1Fresh.CreatedAt.Should().Be(newCreatedAt);
+        note1Fresh.RelevantAt.Should().Be(newRelevantAt);
     }
 
     [Fact]

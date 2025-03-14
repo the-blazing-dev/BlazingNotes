@@ -59,7 +59,7 @@ public class NoteEffects(INoteStore noteStore, IDownloadFileService downloadFile
     public async Task Handle(NoteActions.SaveNoteEditingAction action, IDispatcher dispatcher)
     {
         if (!action.NewText.HasContent() &&
-            action.CreatedAt == null)
+            action.RelevantAt == null)
         {
             // ignored for now
             dispatcher.Dispatch(new NoteActions.CancelNoteEditingAction(action.Note));
@@ -77,9 +77,9 @@ public class NoteEffects(INoteStore noteStore, IDownloadFileService downloadFile
             noteFresh.ModifiedAt = DateTime.UtcNow;
         }
 
-        if (action.CreatedAt.HasValue)
+        if (action.RelevantAt.HasValue)
         {
-            noteFresh.CreatedAt = action.CreatedAt.Value;
+            noteFresh.RelevantAt = action.RelevantAt.Value;
         }
 
         await noteStore.SaveNoteAsync(noteFresh);

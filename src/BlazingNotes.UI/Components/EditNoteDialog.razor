@@ -26,11 +26,10 @@
                    only relevant if only "Created:" will be rendered. *@
                 <MudStack Spacing="1" Style="min-height: 3em">
                     @{
-                        var createdAt = _updatedCreateTimestamp ?? Note.CreatedAt;
                         var hiddenUntil = Note.IsHidden() ? Note.HiddenUntil : null;
                     }
-                    <TimestampRenderer Timestamp="createdAt" Prefix="Created:" Editable
-                                       TimestampChanged="HandleCreatedAtChanged"/>
+                    <TimestampRenderer @bind-Timestamp="_relevantAt" Prefix="Relevant:" ShowAlways="true"/>
+                    <TimestampRenderer Timestamp="Note.CreatedAt" Prefix="Created:"/>
                     <TimestampRenderer Timestamp="Note.ModifiedAt" Prefix="Modified:"/>
                     <TimestampRenderer Timestamp="hiddenUntil" Prefix="Hide until:"/>
                     <TimestampRenderer Timestamp="Note.ArchivedAt" Prefix="Archived:"/>
@@ -128,7 +127,7 @@
 @code {
 
     string _newText = "";
-    DateTime? _updatedCreateTimestamp = null;
+    DateTime? _relevantAt = null;
 
     private Note? Note => EditingNoteSelector.Value;
 
@@ -146,13 +145,8 @@
         if (Note != null)
         {
             _newText = Note.Text;
-            _updatedCreateTimestamp = null;
+            _relevantAt = Note.RelevantAt;
         }
-    }
-
-    private void HandleCreatedAtChanged(DateTime newValue)
-    {
-        _updatedCreateTimestamp = newValue;
     }
 
     private void HandleCancel()
@@ -162,7 +156,7 @@
 
     private void HandleSave()
     {
-        Dispatch(new NoteActions.SaveNoteEditingAction(Note!, _newText, _updatedCreateTimestamp));
+        Dispatch(new NoteActions.SaveNoteEditingAction(Note!, _newText, _relevantAt));
     }
 
     private void HandleVisibleChanged(bool isVisible)

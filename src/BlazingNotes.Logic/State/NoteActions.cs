@@ -12,7 +12,7 @@ public static class NoteActions
     public record HideCreateNoteDialogAction;
 
     public record StartNoteEditingAction(Note Note);
-    public record SaveNoteEditingAction(Note Note, string NewText, DateTime? CreatedAt = null);
+    public record SaveNoteEditingAction(Note Note, string NewText, DateTime? RelevantAt = null);
     public record SaveNoteEditingSuccessAction(Note Note);
     public record CancelNoteEditingAction(Note Note);
 
