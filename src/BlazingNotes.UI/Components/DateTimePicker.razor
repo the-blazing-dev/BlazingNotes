@@ -1,7 +1,7 @@
 <MudField Variant="Variant.Outlined" Class="flex-grow-0" InnerPadding="false" Margin="Margin.Dense">
     <input type="date"
            @bind="@DatePart"
-           @bind:after="() => TimestampChanged.InvokeAsync(Timestamp)"
+           @bind:after="() => ValueChanged.InvokeAsync(Value)"
            class="date-time-picker mt-n1"
            style="outline: none"/>
     @* outline: none because it's already handled by MudField *@
@@ -15,45 +15,72 @@
 
 @code {
 
-    private DateTime DatePart
+    private DateTime? DatePart
     {
-        get => Timestamp.Date;
+        get => Value?.Date;
         set
         {
-            var timePart = Timestamp.TimeOfDay;
-            Timestamp = value.Date.Add(timePart);
+            if (value == null)
+            {
+                Value = null;
+            }
+            else
+            {
+                var timePart = Value.GetValueOrDefault().TimeOfDay;
+                Value = value.GetValueOrDefault().Date.Add(timePart);
+            }
         }
     }
 
-    private TimeSpan TimePart
+    private TimeSpan? TimePart
     {
         get
         {
-            var ts = Timestamp;
+            if (Value == null)
+            {
+                return null;
+            }
+
+            var ts = Value.GetValueOrDefault();
+            if (ts.TimeOfDay == TimeSpan.Zero)
+            {
+                return null;
+            }
+
+            // only show time if it's not 00:00
             return new TimeSpan(ts.Hour, ts.Minute, ts.Second);
         }
         set
         {
-            var date = Timestamp.Date;
-            Timestamp = date.Date.Add(value);
+            if (value == null)
+            {
+                Value = Value.GetValueOrDefault().Date;
+            }
+            else
+            {
+                var date = Value.GetValueOrDefault().Date;
+                Value = date.Date.Add(value.GetValueOrDefault());
+            }
         }
     }
 
-    [Parameter] [EditorRequired] public DateTime Timestamp { get; set; }
-    [Parameter] public EventCallback<DateTime> TimestampChanged { get; set; }
+    [Parameter] [EditorRequired] public DateTime? Value { get; set; }
+    [Parameter] public EventCallback<DateTime?> ValueChanged { get; set; }
 
-// needed because the built-in converter does not handle TimeSpan
+    // needed because the built-in converter does not handle TimeSpan
     private async Task HandleTimePartChanged(ChangeEventArgs arg)
     {
         var asString = arg.Value?.ToString();
         if (!asString.HasContent())
         {
-            return;
+            TimePart = null;
+        }
+        else
+        {
+            TimePart = TimeSpan.Parse(asString);
         }
 
-        var ts = TimeSpan.Parse(asString);
-        TimePart = ts;
-        await TimestampChanged.InvokeAsync(Timestamp);
+        await ValueChanged.InvokeAsync(Value);
     }
 
 }

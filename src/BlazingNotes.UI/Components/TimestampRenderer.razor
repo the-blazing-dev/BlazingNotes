@@ -1,4 +1,4 @@
-@if (Timestamp.HasValue)
+@if (Timestamp.HasValue || ShowAlways)
 {
     const string space = " ";
     var classes = $"timestamp-renderer {Class}";
@@ -9,22 +9,23 @@
             {
                 <span class="prefix">@Prefix</span>
             }
-            @if (Editable)
+            @if (TimestampChanged.HasDelegate)
             {
-                <DateTimePicker @bind-Timestamp="Ts"/>
+                <DateTimePicker @bind-Value="Ts"/>
             }
-            else
+            else if (Timestamp.HasValue)
             {
-                if (Ts.Date != DateTime.Today)
+                var ts = Ts.GetValueOrDefault();
+                if (ts.Date != DateTime.Today)
                 {
                     // only show date if it's not from today
-                    @Ts.ToString("ddd,")
+                    @ts.ToString("ddd,")
                     @space
-                    @Ts.ToShortDateString()
+                    @ts.ToShortDateString()
                     @space
                 }
 
-                @Ts.ToShortTimeString()
+                @ts.ToShortTimeString()
             }
         </MudStack>
     </MudText>
@@ -36,16 +37,24 @@
     [Parameter] public string? Prefix { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter] public string? HoverTitle { get; set; }
-    [Parameter] public bool Editable { get; set; }
-    [Parameter] public EventCallback<DateTime> TimestampChanged { get; set; }
+    [Parameter] public bool ShowAlways { get; set; }
+    [Parameter] public EventCallback<DateTime?> TimestampChanged { get; set; }
 
-    private DateTime Ts
+    private DateTime? Ts
     {
-        get => Timestamp.GetValueOrDefault().ToLocalTime();
+        get => Timestamp?.ToLocalTime();
         set
         {
-            Timestamp = value.ToUniversalTime();
-            TimestampChanged.InvokeAsync(Timestamp.Value);
+            if (value == null)
+            {
+                Timestamp = null;
+                TimestampChanged.InvokeAsync(null);
+            }
+            else
+            {
+                Timestamp = value.Value.ToUniversalTime();
+                TimestampChanged.InvokeAsync(Timestamp.Value);
+            }
         }
     }
 
