@@ -19,6 +19,7 @@
                 .UseTaskLists()
                 .UseAutoLinks()
                 .UseCitations()
+                .UseEmphasisExtras()
                 .Build();
             var html = Markdown.ToHtml(Note.GetXssSafeText(SearchQuery), pipeline);
 

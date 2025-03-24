@@ -24,6 +24,11 @@ h1:focus {
     outline: none;
 }
 
+mark {
+    /* less strong yellow to give "search hit" more strength */
+    background: rgb(255 255 0 / 75%);
+}
+
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
 }
@@ -87,6 +92,7 @@ input::placeholder, textarea::placeholder {
 
 /* code not in a <pre> tag */
 .note-text-markdown p code,
+.note-text-markdown li code,
 .note-text-markdown pre {
     border: 1px solid currentColor;
     border-radius: 3px;
@@ -180,7 +186,6 @@ bz-search {
     transition: 0.25s filter;
 }
 
-.blurred-note:hover .note-text,
 .blurred-note:focus .note-text {
     filter: blur(0px);
 }
