@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "BlazingNotes.WasmApp",
   "resources": {
-    "hash": "sha256-gGz3enz9l9qbburRdbaB6hFcJFijKq39SDpIEZuM0Xc=",
+    "hash": "sha256-MVqT5EjSbRYRfrzgYIQeZkylg3AvzY1CnewzRTQDftc=",
     "jsModuleNative": {
       "dotnet.native.8.0.14.e1s5qpey4j.js": "sha256-9smcVCHULaktvKpapcy5V5R7QlIpWV/ngtcYkW8DVXU="
     },
@@ -18,9 +18,9 @@
     },
     "assembly": {
       "BlazingDev.BlazingExtensions.wasm": "sha256-YNLhPUP/EcSs5EsPjYldsSQz0T0LbeLG/3P/2g5WdFM=",
-      "BlazingNotes.Logic.wasm": "sha256-pxehG6htmkt11JfIH6+jZp9p3B/ZWjb/2e/we/uLNoY=",
-      "BlazingNotes.UI.wasm": "sha256-twQiLsAqcJDopc6H40Yd+P9fy8ZYzuWudVF9q/984B8=",
-      "BlazingNotes.WasmApp.wasm": "sha256-1AdfUmiNjilyvMOYZLdL4faI5ZnB1PLSuRsIFdgksmU=",
+      "BlazingNotes.Logic.wasm": "sha256-KoXZmNKcEPKvrTWcGzCzdgfjV31FeK3kJzUmZlU8dL0=",
+      "BlazingNotes.UI.wasm": "sha256-a3MjHOlwUTnw5T9MZ8Kf+6bIMwPHtClvz7wFUUu/RNM=",
+      "BlazingNotes.WasmApp.wasm": "sha256-BZrL0jL1b0UzpLIz70Im4LetaowugHfqBxGZTg5pTms=",
       "Blazor.IndexedDB.WebAssembly.wasm": "sha256-Ng2k87F66TMXZt6MVssUKxupRwxe6YI38icT6Yj/otE=",
       "Fluxor.Blazor.Web.ReduxDevTools.wasm": "sha256-jDE1ZNbW4Ejki3o6xiZhe09Wz3ggxn9eZ1/1cRF/I7c=",
       "Fluxor.Blazor.Web.wasm": "sha256-EQY4gKqrJmDxIMv//eRwx0R5QItoj2wrFMh9SGea6RE=",
