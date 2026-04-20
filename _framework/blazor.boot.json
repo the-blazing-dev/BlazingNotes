@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "BlazingNotes.WasmApp",
   "resources": {
-    "hash": "sha256-DpMwf7bUXx0I9Bct4x5Cp1DrwlmL/rJClxlnTLKCOmY=",
+    "hash": "sha256-N52ADt2qm/V5ASPP9Xnvgr2b9nkFqM6xpawKY/879YY=",
     "jsModuleNative": {
       "dotnet.native.js": "sha256-nElGk+CZFyq0PbPm4JU8avD6lER7x9Z1C54BK7qY12Q="
     },
@@ -70,9 +70,9 @@
       "System.wasm": "sha256-U1ugCDIgbEW6lR5UkMCUZh1lhLDB62fhi0ZthK9FNyg=",
       "netstandard.wasm": "sha256-LTzNQnMpDAisuheKTCsikoZp38YP8nhdGYZDAITIYjY=",
       "System.Private.CoreLib.wasm": "sha256-vy0aUA+T/MraAYiorqzIZeoxYZmvJcIt5CWClwop6Dk=",
-      "BlazingNotes.Logic.wasm": "sha256-ds/BleWkVb8BgHbXZZrmjp+SRWVC76Dp8/TJbeQrzSc=",
-      "BlazingNotes.UI.wasm": "sha256-brG4UqtdYngSSmLglkxNPzS6ihNhnR3Ud47wwj5uPCs=",
-      "BlazingNotes.WasmApp.wasm": "sha256-a76l/CUQRoL4tpenbU2p3kb02T1elHPIGDV7rFqHfKk="
+      "BlazingNotes.Logic.wasm": "sha256-gPXm+ltx7j/aCd6VNBN3GasitAYuEGiM4DkrSyarh0E=",
+      "BlazingNotes.UI.wasm": "sha256-VTjo0kZRxowQKbjyTgLM6miKtGzVFUJt2WhySsx6Tfk=",
+      "BlazingNotes.WasmApp.wasm": "sha256-EwTVAtKUt2XjD9bdEkEgap+9R4Al8tPakv96JgIG0UQ="
     }
   },
   "cacheBootResources": true,
