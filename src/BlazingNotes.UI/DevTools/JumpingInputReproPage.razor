@@ -1,0 +1,90 @@
+@page "/DevTools/JumpingInputReproPage"
+@inject IJSRuntime Js
+
+<h3>JumpingInputReproPage</h3>
+<MudSwitch @bind-Value="_immediate">Immediate</MudSwitch>
+<MudSlider T="int" @bind-Value="_handleInputChangedDelay" Min="0" Max="100">Delay
+    (HandleInputChanged): @_handleInputChangedDelay</MudSlider>
+
+<MudTextField T="string"
+              @ref="_inputField"
+              Value="_input"
+              ValueChanged="HandleInputChanged"
+              AutoGrow="true"
+              Lines="3"
+              MaxLines="10"
+              Immediate="@_immediate"
+              OnKeyUp="HandleKeyUp"
+              AutoFocus="true"
+              Variant="Variant.Outlined"
+              TextUpdateSuppression="false"
+              Label="Suchen oder Erstellen"
+              Class="mb-0"
+              Placeholder="Hier kannst du nach bestehenden Notizen suchen und gleichzeitig neue Notizen erstellen"/>
+
+@* .d-sm-none: hidden from small upwards (because larger devices probably have keyboards) *@
+<MudButton Color="Color.Primary"
+           Variant="Variant.Filled"
+           Class="bz-icon-only-button d-sm-none"
+           OnClick="HandleHashtag"
+           title="Add # character">
+    <MudIcon Icon="@Icons.Material.Filled.Tag"></MudIcon>
+</MudButton>
+
+<MudTextField T="string"
+              Value="_input"
+              ValueChanged="HandleInputChanged"
+              AutoGrow="true"
+              Lines="3"
+              MaxLines="10"
+              Immediate="@_immediate"
+              OnKeyUp="HandleKeyUp"
+              AutoFocus="true"
+              Variant="Variant.Outlined"
+              TextUpdateSuppression="false"
+              Label="ohne ValueChanged"
+              Class="mb-0"
+              Placeholder="ohne ValueChanged"/>
+
+<MudTextField T="string"
+              Value="_input"
+              ValueChanged="HandleInputChanged"
+              AutoGrow="true"
+              Lines="3"
+              MaxLines="10"
+              Immediate="@_immediate"
+              AutoFocus="true"
+              Variant="Variant.Outlined"
+              TextUpdateSuppression="false"
+              Label="ohne OnKeyUp"
+              Class="mb-0"
+              Placeholder="ohne OnKeyUp"/>
+
+@code {
+
+    string _input = "";
+    bool _immediate = true;
+    int _handleInputChangedDelay = 1;
+    MudTextField<string> _inputField = null!;
+    [Parameter] public EventCallback<string> InputChanged { get; set; }
+
+    private async Task HandleHashtag()
+    {
+        await Js.InvokeVoidAsync("addHashtagCharacter", _inputField.InputReference.ElementReference);
+    }
+
+    private Task HandleInputChanged(string arg)
+    {
+        _input = arg;
+        return Task.Delay(_handleInputChangedDelay);
+    }
+
+    private async Task HandleKeyUp(KeyboardEventArgs args)
+    {
+        if (args.IsSaveShortcut(out var isArchived))
+        {
+            await Task.Delay(100);
+        }
+    }
+
+}

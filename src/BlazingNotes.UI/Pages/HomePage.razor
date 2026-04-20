@@ -5,7 +5,7 @@
 
 <MudStack Spacing="6">
 
-    <HomePageCreateNoteCard InputChanged="x => _input = x"/>
+    <HomePageCreateNoteCard InputChanged="HandleInputChanged"/>
 
     @{
         // do search before we pass everything to the NoteCardListSeparated component so we can limit the result list
@@ -44,4 +44,10 @@
 @code {
 
     string _input = "";
+
+    private void HandleInputChanged(string x)
+    {
+        _input = x;
+    }
+
 }
