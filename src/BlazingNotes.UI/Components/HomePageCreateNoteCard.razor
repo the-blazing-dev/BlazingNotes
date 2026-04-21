@@ -14,7 +14,7 @@
                               Lines="3"
                               MaxLines="10"
                               Immediate="true"
-                              OnKeyUp="HandleKeyUp"
+                              OnKeyDown="_nonRenderingKeyDown"
                               AutoFocus="true"
                               Variant="Variant.Outlined"
                               TextUpdateSuppression="false"
@@ -59,8 +59,15 @@
 
     string _input = "";
     MudTextField<string> _inputField = null!;
+    Func<KeyboardEventArgs, Task> _nonRenderingKeyDown = null!;
 
     [Parameter] public EventCallback<string> InputChanged { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _nonRenderingKeyDown = BzEventUtil.AsNonRenderingEventHandler<KeyboardEventArgs>(HandleKeyDown);
+        base.OnInitialized();
+    }
 
     private async Task HandleCreate(bool isArchived)
     {
@@ -68,7 +75,7 @@
         await HandleInputChanged("");
     }
 
-    private async Task HandleKeyUp(KeyboardEventArgs args)
+    private async Task HandleKeyDown(KeyboardEventArgs args)
     {
         if (args.IsSaveShortcut(out var isArchived))
         {

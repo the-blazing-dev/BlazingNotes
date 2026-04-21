@@ -18,7 +18,7 @@
                           AutoGrow="true"
                           Variant="Variant.Outlined"
                           Immediate="true"
-                          OnKeyUp="HandleKeyUp"/>
+                          OnKeyDown="_nonRenderingKeyDown"/>
         </MudStack>
     </DialogContent>
     <DialogActions>
@@ -39,6 +39,7 @@
 @code {
 
     string _newText = "";
+    Action<KeyboardEventArgs> _nonRenderingKeyDown = null!;
 
     internal static DialogOptions DialogOptions { get; } = new()
     {
@@ -51,6 +52,8 @@
     {
         // use an StateSelector so it does not rerender because of irrelevant changes
         ShowCreateDialogSelector.Select(x => x.ShowCreateNoteDialog);
+        
+        _nonRenderingKeyDown = BzEventUtil.AsNonRenderingEventHandler<KeyboardEventArgs>(HandleKeyDown);
 
         base.OnInitialized();
     }
@@ -76,7 +79,7 @@
         }
     }
 
-    private void HandleKeyUp(KeyboardEventArgs args)
+    private void HandleKeyDown(KeyboardEventArgs args)
     {
         if (args.IsSaveShortcut(out var isArchived))
         {

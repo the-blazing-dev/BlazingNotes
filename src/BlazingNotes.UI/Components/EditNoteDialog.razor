@@ -10,7 +10,7 @@
     </TitleContent>
     <DialogContent>
         @* put onkeyup here so it also works in the datetime pickers *@
-        <MudStack @onkeyup="HandleKeyUp">
+        <MudStack @onkeydown="_nonRenderingKeyDown">
             @* immediate is needed to also support the OnKeyUp submit *@
             @* changes here should be copied over to CreateNoteDialog.razor *@
             <MudTextField @bind-Value="_newText"
@@ -128,6 +128,7 @@
 
     string _newText = "";
     DateTime? _relevantAt = null;
+    Action<KeyboardEventArgs> _nonRenderingKeyDown = null!;
 
     private Note? Note => EditingNoteSelector.Value;
 
@@ -137,6 +138,8 @@
         EditingNoteSelector.Select(x => x.CurrentlyEditingNote);
         EditingNoteSelector.SelectedValueChanged += EditingNoteSelectorOnSelectedValueChanged;
 
+        _nonRenderingKeyDown = BzEventUtil.AsNonRenderingEventHandler<KeyboardEventArgs>(HandleKeyDown);
+        
         base.OnInitialized();
     }
 
@@ -168,7 +171,7 @@
         }
     }
 
-    private void HandleKeyUp(KeyboardEventArgs args)
+    private void HandleKeyDown(KeyboardEventArgs args)
     {
         if (args.IsSaveShortcut(out var isArchived))
         {
